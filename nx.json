@@ -27,5 +27,13 @@
       }
     ]
   },
-  "projects": {}
+  "projects": {
+    "e-learning-app": {
+      "tags": []
+    },
+    "e-learning-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["e-learning-app"]
+    }
+  }
 }

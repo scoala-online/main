@@ -1,7 +1,110 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "e-learning-app": {
+      "root": "apps/e-learning-app",
+      "sourceRoot": "apps/e-learning-app/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/e-learning-app",
+            "index": "apps/e-learning-app/src/index.html",
+            "main": "apps/e-learning-app/src/main.js",
+            "polyfills": "apps/e-learning-app/src/polyfills.js",
+            "tsConfig": "apps/e-learning-app/tsconfig.app.json",
+            "assets": [
+              "apps/e-learning-app/src/favicon.ico",
+              "apps/e-learning-app/src/assets"
+            ],
+            "styles": ["apps/e-learning-app/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/e-learning-app/src/environments/environment.js",
+                  "with": "apps/e-learning-app/src/environments/environment.prod.js"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "e-learning-app:build",
+            "hmr": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "e-learning-app:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/e-learning-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/e-learning-app"],
+          "options": {
+            "jestConfig": "apps/e-learning-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "e-learning-app-e2e": {
+      "root": "apps/e-learning-app-e2e",
+      "sourceRoot": "apps/e-learning-app-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/e-learning-app-e2e/cypress.json",
+            "devServerTarget": "e-learning-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "e-learning-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/e-learning-app-e2e/**/*.js"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
+    "analytics": false,
     "defaultCollection": "@nrwl/angular",
     "packageManager": "npm"
   },
@@ -30,6 +133,21 @@
     },
     "@nrwl/angular:component": {
       "style": "css"
+    },
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
     }
-  }
+  },
+  "defaultProject": "e-learning-app"
 }
