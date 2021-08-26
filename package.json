@@ -10,6 +10,7 @@
     "format": "nx format:write --base=development",
     "format:write": "nx format:write --base=development",
     "format:check": "nx format:check --base=development",
+    "format:check:ci": "nx format:check --base=development --skip-nx-cache",
     "test": "nx run-many --all --target=test",
     "test:ci": "nx run-many --all --target=test --skip-nx-cache",
     "lint": "nx workspace-lint && nx run-many --target=lint --all=true"

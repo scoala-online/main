@@ -23,6 +23,5 @@ jobs:
         with:
           node-version: '12.x'
 
-      - run: git fetch --no-tags --prune --depth=5 origin ${{ github.event.pull_request.base.ref }}
       - run: npm ci
-      - run: npm run format:check -- --base=origin/${{ github.event.pull_request.base.ref }} --skip-nx-cache
+      - run: npm run format:check:ci
