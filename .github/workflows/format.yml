@@ -1,10 +1,10 @@
 name: Format CI
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the development branch
   pull_request:
-  
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -26,6 +26,3 @@ jobs:
       - run: git fetch --no-tags --prune --depth=5 origin ${{ github.event.pull_request.base.ref }}
       - run: npm ci
       - run: npm run format:check -- --base=origin/${{ github.event.pull_request.base.ref }} --skip-nx-cache
-      
-
-

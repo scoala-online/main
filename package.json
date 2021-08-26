@@ -7,6 +7,9 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve",
     "build": "nx build",
+    "format": "nx format:write --base=development",
+    "format:write": "nx format:write --base=development",
+    "format:check": "nx format:check --base=development",
     "test": "nx run-many --all --target=test",
     "test:ci": "nx run-many --all --target=test --skip-nx-cache",
     "lint": "nx workspace-lint && nx run-many --target=lint --all=true"
