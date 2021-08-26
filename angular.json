@@ -8,7 +8,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/web:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/e-learning-app",
             "index": "apps/e-learning-app/src/index.html",
@@ -19,7 +21,9 @@
               "apps/e-learning-app/src/favicon.ico",
               "apps/e-learning-app/src/assets"
             ],
-            "styles": ["apps/e-learning-app/src/styles.css"],
+            "styles": [
+              "apps/e-learning-app/src/styles.css"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -64,12 +68,16 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/e-learning-app/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": [
+              "apps/e-learning-app/**/*.{ts,tsx,js,jsx}"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/e-learning-app"],
+          "outputs": [
+            "coverage/apps/e-learning-app"
+          ],
           "options": {
             "jestConfig": "apps/e-learning-app/jest.config.js",
             "passWithNoTests": true
@@ -97,7 +105,64 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/e-learning-app-e2e/**/*.js"]
+            "lintFilePatterns": [
+              "apps/e-learning-app-e2e/**/*.js"
+            ]
+          }
+        }
+      }
+    },
+    "java-api": {
+      "root": "apps/java-api",
+      "sourceRoot": "apps/java-api/src",
+      "projectType": "application",
+      "targets": {
+        "test": {
+          "executor": "@nxrocks/nx-spring-boot:test",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "clean": {
+          "executor": "@nxrocks/nx-spring-boot:clean",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "run": {
+          "executor": "@nxrocks/nx-spring-boot:run",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "serve": {
+          "executor": "@nxrocks/nx-spring-boot:serve",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "buildJar": {
+          "executor": "@nxrocks/nx-spring-boot:buildJar",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "buildWar": {
+          "executor": "@nxrocks/nx-spring-boot:buildWar",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "buildImage": {
+          "executor": "@nxrocks/nx-spring-boot:buildImage",
+          "options": {
+            "root": "apps/java-api"
+          }
+        },
+        "buildInfo": {
+          "executor": "@nxrocks/nx-spring-boot:buildInfo",
+          "options": {
+            "root": "apps/java-api"
           }
         }
       }
