@@ -14,12 +14,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "OWEyOWIwOGYtOWVjNy00OThmLWI4MDAtNjY2NjBmZmQxZGJjfHJlYWQtd3JpdGU="
       }
     }
@@ -38,15 +33,11 @@
     },
     "e-learning-app-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "e-learning-app"
-      ]
+      "implicitDependencies": ["e-learning-app"]
     },
     "java-api": {
       "tags": []
     }
   },
-  "plugins": [
-    "@nxrocks/nx-spring-boot"
-  ]
+  "plugins": ["@nxrocks/nx-spring-boot"]
 }
