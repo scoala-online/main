@@ -11,6 +11,11 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Make sure that your proposed changes pass all the tests. Feel free to update tests to cover your code.
 
+## Other Useful links
+
+- [Project Wiki](https://github.com/scoala-online/main/wiki)
+- [Project Roadmap](https://whimsical.com/scoala-online-roadmap-QN9v8H174zu3dx8FBiHNSF)
+
 ##License
 
 [GPL-3.0 License](https://github.com/scoala-online/main/blob/development/LICENSE)
