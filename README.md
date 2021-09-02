@@ -16,6 +16,6 @@ Make sure that your proposed changes pass all the tests. Feel free to update tes
 - [Project Wiki](https://github.com/scoala-online/main/wiki)
 - [Project Roadmap](https://whimsical.com/scoala-online-roadmap-QN9v8H174zu3dx8FBiHNSF)
 
-##License
+## License
 
 [GPL-3.0 License](https://github.com/scoala-online/main/blob/development/LICENSE)
