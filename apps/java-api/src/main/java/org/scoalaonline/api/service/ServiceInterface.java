@@ -1,4 +1,4 @@
-package org.scoalaonline.api;
+package org.scoalaonline.api.service;
 
 import java.util.List;
 
