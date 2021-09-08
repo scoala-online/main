@@ -3,6 +3,7 @@
 Scoala Online is an educational website which contains videos of the whole Romanian curriculum, available for free at **Insert website here**.
 
 ## Installation
+
 In case you wish to help maintain the project, please follow the setup guide from the [wiki](https://github.com/scoala-online/main/wiki/Setup-Guide) to install all dependencies.
 
 ## Contributing
