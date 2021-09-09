@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package org.scoalaonline.api.model;
 
 
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
