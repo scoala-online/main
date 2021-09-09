@@ -1,6 +1,7 @@
 package org.scoalaonline.api.service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ServiceInterface<T> {
   /**
@@ -15,7 +16,7 @@ public interface ServiceInterface<T> {
    * @param id - id of the entry
    * @return the entry
    */
-  T getOneById( Long id );
+  Optional<T> getOneById(Long id );
 
   /**
    * Adds an entry in the DB based on the received object.
