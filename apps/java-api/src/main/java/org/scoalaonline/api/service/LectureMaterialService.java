@@ -1,5 +1,6 @@
 package org.scoalaonline.api.service;
 
+import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   }
 
   @Override
-  public Optional<LectureMaterial> getOneById(String id) {
+  public Optional<LectureMaterial> getOneById(String id) throws LectureMaterialNotFoundException {
     return lectureMaterialRepository.findById(id);
   }
 
@@ -34,7 +35,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   }
 
   @Override
-  public LectureMaterial update(String id, LectureMaterial object) {
+  public LectureMaterial update(String id, LectureMaterial object) throws LectureMaterialNotFoundException{
     LectureMaterial lectureMaterialToUpdate = lectureMaterialRepository.findById(id).get();
     if(object.getDocument() != null) {
       object.setDocument(object.getDocument());
@@ -43,7 +44,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   }
 
   @Override
-  public void delete(String id) {
+  public void delete(String id) throws LectureMaterialNotFoundException {
     lectureMaterialRepository.deleteById(id);
   }
 }
