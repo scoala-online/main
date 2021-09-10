@@ -23,7 +23,7 @@ public interface ServiceInterface<T> {
    * @param entry
    * @return the object that has been saved in the DB
    */
-  T add( T entry );
+  T add( T entry ) throws Exception;
 
 
   /**
