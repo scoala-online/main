@@ -7,7 +7,10 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 
 import java.util.Objects;
-
+/**
+ * Represents the 'LectureMaterial' node from the graph database.
+ * It contains a document property.
+ */
 @Node("LectureMaterial")
 public class LectureMaterial {
   @Id
