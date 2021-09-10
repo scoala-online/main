@@ -49,7 +49,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   @Override
   public LectureMaterial add(LectureMaterial entry) throws LectureMaterialInvalidDataException{
     LectureMaterial lectureMaterialToSave = new LectureMaterial();
-    if(entry.getDocument() != null)
+    if(entry.getDocument() != null && !entry.getDocument().equals(""))
       lectureMaterialToSave.setDocument(entry.getDocument());
     else
       throw new LectureMaterialInvalidDataException("Method post: Document field can't be null.");
@@ -72,7 +72,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
        lectureMaterialToUpdate = lectureMaterialRepository.findById(id).get();
     else
       throw new LectureMaterialNotFoundException("Method update: Lecture Material Not Found");
-    if(object.getDocument() != null) {
+    if(object.getDocument() != null && !object.getDocument().equals("")) {
       object.setDocument(object.getDocument());
     } else {
       throw new LectureMaterialInvalidDataException("Method update: Document Field Can't Be Null");

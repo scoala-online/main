@@ -65,7 +65,7 @@ public class LectureMaterialController {
     try {
       savedLectureMaterial = lectureMaterialService.add(lectureMaterial);
     } catch (LectureMaterialInvalidDataException e) {
-      throw new ResponseStatusException( HttpStatus.NOT_FOUND, "POST: Lecture Material Invalid Data", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Lecture Material Invalid Data", e );
     }
     return new ResponseEntity<>(savedLectureMaterial, HttpStatus.CREATED);
   }
