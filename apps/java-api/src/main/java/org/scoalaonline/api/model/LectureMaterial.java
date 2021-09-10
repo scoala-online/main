@@ -12,7 +12,7 @@ import java.util.Objects;
 public class LectureMaterial {
   @Id
   @GeneratedValue
-  private Long id;
+  private String id;
 
   @Property("document")
   private String document;
@@ -22,18 +22,18 @@ public class LectureMaterial {
   //region Constructors
   public LectureMaterial(){}
 
-  public LectureMaterial(Long id){
+  public LectureMaterial(String id){
     this.id = id;
   }
 
-  public LectureMaterial(Long id, String document) {
+  public LectureMaterial(String id, String document) {
     this.id = id;
     this.document = document;
   }
   //endregion
 
   //region Getters
-  public Long getId() {
+  public String getId() {
     return id;
   }
 

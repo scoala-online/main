@@ -21,7 +21,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   }
 
   @Override
-  public Optional<LectureMaterial> getOneById(Long id) {
+  public Optional<LectureMaterial> getOneById(String id) {
     return lectureMaterialRepository.findById(id);
   }
 
@@ -34,7 +34,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   }
 
   @Override
-  public LectureMaterial update(Long id, LectureMaterial object) {
+  public LectureMaterial update(String id, LectureMaterial object) {
     LectureMaterial lectureMaterialToUpdate = lectureMaterialRepository.findById(id).get();
     if(object.getDocument() != null) {
       object.setDocument(object.getDocument());
@@ -43,7 +43,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   }
 
   @Override
-  public void delete(Long id) {
+  public void delete(String id) {
     lectureMaterialRepository.deleteById(id);
   }
 }
