@@ -62,19 +62,18 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
    * Updates the Lecture Material entry with the given id based on the received object.
    * Throws an exception if no entry with that id was found.
    * @param id - the id of the entry to update
-   * @param object
+   * @param entry
    * @return the Lecture Material object saved in the DB
    * @throws LectureMaterialNotFoundException
    * @throws LectureMaterialInvalidDocumentException
    */
   @Override
-  public LectureMaterial update(String id, LectureMaterial object) throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
-    LectureMaterial lectureMaterialToUpdate;
-    lectureMaterialToUpdate = lectureMaterialRepository.findById(id).orElseThrow(
+  public LectureMaterial update(String id, LectureMaterial entry) throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
+    LectureMaterial lectureMaterialToUpdate = lectureMaterialRepository.findById(id).orElseThrow(
       () -> new LectureMaterialNotFoundException("Method update: Lecture Material not found")
     );
-    if(object.getDocument() != null && !object.getDocument().equals("")) {
-      object.setDocument(object.getDocument());
+    if(entry.getDocument() != null && !entry.getDocument().equals("")) {
+      lectureMaterialToUpdate.setDocument(entry.getDocument());
     } else {
       throw new LectureMaterialInvalidDocumentException("Method update: Document Field Can't Be Null");
     }
