@@ -53,7 +53,7 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
     if(entry.getDocument() != null && !entry.getDocument().equals(""))
       lectureMaterialToSave.setDocument(entry.getDocument());
     else
-      throw new LectureMaterialInvalidDocumentException("Method post: Document field can't be null.");
+      throw new LectureMaterialInvalidDocumentException("Method add: Document field can't be null.");
 
     return lectureMaterialRepository.save(lectureMaterialToSave);
   }

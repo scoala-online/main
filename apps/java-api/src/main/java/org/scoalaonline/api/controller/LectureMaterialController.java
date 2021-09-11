@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 /**
-Method	Endpoint	Description
   GET:	"/lecture-materials"	retrieves all the entries
   GET:	"/lecture-materials/{id}"	retrieves the entry with the provided id
   POST: "/lecture-materials"	creates a new entry
@@ -88,9 +87,11 @@ public class LectureMaterialController {
     try
     {
       updatedLectureMaterial = lectureMaterialService.update( id, lectureMaterial );
-    } catch ( LectureMaterialNotFoundException | LectureMaterialInvalidDocumentException e )
+    } catch ( LectureMaterialNotFoundException e )
     {
-      throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PUT: Lecture Material Not Found", e );
+      throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PATCH: Lecture Material Not Found", e );
+    } catch ( LectureMaterialInvalidDocumentException e){
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Lecture Material Invalid Data", e );
     }
 
     return new ResponseEntity<>( updatedLectureMaterial, HttpStatus.OK );
