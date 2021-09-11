@@ -1,6 +1,6 @@
 package org.scoalaonline.api.controller;
 
-import org.scoalaonline.api.exception.LectureMaterialInvalidDataException;
+import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.service.LectureMaterialService;
@@ -12,19 +12,25 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+Method	Endpoint	Description
+  GET:	"/lecture-materials"	retrieves all the entries
+  GET:	"/lecture-materials/{id}"	retrieves the entry with the provided id
+  POST: "/lecture-materials"	creates a new entry
+  PATCH:	"/lecture-materials/{id}	edits the entry with the provided id
+  DELETE:	"/lecture-materials/{id}	deletes the entry with the provided id
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/lecture-materials")
 public class LectureMaterialController {
-
   @Autowired
   LectureMaterialService lectureMaterialService;
 
-
   /**
-   * Sends an HTTP Response Entity with all the history entries
+   * Sends an HTTP Response Entity with all the lecture material entries
    * @return a Response Entity
-   *         with HTTP Status OK and a list of the history entries
+   *         with HTTP Status OK and a list of the lecture material entries
    */
   @GetMapping(value = {"", "/"})
   public ResponseEntity<List<LectureMaterial>> getAllLectureMaterials () {
@@ -33,7 +39,7 @@ public class LectureMaterialController {
   }
 
   /**
-   * Sends an HTTP Response Entity with a specific history entry and
+   * Sends an HTTP Response Entity with a specific lecture material entry and
    * Status OK or HTTP Status Not Found if there is no entry with the provided id
    * @param id
    * @return the Response Entity with a Status Code and a Body
@@ -43,9 +49,7 @@ public class LectureMaterialController {
     LectureMaterial lectureMaterial;
     try
     {
-      lectureMaterial = lectureMaterialService.getOneById(id).orElseThrow(
-        () -> new LectureMaterialNotFoundException("Method getOneById: Lecture Material not found")
-      );
+      lectureMaterial = lectureMaterialService.getOneById(id);
     } catch (LectureMaterialNotFoundException e)
     {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "GET: Lecture Material Not Found", e );
@@ -54,7 +58,7 @@ public class LectureMaterialController {
   }
 
   /**
-   * Sends an HTTP Response Entity with the history entry that has been
+   * Sends an HTTP Response Entity with the lecture material entry that has been
    * created, along with Status Created
    * @param lectureMaterial
    * @return the Response Entity with a Status Code and a Body
@@ -64,7 +68,7 @@ public class LectureMaterialController {
     LectureMaterial savedLectureMaterial;
     try {
       savedLectureMaterial = lectureMaterialService.add(lectureMaterial);
-    } catch (LectureMaterialInvalidDataException e) {
+    } catch (LectureMaterialInvalidDocumentException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Lecture Material Invalid Data", e );
     }
     return new ResponseEntity<>(savedLectureMaterial, HttpStatus.CREATED);
@@ -84,7 +88,7 @@ public class LectureMaterialController {
     try
     {
       updatedLectureMaterial = lectureMaterialService.update( id, lectureMaterial );
-    } catch ( LectureMaterialNotFoundException | LectureMaterialInvalidDataException e )
+    } catch ( LectureMaterialNotFoundException | LectureMaterialInvalidDocumentException e )
     {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PUT: Lecture Material Not Found", e );
     }
@@ -93,7 +97,7 @@ public class LectureMaterialController {
   }
 
   /**
-   * Deletes a history entry and sends an HTTP Response Entity
+   * Deletes a lecture material entry and sends an HTTP Response Entity
    * with the Status OK or Not Found if there is no entry with the provided id
    * @param id
    * @return a Response Entity with Status OK

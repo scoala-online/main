@@ -1,6 +1,6 @@
 package org.scoalaonline.api.service;
 
-import org.scoalaonline.api.exception.LectureMaterialInvalidDataException;
+import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
@@ -17,6 +17,7 @@ import java.util.Optional;
 public class LectureMaterialService implements ServiceInterface<LectureMaterial>{
   @Autowired
   LectureMaterialRepository lectureMaterialRepository;
+
   /**
    * Retrieves a list of all Lecture Material entries found in the DB
    * @return the list of Lecture Material entries
@@ -34,27 +35,29 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
    * @throws LectureMaterialNotFoundException
    */
   @Override
-  public Optional<LectureMaterial> getOneById(String id) throws LectureMaterialNotFoundException {
-    if(lectureMaterialRepository.findById(id).isEmpty())
-      throw new LectureMaterialNotFoundException("Method getOneById: Lecture Material Not Found");
-    return lectureMaterialRepository.findById(id);
+  public LectureMaterial getOneById(String id) throws LectureMaterialNotFoundException {
+    return lectureMaterialRepository.findById(id).orElseThrow(
+      () -> new LectureMaterialNotFoundException("Method getOneById: Lecture Material not found")
+    );
   }
+
   /**
    * Adds a Lecture Material entry in the DB based on the received object.
    * @param entry
-   * @throws LectureMaterialInvalidDataException
+   * @throws LectureMaterialInvalidDocumentException
    * @return the Lecture Material object that has been saved in the DB
    */
   @Override
-  public LectureMaterial add(LectureMaterial entry) throws LectureMaterialInvalidDataException{
+  public LectureMaterial add(LectureMaterial entry) throws LectureMaterialInvalidDocumentException {
     LectureMaterial lectureMaterialToSave = new LectureMaterial();
     if(entry.getDocument() != null && !entry.getDocument().equals(""))
       lectureMaterialToSave.setDocument(entry.getDocument());
     else
-      throw new LectureMaterialInvalidDataException("Method post: Document field can't be null.");
+      throw new LectureMaterialInvalidDocumentException("Method post: Document field can't be null.");
 
     return lectureMaterialRepository.save(lectureMaterialToSave);
   }
+
   /**
    * Updates the Lecture Material entry with the given id based on the received object.
    * Throws an exception if no entry with that id was found.
@@ -62,19 +65,18 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
    * @param object
    * @return the Lecture Material object saved in the DB
    * @throws LectureMaterialNotFoundException
-   * @throws LectureMaterialInvalidDataException
+   * @throws LectureMaterialInvalidDocumentException
    */
   @Override
-  public LectureMaterial update(String id, LectureMaterial object) throws LectureMaterialNotFoundException, LectureMaterialInvalidDataException {
+  public LectureMaterial update(String id, LectureMaterial object) throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
     LectureMaterial lectureMaterialToUpdate;
-    if(lectureMaterialRepository.findById(id).isPresent())
-       lectureMaterialToUpdate = lectureMaterialRepository.findById(id).get();
-    else
-      throw new LectureMaterialNotFoundException("Method update: Lecture Material Not Found");
+    lectureMaterialToUpdate = lectureMaterialRepository.findById(id).orElseThrow(
+      () -> new LectureMaterialNotFoundException("Method update: Lecture Material not found")
+    );
     if(object.getDocument() != null && !object.getDocument().equals("")) {
       object.setDocument(object.getDocument());
     } else {
-      throw new LectureMaterialInvalidDataException("Method update: Document Field Can't Be Null");
+      throw new LectureMaterialInvalidDocumentException("Method update: Document Field Can't Be Null");
     }
     return lectureMaterialRepository.save(lectureMaterialToUpdate);
   }

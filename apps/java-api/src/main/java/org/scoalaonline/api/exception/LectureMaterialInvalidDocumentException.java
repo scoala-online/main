@@ -1,9 +1,9 @@
 package org.scoalaonline.api.exception;
 
-public class LectureMaterialInvalidDataException extends Exception{
-  public LectureMaterialInvalidDataException(){
+public class LectureMaterialInvalidDocumentException extends Exception{
+  public LectureMaterialInvalidDocumentException(){
   }
-  public LectureMaterialInvalidDataException(String message){
+  public LectureMaterialInvalidDocumentException(String message){
     super(message);
   }
   }

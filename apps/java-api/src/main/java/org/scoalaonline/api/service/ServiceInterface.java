@@ -16,7 +16,7 @@ public interface ServiceInterface<T> {
    * @param id - id of the entry
    * @return the entry
    */
-  Optional<T> getOneById( String id ) throws Exception;
+  T getOneById( String id ) throws Exception;
 
   /**
    * Adds an entry in the DB based on the received object.
