@@ -15,7 +15,6 @@ import java.util.Optional;
  */
 @Service
 public class LectureMaterialService implements ServiceInterface<LectureMaterial>{
-
   @Autowired
   LectureMaterialRepository lectureMaterialRepository;
   /**

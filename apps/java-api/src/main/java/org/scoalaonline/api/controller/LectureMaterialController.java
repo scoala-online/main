@@ -71,7 +71,7 @@ public class LectureMaterialController {
   }
 
   /**
-   * Sends an HTTP Response Entity with the history entry that has been
+   * Sends an HTTP Response Entity with the lecture material entry that has been
    * updated, along with the Status OK, or Status Not Found if there
    * is no entry with the provided id
    * @param id
