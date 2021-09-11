@@ -81,7 +81,7 @@ public class LectureMaterialController {
    * @param lectureMaterial
    * @return the Response Entity with a Status Code and a Body
    */
-  @PutMapping( value = "/{id}" )
+  @PatchMapping( value = "/{id}" )
   public ResponseEntity<LectureMaterial> updateLectureMaterial( @PathVariable( "id" ) String id, @RequestBody LectureMaterial lectureMaterial ) {
     LectureMaterial updatedLectureMaterial;
     try
