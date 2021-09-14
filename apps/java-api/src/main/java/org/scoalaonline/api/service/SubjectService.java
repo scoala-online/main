@@ -57,7 +57,7 @@ public class SubjectService implements ServiceInterface<Subject> {
     if (entry.getValue() != null && !entry.getValue().equals(""))
       subject.setValue(entry.getValue());
     else
-      throw new SubjectInvalidValueException("Method add: Value field can't be null");
+      throw new SubjectInvalidValueException("Method add: Value field can't be invalid");
 
     return subjectRepository.save(subject);
   }
