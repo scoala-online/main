@@ -50,7 +50,7 @@ public class SubjectController {
       try {
         subject=subjectService.getOneById(id);
       } catch (SubjectNotFoundException e) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Subject not found", e);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Subject Not Found", e);
       }
       return new ResponseEntity<>(subject, HttpStatus.OK);
   }
