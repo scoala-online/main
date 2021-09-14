@@ -33,8 +33,8 @@ public class SubjectService implements ServiceInterface<Subject> {
   /**
    * Retrieves one Subject entry with the given id from the DB
    * or throws an exception if no entry with that id is found
-   * @param id - id of the subject entry
-   * @return the subject entry
+   * @param id - id of the Subject entry
+   * @return the Subject entry
    * @throws SubjectNotFoundException when the Subject entry has not been found.
    */
   @Override
@@ -96,9 +96,8 @@ public class SubjectService implements ServiceInterface<Subject> {
   public void delete(String id) throws SubjectNotFoundException {
     if (subjectRepository.findById(id).isPresent()) {
       subjectRepository.deleteById(id);
-    }
-    else
+    } else {
       throw new SubjectNotFoundException("Method delete: Subject not Found");
-
+    }
   }
 }

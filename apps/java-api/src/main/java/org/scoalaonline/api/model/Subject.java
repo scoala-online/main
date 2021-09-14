@@ -9,7 +9,7 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 import java.util.Objects;
 
 /**
- * Represents the 'Subject' node from the graph database.
+ * Represents the Subject node from the graph database.
  * It contains a Value property.
  */
 @Node("Subject")

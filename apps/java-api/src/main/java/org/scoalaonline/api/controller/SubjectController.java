@@ -29,7 +29,7 @@ public class SubjectController {
   SubjectService subjectService;
 
   /**
-   * Sends an HTTP status Response Entity with all the Subject entries.
+   * Sends HTTP status Response Entity with all the Subject entries.
    * @return a Response Entity with HTTP Status OK and a list of the Subject entries.
    */
   @GetMapping(value = {"", "/"})
@@ -39,7 +39,7 @@ public class SubjectController {
   }
 
   /**
-   * Sends an HTTP Response Entity with a specific Subject entry.
+   * Sends HTTP Response Entity with a specific Subject entry.
    * Sends HTTP status not found if there is no entry with the provided id.
    * @param id the id of the specific Subject.
    * @return the Response Entity with a Status Code and a body.
@@ -74,9 +74,9 @@ public class SubjectController {
 
   /**
    * Sends HTTP status Response Entity with the Subject entry that has been updated.
-   * Sends HTTP status Not Found if the subject cannot be found.
+   * Sends HTTP status Not Found if the Subject cannot be found.
    * Sends HTTP status Invalid Data if the Subject to be posted is invalid.
-   * @param id the id of the subject to be updated.
+   * @param id the id of the Subject to be updated.
    * @param subject the Subject to be updated.
    * @return the Response Entity with a Status Code with a body.
    */
