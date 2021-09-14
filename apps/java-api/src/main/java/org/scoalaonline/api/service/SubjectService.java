@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Contains the Subject related the logic needed for the API.
+ * Contains the Subject related logic needed for the API.
  */
 @Service
 public class SubjectService implements ServiceInterface<Subject> {
@@ -22,7 +22,7 @@ public class SubjectService implements ServiceInterface<Subject> {
   SubjectRepository subjectRepository;
 
   /**
-   * Retrieves a list of all subject entries found in the DB.
+   * Retrieves a list of all Subject entries found in the DB.
    * @return the list of Subject entries.
    */
   @Override
@@ -66,7 +66,7 @@ public class SubjectService implements ServiceInterface<Subject> {
    * Updates the Subject entry with the given id based on the received object.
    * Throws an exception if no entry with that id was found.
    * Throws an exception if the Value is invalid.
-   * @param id the id of the entry to update.
+   * @param id the id of the entry to be updated.
    * @param entry the Subject entry to be updated.
    * @return the updated Subject saved in the db.
    * @throws SubjectNotFoundException when the Subject entry has not been found.

@@ -29,7 +29,7 @@ public class SubjectController {
   SubjectService subjectService;
 
   /**
-   * Sends an HTTP status Response Entity with all the lecture material entries.
+   * Sends an HTTP status Response Entity with all the Subject entries.
    * @return a Response Entity with HTTP Status OK and a list of the Subject entries.
    */
   @GetMapping(value = {"", "/"})
@@ -39,7 +39,7 @@ public class SubjectController {
   }
 
   /**
-   * Sends an HTTP Response Entity with a specific Subject material entry, along with HTTP status OK.
+   * Sends an HTTP Response Entity with a specific Subject entry.
    * Sends HTTP status not found if there is no entry with the provided id.
    * @param id the id of the specific Subject.
    * @return the Response Entity with a Status Code and a body.
@@ -56,10 +56,10 @@ public class SubjectController {
   }
 
   /**
-   * Sends a HTTP status Response Entity with the subject entry that has been created, along with HTTP Status CREATED.
-   * Sends HTTP status Invalid data if the subject to be posted is invalid.
-   * @param subject the subject to be added in the db
-   * @return the Response Entity with a Status Code and a body
+   * Sends HTTP status Response Entity with the Subject entry that has been created.
+   * Sends HTTP status Invalid data if the Subject to be posted is invalid.
+   * @param subject the Subject to be added in the db.
+   * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = {"", "/"})
   public ResponseEntity<Subject> addSubject (@RequestBody Subject subject) {
@@ -73,12 +73,12 @@ public class SubjectController {
   }
 
   /**
-   * Sends an HTTP Response Entity with the Subject material entry that has been updated, along with HTTP Status OK
+   * Sends HTTP status Response Entity with the Subject entry that has been updated.
    * Sends HTTP status Not Found if the subject cannot be found.
-   * Sends HTTP status Invalid data if the subject to be posted is invalid.
-   * @param id the id of the subject to be updated
-   * @param subject the subject to be updated
-   * @return the Response Entity with a Status Code with a body
+   * Sends HTTP status Invalid Data if the Subject to be posted is invalid.
+   * @param id the id of the subject to be updated.
+   * @param subject the Subject to be updated.
+   * @return the Response Entity with a Status Code with a body.
    */
   @PatchMapping(value = "/{id}")
   public ResponseEntity<Subject> updateSubject (@PathVariable ("id") String id, @RequestBody Subject subject) {
@@ -95,9 +95,9 @@ public class SubjectController {
   }
 
   /**
-   * Sends an HTTP Response Entity with the Subject material entry that has been deleted, along with HTTP Status OK
+   * Sends HTTP Response Entity with the Subject entry that has been deleted.
    * Sends HTTP status Not Found if there is no entry of the provided id
-   * @param id the id of the subject to be deleted
+   * @param id the id of the Subject to be deleted
    * @return the Response Entity with a Status Code with a body
    */
   @DeleteMapping(value = "/{id}")
