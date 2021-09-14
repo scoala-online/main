@@ -15,11 +15,11 @@ import java.util.List;
 
 /**
  * Class for the Subject controller. Contains the following methods:
- * GET:	"/lecture-materials"	retrieves all the entries;
- * GET:	"/lecture-materials/{id}"	retrieves the entry with the provided id;
- * POST: "/lecture-materials"	creates a new entry;
- * PATCH:	"/lecture-materials/{id}	edits the entry with the provided id;
- * DELETE:	"/lecture-materials/{id}	deletes the entry with the provided id.
+ * GET:	"/subjects"	retrieves all the entries;
+ * GET:	"/subjects/{id}"	retrieves the entry with the provided id;
+ * POST: "/subjects"	creates a new entry;
+ * PATCH:	"/subjects/{id}	edits the entry with the provided id;
+ * DELETE:	"/subjects/{id}	deletes the entry with the provided id.
  */
 @CrossOrigin
 @RestController

@@ -45,11 +45,11 @@ public class SubjectService implements ServiceInterface<Subject> {
   }
 
   /**
-   * Adds a Subject entry into the DB based on the received object
-   * or throws an exception if the value is invalid
-   * @param entry the Subject entry
-   * @return the Subject entry that has been saved into the db
-   * @throws SubjectInvalidValueException when the value entry is invalid
+   * Adds a Subject entry into the DB based on the received object.
+   * Throws an exception if the value is invalid.
+   * @param entry the Subject entry.
+   * @return the Subject entry that has been saved into the db.
+   * @throws SubjectInvalidValueException when the value entry is invalid.
    */
   @Override
   public Subject add(Subject entry) throws SubjectInvalidValueException {
