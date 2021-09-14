@@ -50,7 +50,7 @@ public class SubjectController {
       try {
         subject=subjectService.getOneById(id);
       } catch (SubjectNotFoundException e) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Subject is not found", e);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Subject not found", e);
       }
       return new ResponseEntity<>(subject, HttpStatus.OK);
   }
@@ -96,9 +96,9 @@ public class SubjectController {
 
   /**
    * Sends HTTP Response Entity with the Subject entry that has been deleted.
-   * Sends HTTP status Not Found if there is no entry of the provided id
-   * @param id the id of the Subject to be deleted
-   * @return the Response Entity with a Status Code with a body
+   * Sends HTTP status Not Found if there is no entry of the provided id.
+   * @param id the id of the Subject to be deleted.
+   * @return the Response Entity with a Status Code with a body.
    */
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<HttpStatus> deleteSubject (@PathVariable("id") String id) {

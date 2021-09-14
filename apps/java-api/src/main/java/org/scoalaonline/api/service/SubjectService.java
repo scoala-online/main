@@ -31,10 +31,10 @@ public class SubjectService implements ServiceInterface<Subject> {
   }
 
   /**
-   * Retrieves one Subject entry with the given id from the DB
-   * or throws an exception if no entry with that id is found
-   * @param id - id of the Subject entry
-   * @return the Subject entry
+   * Retrieves one Subject entry with the given id from the DB.
+   * Throws an exception if no entry with that id is found.
+   * @param id - id of the Subject entry.
+   * @return the Subject entry.
    * @throws SubjectNotFoundException when the Subject entry has not been found.
    */
   @Override
@@ -57,7 +57,7 @@ public class SubjectService implements ServiceInterface<Subject> {
     if (entry.getValue() != null && !entry.getValue().equals(""))
       subject.setValue(entry.getValue());
     else
-      throw new SubjectInvalidValueException("Method add: Value field can't be null");
+      throw new SubjectInvalidValueException("Method add: Value field can't be invalid");
 
     return subjectRepository.save(subject);
   }
