@@ -5,14 +5,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -66,9 +69,38 @@ class LectureMaterialServiceTest {
   }
 
   @Test
-  void add() {
+  void add() throws LectureMaterialInvalidDocumentException {
+    // given
+    LectureMaterial lectureMaterial = new LectureMaterial("string_id", "Some_Document.pdf");
 
+    // when
+    underTestService.add(lectureMaterial);
+    
+    // then
+    ArgumentCaptor<LectureMaterial> lectureMaterialArgumentCaptor =
+      ArgumentCaptor.forClass(LectureMaterial.class);
+
+    verify(lectureMaterialRepository).save(lectureMaterialArgumentCaptor.capture());
+
+    LectureMaterial capturedLectureMaterial = lectureMaterialArgumentCaptor.getValue();
+    assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());
   }
+
+  //alta varianta
+
+//    @Test
+//    public void savedCustomer_Success() {
+//        Customer customer = new Customer();
+//        customer.setFirstName("sajedul");
+//        customer.setLastName("karim");
+//        customer.setMobileNumber("01737186095");
+//
+//        // providing knowledge
+//        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+//
+//        Customer savedCustomer = customerRepository.save(customer);
+//        assertThat(savedCustomer.getFirstName()).isNotNull();
+//    }
 
   @Test
   @Disabled
