@@ -25,8 +25,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -132,8 +131,33 @@ class LectureMaterialControllerTest {
   }
 
   @Test
-  @Disabled
-  void updateLectureMaterial() {
+  void updateLectureMaterial() throws Exception {
+    // given
+    given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
+
+    //Json Generator
+    // !! TO DO MAKE A FUNCTION FOR IT !!
+    // !! FOR NO REPETITIVE CODE !!
+    JsonFactory factory = new JsonFactory();
+    StringWriter jsonObjectWriter = new StringWriter();
+    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
+
+    generator.useDefaultPrettyPrinter();
+    generator.useDefaultPrettyPrinter();
+    generator.writeStartObject();
+    generator.writeFieldName("document");
+    generator.writeString("Document_3.pdf");
+    generator.writeEndObject();
+    generator.close();
+
+
+    //when & then
+    this.mockMvc.perform(
+      patch("/lecture-materials/id0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jsonObjectWriter.toString()))
+      .andExpect(status().isOk())
+      .andReturn();
   }
 
   @Test
