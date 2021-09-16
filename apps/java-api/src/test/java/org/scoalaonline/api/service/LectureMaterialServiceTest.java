@@ -108,7 +108,6 @@ class LectureMaterialServiceTest {
     // Example:
     // given(studentRepository.method(@param)).willReturn(true);
 
-    //when
     //then
     assertThatThrownBy(() -> underTestService.add(lectureMaterialEmpty))
       .isInstanceOf(LectureMaterialInvalidDocumentException.class)
@@ -125,12 +124,15 @@ class LectureMaterialServiceTest {
   }
   @Test
   void updateTest() throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
+    // given
     LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
     LectureMaterial updatedLectureMaterial = new LectureMaterial(anyString(), "Document.docs");
 
+    // when
     when(lectureMaterialRepository.findById(lectureMaterial.getId()))
       .thenReturn(Optional.of(lectureMaterial));
 
+    // then
     underTestService.update(lectureMaterial.getId(), updatedLectureMaterial);
 
     ArgumentCaptor<LectureMaterial> lectureMaterialArgumentCaptor =
@@ -146,11 +148,15 @@ class LectureMaterialServiceTest {
   }
   @Test
   void updateLectureMaterialNotFoundExceptionTest() {
+    // given
     LectureMaterial lectureMaterial = new LectureMaterial("ID","Document.pdf");
-    //Lecture Material Not Found Exception
+
+    // when
+    // Lecture Material Not Found Exception
     when(lectureMaterialRepository.findById(anyString()))
       .thenReturn(Optional.empty());
 
+    // then
     assertThatThrownBy(() -> underTestService.update(anyString(), lectureMaterial))
       .isInstanceOf(LectureMaterialNotFoundException.class)
       .hasMessageContaining("Method update: Lecture Material not found");
@@ -159,18 +165,26 @@ class LectureMaterialServiceTest {
   }
   @Test
   void updateLectureMaterialInvalidDataExceptionTest() {
+    // when
     when(lectureMaterialRepository.findById(anyString()))
       .thenReturn(Optional.of(new LectureMaterial("id","Document.pdf")));
+
     //Lecture material invalid data exception
     // 1. Null
+    // given
     LectureMaterial lectureMaterialNull = new LectureMaterial("id", null);
+
+    // then
     assertThatThrownBy(() -> underTestService.update("id",lectureMaterialNull))
       .isInstanceOf(LectureMaterialInvalidDocumentException.class)
       .hasMessageContaining("Method update: Document Field Can't Be Null");
 
     verify(lectureMaterialRepository, never()).save(any());
     // 2.Empty string
+    // given
     LectureMaterial lectureMaterialEmpty = new LectureMaterial("id", "");
+
+    // then
     assertThatThrownBy(() -> underTestService.update("id",lectureMaterialEmpty))
       .isInstanceOf(LectureMaterialInvalidDocumentException.class)
       .hasMessageContaining("Method update: Document Field Can't Be Null");
@@ -179,13 +193,30 @@ class LectureMaterialServiceTest {
   }
   @Test
   void delete() throws LectureMaterialNotFoundException {
+    // given
     LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
 
+    // when
     when(lectureMaterialRepository.findById(lectureMaterial.getId()))
       .thenReturn(Optional.of(lectureMaterial));
 
+    // then
     underTestService.delete(lectureMaterial.getId());
 
     verify(lectureMaterialRepository).deleteById(lectureMaterial.getId());
+  }
+  @Test
+  void deleteException() {
+
+    // when
+    when(lectureMaterialRepository.findById(anyString()))
+      .thenReturn(Optional.empty());
+
+    // then
+    assertThatThrownBy(() -> underTestService.delete(anyString()))
+      .isInstanceOf(LectureMaterialNotFoundException.class)
+      .hasMessageContaining("Method delete: Lecture Material Not Found");
+
+    verify(lectureMaterialRepository, never()).delete(any());
   }
 }
