@@ -1,5 +1,7 @@
 package org.scoalaonline.api.controller;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureJsonTesters
@@ -59,10 +63,35 @@ class LectureMaterialControllerTest {
   }
 
   @Test
-  @Disabled
-  void getLectureMaterialById() {
-  }
+  void getLectureMaterialById() throws Exception {
+    //given
+    given(lectureMaterialService.getOneById("id0"))
+      .willReturn(lectureMaterialList.get(0));
 
+    //Json Generator
+    // !! TO DO MAKE A FUNCTION FOR IT !!
+    // !! FOR NO REPETITIVE CODE !!
+    JsonFactory factory = new JsonFactory();
+    StringWriter jsonObjectWriter = new StringWriter();
+    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
+
+    generator.useDefaultPrettyPrinter();
+    generator.useDefaultPrettyPrinter();
+    generator.writeStartObject();
+    generator.writeFieldName("id");
+    generator.writeString("id0");
+    generator.writeFieldName("document");
+    generator.writeString("Document_1.pdf");
+    generator.writeEndObject();
+    generator.close();
+
+    //when & then
+    this.mockMvc.perform( get("/lecture-materials/id0")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().json(jsonObjectWriter.toString()))
+      .andReturn().getResponse();
+  }
   @Test
   @Disabled
   void addLectureMaterial() {
