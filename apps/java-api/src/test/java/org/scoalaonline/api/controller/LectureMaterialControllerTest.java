@@ -10,13 +10,19 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureJsonTesters
 @AutoConfigureMockMvc
@@ -42,8 +48,14 @@ class LectureMaterialControllerTest {
   }
 
   @Test
-  @Disabled
-  void getAllLectureMaterials() {
+  void getAllLectureMaterialsTest() throws Exception{
+    given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
+
+    this.mockMvc.perform(get("/lecture-materials")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(MockMvcResultMatchers.jsonPath("$",hasSize(3)))
+      .andReturn();
   }
 
   @Test
