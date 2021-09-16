@@ -178,7 +178,14 @@ class LectureMaterialServiceTest {
     verify(lectureMaterialRepository, never()).save(any());
   }
   @Test
-  @Disabled
-  void delete() {
+  void delete() throws LectureMaterialNotFoundException {
+    LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
+
+    when(lectureMaterialRepository.findById(lectureMaterial.getId()))
+      .thenReturn(Optional.of(lectureMaterial));
+
+    underTestService.delete(lectureMaterial.getId());
+
+    verify(lectureMaterialRepository).deleteById(lectureMaterial.getId());
   }
 }
