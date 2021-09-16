@@ -11,6 +11,9 @@ import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 
+import java.util.Optional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -39,7 +42,6 @@ class LectureMaterialServiceTest {
   }
 
   @Test
-  @Disabled
   void getOneByIdTest() throws LectureMaterialNotFoundException {
     // when
     when(lectureMaterialRepository.findById(anyString()))
@@ -52,8 +54,20 @@ class LectureMaterialServiceTest {
   }
 
   @Test
-  @Disabled
+  void getOneByIdExceptionTest() {
+    //when
+    when(lectureMaterialRepository.findById(anyString()))
+      .thenReturn(Optional.empty());
+
+    //then
+    assertThatThrownBy(() -> underTestService.getOneById(anyString()))
+      .isInstanceOf(LectureMaterialNotFoundException.class)
+      .hasMessageContaining("Method getOneById: Lecture Material not found");
+  }
+
+  @Test
   void add() {
+
   }
 
   @Test
