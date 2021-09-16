@@ -124,7 +124,7 @@ class LectureMaterialServiceTest {
     verify(lectureMaterialRepository, never()).save(any());
   }
   @Test
-  void update() throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
+  void updateTest() throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
     LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
     LectureMaterial updatedLectureMaterial = new LectureMaterial(anyString(), "Document.docs");
 
@@ -143,6 +143,39 @@ class LectureMaterialServiceTest {
 
     verify(lectureMaterialRepository).findById(lectureMaterial.getId());
 
+  }
+  @Test
+  void updateLectureMaterialNotFoundExceptionTest() {
+    LectureMaterial lectureMaterial = new LectureMaterial("ID","Document.pdf");
+    //Lecture Material Not Found Exception
+    when(lectureMaterialRepository.findById(anyString()))
+      .thenReturn(Optional.empty());
+
+    assertThatThrownBy(() -> underTestService.update(anyString(), lectureMaterial))
+      .isInstanceOf(LectureMaterialNotFoundException.class)
+      .hasMessageContaining("Method update: Lecture Material not found");
+
+    verify(lectureMaterialRepository, never()).delete(any());
+  }
+  @Test
+  void updateLectureMaterialInvalidDataExceptionTest() {
+    when(lectureMaterialRepository.findById(anyString()))
+      .thenReturn(Optional.of(new LectureMaterial("id","Document.pdf")));
+    //Lecture material invalid data exception
+    // 1. Null
+    LectureMaterial lectureMaterialNull = new LectureMaterial("id", null);
+    assertThatThrownBy(() -> underTestService.update("id",lectureMaterialNull))
+      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
+      .hasMessageContaining("Method update: Document Field Can't Be Null");
+
+    verify(lectureMaterialRepository, never()).save(any());
+    // 2.Empty string
+    LectureMaterial lectureMaterialEmpty = new LectureMaterial("id", "");
+    assertThatThrownBy(() -> underTestService.update("id",lectureMaterialEmpty))
+      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
+      .hasMessageContaining("Method update: Document Field Can't Be Null");
+
+    verify(lectureMaterialRepository, never()).save(any());
   }
   @Test
   @Disabled
