@@ -124,10 +124,26 @@ class LectureMaterialServiceTest {
     verify(lectureMaterialRepository, never()).save(any());
   }
   @Test
-  @Disabled
-  void update() {
-  }
+  void update() throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
+    LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
+    LectureMaterial updatedLectureMaterial = new LectureMaterial(anyString(), "Document.docs");
 
+    when(lectureMaterialRepository.findById(lectureMaterial.getId()))
+      .thenReturn(Optional.of(lectureMaterial));
+
+    underTestService.update(lectureMaterial.getId(), updatedLectureMaterial);
+
+    ArgumentCaptor<LectureMaterial> lectureMaterialArgumentCaptor =
+      ArgumentCaptor.forClass(LectureMaterial.class);
+
+    verify(lectureMaterialRepository).save(lectureMaterialArgumentCaptor.capture());
+
+    LectureMaterial capturedLectureMaterial = lectureMaterialArgumentCaptor.getValue();
+    assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());
+
+    verify(lectureMaterialRepository).findById(lectureMaterial.getId());
+
+  }
   @Test
   @Disabled
   void delete() {
