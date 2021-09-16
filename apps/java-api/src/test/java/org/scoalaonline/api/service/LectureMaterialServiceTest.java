@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class LectureMaterialServiceTest {
@@ -24,8 +25,12 @@ class LectureMaterialServiceTest {
 
 
   @Test
-  @Disabled
-  void getAll() {
+  void getAllTest() {
+    // when
+    underTest.getAll();
+
+    // then
+    verify(lectureMaterialRepository).findAll();
   }
 
   @Test
