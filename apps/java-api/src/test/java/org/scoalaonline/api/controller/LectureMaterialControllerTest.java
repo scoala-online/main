@@ -64,7 +64,7 @@ class LectureMaterialControllerTest {
   }
 
   @Test
-  void getLectureMaterialById() throws Exception {
+  void getLectureMaterialByIdTest() throws Exception {
     //given
     given(lectureMaterialService.getOneById("id0"))
       .willReturn(lectureMaterialList.get(0));
@@ -131,7 +131,7 @@ class LectureMaterialControllerTest {
   }
 
   @Test
-  void updateLectureMaterial() throws Exception {
+  void updateLectureMaterialTest() throws Exception {
     // given
     given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
 
@@ -161,7 +161,16 @@ class LectureMaterialControllerTest {
   }
 
   @Test
-  @Disabled
-  void deleteLectureMaterial() {
+  void deleteLectureMaterial() throws Exception {
+    // given
+    given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
+
+    // when & then
+    this.mockMvc.perform(
+      delete("/lecture-materials/id0")
+        .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn();
+
   }
 }
