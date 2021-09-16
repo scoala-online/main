@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.service.LectureMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -93,8 +95,40 @@ class LectureMaterialControllerTest {
       .andReturn().getResponse();
   }
   @Test
-  @Disabled
-  void addLectureMaterial() {
+  void addLectureMaterialTest() throws Exception {
+    //given
+    given(lectureMaterialService.getOneById("id3"))
+      .willThrow(LectureMaterialNotFoundException.class);
+
+    //Json Generator
+    // !! TO DO MAKE A FUNCTION FOR IT !!
+    // !! FOR NO REPETITIVE CODE !!
+    JsonFactory factory = new JsonFactory();
+    StringWriter jsonObjectWriter = new StringWriter();
+    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
+
+    generator.useDefaultPrettyPrinter();
+    generator.useDefaultPrettyPrinter();
+    generator.writeStartObject();
+    generator.writeFieldName("id");
+    generator.writeString("id3");
+    generator.writeFieldName("document");
+    generator.writeString("Document_3.pdf");
+    generator.writeEndObject();
+    generator.close();
+
+
+    //when & then
+    this.mockMvc.perform(
+      post("/lecture-materials")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jsonObjectWriter.toString()))
+      .andExpect(status().isCreated())
+      .andReturn();
+
+//        assertThat(lectureMaterialService.getOneById("id3").getDocument()
+//                .equals("Document_3.pdf"))
+//                .isTrue();
   }
 
   @Test
