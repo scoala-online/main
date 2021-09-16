@@ -18,9 +18,10 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 class LectureMaterialServiceTest {
@@ -69,13 +70,13 @@ class LectureMaterialServiceTest {
   }
 
   @Test
-  void add() throws LectureMaterialInvalidDocumentException {
+  void addTest() throws LectureMaterialInvalidDocumentException {
     // given
     LectureMaterial lectureMaterial = new LectureMaterial("string_id", "Some_Document.pdf");
 
     // when
     underTestService.add(lectureMaterial);
-    
+
     // then
     ArgumentCaptor<LectureMaterial> lectureMaterialArgumentCaptor =
       ArgumentCaptor.forClass(LectureMaterial.class);
@@ -85,23 +86,43 @@ class LectureMaterialServiceTest {
     LectureMaterial capturedLectureMaterial = lectureMaterialArgumentCaptor.getValue();
     assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());
   }
-
-  //alta varianta
+  // Other way of add exception
 
 //    @Test
 //    public void savedCustomer_Success() {
-//        Customer customer = new Customer();
-//        customer.setFirstName("sajedul");
-//        customer.setLastName("karim");
-//        customer.setMobileNumber("01737186095");
+//        LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
 //
 //        // providing knowledge
-//        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+//        when(lectureMaterialRepository.save(any(LectureMaterial.class))).thenReturn(lectureMaterial);
 //
-//        Customer savedCustomer = customerRepository.save(customer);
-//        assertThat(savedCustomer.getFirstName()).isNotNull();
+//        LectureMaterial savedLectureMaterial = lectureMaterialRepository.save(lectureMaterial);
+//        assertThat(savedLectureMaterial.getDocument()).isNotNull();
 //    }
 
+  @Test
+  void addLectureMaterialInvalidDataExceptionTest() {
+    // given
+    LectureMaterial lectureMaterialEmpty = new LectureMaterial("id", "");
+    // If you have repo methods called in the add method
+    // make sure they are set to true so the test can pass
+    // Example:
+    // given(studentRepository.method(@param)).willReturn(true);
+
+    //when
+    //then
+    assertThatThrownBy(() -> underTestService.add(lectureMaterialEmpty))
+      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
+      .hasMessageContaining("Method add: Document field can't be null.");
+
+    verify(lectureMaterialRepository, never()).save(any());
+
+    LectureMaterial lectureMaterialNull = new LectureMaterial("id", null);
+    assertThatThrownBy(() -> underTestService.add(lectureMaterialNull))
+      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
+      .hasMessageContaining("Method add: Document field can't be null.");
+
+    verify(lectureMaterialRepository, never()).save(any());
+  }
   @Test
   @Disabled
   void update() {
