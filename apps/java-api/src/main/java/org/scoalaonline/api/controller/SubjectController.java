@@ -1,8 +1,8 @@
 package org.scoalaonline.api.controller;
 
 
-import org.scoalaonline.api.exception.SubjectInvalidValueException;
-import org.scoalaonline.api.exception.SubjectNotFoundException;
+import org.scoalaonline.api.exception.subject.SubjectInvalidValueException;
+import org.scoalaonline.api.exception.subject.SubjectNotFoundException;
 import org.scoalaonline.api.model.Subject;
 import org.scoalaonline.api.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class SubjectController {
 
   /**
    * Sends HTTP Response Entity with a specific Subject entry.
-   * Sends HTTP status not found if there is no entry with the provided id.
+   * Sends HTTP status Not Found if there is no entry with the provided id.
    * @param id the id of the specific Subject.
    * @return the Response Entity with a Status Code and a body.
    */
@@ -57,7 +57,7 @@ public class SubjectController {
 
   /**
    * Sends HTTP status Response Entity with the Subject entry that has been created.
-   * Sends HTTP status Invalid data if the Subject to be posted is invalid.
+   * Sends HTTP status Invalid Value if the Subject to be posted is invalid.
    * @param subject the Subject to be added in the db.
    * @return the Response Entity with a Status Code and a body.
    */
@@ -67,7 +67,7 @@ public class SubjectController {
     try {
       savedSubject = subjectService.add(subject);
     } catch (SubjectInvalidValueException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Subject Invalid Data", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Subject Invalid Value", e);
     }
     return new ResponseEntity<>(savedSubject, HttpStatus.CREATED);
   }
@@ -75,7 +75,7 @@ public class SubjectController {
   /**
    * Sends HTTP status Response Entity with the Subject entry that has been updated.
    * Sends HTTP status Not Found if the Subject cannot be found.
-   * Sends HTTP status Invalid Data if the Subject to be posted is invalid.
+   * Sends HTTP status Invalid Value if the Subject to be posted is invalid.
    * @param id the id of the Subject to be updated.
    * @param subject the Subject to be updated.
    * @return the Response Entity with a Status Code with a body.
@@ -88,7 +88,7 @@ public class SubjectController {
     } catch (SubjectNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Subject Not Found", e);
     } catch (SubjectInvalidValueException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Subject Invalid data", e);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Subject Invalid value", e);
     }
 
     return new ResponseEntity<>(updatedSubject, HttpStatus.OK);
