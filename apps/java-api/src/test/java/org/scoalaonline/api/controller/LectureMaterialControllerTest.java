@@ -1,9 +1,6 @@
 package org.scoalaonline.api.controller;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
@@ -28,7 +25,6 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.scoalaonline.api.util.TestUtils.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -58,6 +54,13 @@ class LectureMaterialControllerTest {
     this.lectureMaterialList.add(new LectureMaterial("id2", "Document_3.pdf"));
   }
 
+  /**
+   * Arranges the existence of entries in the database.
+   * Performs GET method on "/lecture-materials"
+   * Asserts that returns 200 status and the
+   * content size is equal to the number of objects in the database.
+   * @throws Exception
+   */
   @DisplayName(value = "Test getting all lecture materials.")
   @Test
   void getAllLectureMaterialsTest() throws Exception{
@@ -70,6 +73,14 @@ class LectureMaterialControllerTest {
       .andReturn();
   }
 
+  /**
+   * Arranges the existence of a LectureMaterial object at a specified id.
+   * Creates a JSON entry that will be expected to receive.
+   * Performs GET method at "lecture-materials/id0".
+   * Asserts that the status is 200 and the object returned has the same
+   * attribute values as the expected one.
+   * @throws Exception
+   */
   @Test
   void getLectureMaterialByIdTest() throws Exception {
     //given
@@ -94,6 +105,12 @@ class LectureMaterialControllerTest {
       .andReturn().getResponse();
   }
 
+  /**
+   * Arranges the absence of a LectureMaterial object with the given id ("id3").
+   * Performs GET method at "lecture-material/id3".
+   * Asserts that the status is 404 and the response is empty.
+   * @throws Exception
+   */
   @Test
   void getLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -111,6 +128,12 @@ class LectureMaterialControllerTest {
     assertThat(response.getContentAsString()).isEmpty();
   }
 
+  /**
+   * Arranges the creation a LectureMaterial object as JSON entry.
+   * Performs POST at "lecture-material/" with the created JSON.
+   * Asserts that the given status is 201.
+   * @throws Exception
+   */
   @Test
   void addLectureMaterialTest() throws Exception {
     //given
@@ -131,7 +154,14 @@ class LectureMaterialControllerTest {
       .andReturn();
   }
 
-  //TODO: MAKE IT IN A WHILE LOOP FOR "" CASE AND NULL CASE
+  /**
+   * Arranges the creation of LectureMaterial objects
+   * with invalid attribute values.
+   * Performs POST method at "lecture-material/".
+   * Asserts that the given status is 400 and that the
+   * database remains empty.
+   * @throws Exception
+   */
   @Test
   void addLectureMaterialInvalidDataExceptionTest() throws Exception {
 
@@ -161,6 +191,14 @@ class LectureMaterialControllerTest {
       assertThat(response.getContentAsString()).isEmpty();
     }
   }
+
+  /**
+   * Arranges the cration a LectureMaterial object as JSON entry
+   * and the existence of a LectureMaterial object at specified id ("id0").
+   * Performs PATCH method at "lecture-material/id0".
+   * Asserts that the status is 200.
+   * @throws Exception
+   */
     @Test
   void updateLectureMaterialTest() throws Exception {
     // given
@@ -182,7 +220,14 @@ class LectureMaterialControllerTest {
       .andExpect(status().isOk())
       .andReturn();
   }
-  //TODO: MAKE IT IN A WHILE LOOP FOR "" CASE AND NULL CASE
+  /**
+   * Arranges the creation of LectureMaterial objects
+   * with invalid attribute values.
+   * Performs PATCH method at "lecture-material/id0".
+   * Asserts that the given status is 400 and that the
+   * response is empty.
+   * @throws Exception
+   */
   @Test
   void updateLectureMaterialInvalidDataExceptionTest() throws Exception {
 
@@ -215,7 +260,13 @@ class LectureMaterialControllerTest {
       assertThat(response.getContentAsString()).isEmpty();
     }
   }
-
+  /**
+   * Arranges the absence of a LectureMaterial object with the given id ("id3").
+   * Performs PATCH method at "lecture-material/id3".
+   * Asserts that the given status is 404 and that the
+   * response is empty.
+   * @throws Exception
+   */
   @Test
   void updateLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -233,6 +284,12 @@ class LectureMaterialControllerTest {
     assertThat(response.getContentAsString()).isEmpty();
   }
 
+  /**
+   * Arranges the existence of entries in the database.
+   * Performs DELETE method at "lecture-material/id0".
+   * Asserts that the status is 200.
+   * @throws Exception
+   */
   @Test
   void deleteLectureMaterialTest() throws Exception {
     // given
@@ -246,6 +303,12 @@ class LectureMaterialControllerTest {
       .andReturn();
 
   }
+  /**
+   * Arranges the absence of a LectureMaterial object with the given id ("id3").
+   * Performs DELETE method at "lecture-material/id3".
+   * Asserts that the status is 404 and the response is empty.
+   * @throws Exception
+   */
   @Test
   void deleteLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given

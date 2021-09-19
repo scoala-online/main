@@ -12,6 +12,7 @@ import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -35,6 +36,11 @@ class LectureMaterialServiceTest {
     underTestService = new LectureMaterialService(lectureMaterialRepository);
   }
 
+  /**
+   * Executes the getAll() method from LectureMaterialService class.
+   * Asserts that it correctly called the findAll() method
+   * from the repository.
+   */
   @Test
   void getAllTest() {
     // when
@@ -44,6 +50,12 @@ class LectureMaterialServiceTest {
     verify(lectureMaterialRepository).findAll();
   }
 
+  /**
+   * Arranges the existence of an custom LectureMaterial object in database.
+   * Executes the getOneById( @param ) method from LectureMaterialService class.
+   * Asserts that it finds the same object arranged in the former step.
+   * @throws LectureMaterialNotFoundException
+   */
   @Test
   void getOneByIdTest() throws LectureMaterialNotFoundException {
     // when
@@ -56,6 +68,12 @@ class LectureMaterialServiceTest {
     Assertions.assertEquals("Document.pdf", lectureMaterial.getDocument());
   }
 
+  /**
+   * Arranges the absence of any LectureMaterial object in database.
+   * Executes the getOneById( @param ) method from LectureMaterialService class.
+   * Asserts that it throws the LectureMaterialNotFoundException exception
+   * and the related message.
+   */
   @Test
   void getOneByIdExceptionTest() {
     //when
@@ -68,6 +86,14 @@ class LectureMaterialServiceTest {
       .hasMessageContaining("Method getOneById: Lecture Material not found");
   }
 
+  /**
+   * Arranges the creation of a custom LectureMaterial object.
+   * Executes the add( LectureMaterial @param) method
+   * from LectureMaterialService class.
+   * Asserts that a LectureMaterial object has been added to the database
+   * and it has the same attribute values as the one created previously.
+   * @throws LectureMaterialInvalidDocumentException
+   */
   @Test
   void addTest() throws LectureMaterialInvalidDocumentException {
     // given
@@ -80,11 +106,21 @@ class LectureMaterialServiceTest {
     ArgumentCaptor<LectureMaterial> lectureMaterialArgumentCaptor =
       ArgumentCaptor.forClass(LectureMaterial.class);
 
-    verify(lectureMaterialRepository).save(lectureMaterialArgumentCaptor.capture());//
+    verify(lectureMaterialRepository).save(lectureMaterialArgumentCaptor.capture());
 
     LectureMaterial capturedLectureMaterial = lectureMaterialArgumentCaptor.getValue();
-    assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());//
+    assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());
   }
+
+  /**
+   * Arranges the creation of two LectureMaterial object
+   * with invalid attribute values.
+   * Executes the add( LectureMaterial @param ) method
+   * from LectureMaterialService class.
+   * Asserts that nothing was saved in the database and
+   * it throws LectureMaterialInvalidDocumentException exception
+   * with the related messages.
+   */
   @Test
   void addLectureMaterialInvalidDataExceptionTest() {
     // given
@@ -94,6 +130,7 @@ class LectureMaterialServiceTest {
     // Example:
     // given(studentRepository.method(@param)).willReturn(true);
 
+    //TODO Resolve repetitive code here
     //then
     assertThatThrownBy(() -> underTestService.add(lectureMaterialEmpty))
       .isInstanceOf(LectureMaterialInvalidDocumentException.class)
@@ -108,6 +145,19 @@ class LectureMaterialServiceTest {
 
     verify(lectureMaterialRepository, never()).save(any());
   }
+
+  /**
+   * Arranges the creation of two LectureMaterial objects:
+   * 1. The object already present in the database.
+   * 2. The object that will update the former.
+   * Arranges the existence of the first object in the database.
+   * Executes the update( @param ,LectureMaterial @param ) method
+   * from LectureMaterialSevice class.
+   * Asserts that a LectureMaterial object has been added to the database
+   * and it has the same attribute values as the one we want to update with.
+   * @throws LectureMaterialNotFoundException
+   * @throws LectureMaterialInvalidDocumentException
+   */
   @Test
   void updateTest() throws LectureMaterialNotFoundException, LectureMaterialInvalidDocumentException {
     // given
@@ -132,6 +182,15 @@ class LectureMaterialServiceTest {
     verify(lectureMaterialRepository).findById(lectureMaterial.getId());
 
   }
+
+  /**
+   * Arranges the creation of an LectureMaterial object we will try to
+   * update with and makes sure the database has no entries.
+   * Executes the update( @param , LectureMaterial @param ) method
+   * from LectureMaterialService class.
+   * Asserts that the LectureMaterialNotFoundException exception
+   * is thrown with the related messages.
+   */
   @Test
   void updateLectureMaterialNotFoundExceptionTest() {
     // given
@@ -149,6 +208,14 @@ class LectureMaterialServiceTest {
 
     verify(lectureMaterialRepository, never()).delete(any());
   }
+  /**
+   * Arranges the creation of an LectureMaterial object we will try to
+   * update with and makes sure the object has invalid attribute values.
+   * Executes the update( @param , LectureMaterial @param ) method
+   * from LectureMaterialService class.
+   * Asserts that the LectureMaterialInvalidDocumentException exception
+   * is thrown with the related messages.
+   */
   @Test
   void updateLectureMaterialInvalidDataExceptionTest() {
     // when
@@ -177,6 +244,15 @@ class LectureMaterialServiceTest {
 
     verify(lectureMaterialRepository, never()).save(any());
   }
+
+  /**
+   * Arranges the creation of an LectureMaterial object and
+   * makes sure its existence in the database.
+   * Executes the delete( @param ) method from LectureMaterialService class.
+   * Asserts that the deleteById( @param ) method from repository has been
+   * executed successfully.
+   * @throws LectureMaterialNotFoundException
+   */
   @Test
   void delete() throws LectureMaterialNotFoundException {
     // given
@@ -191,6 +267,13 @@ class LectureMaterialServiceTest {
 
     verify(lectureMaterialRepository).deleteById(lectureMaterial.getId());
   }
+
+  /**
+   * Arranges the absence of any LectureMaterial object in database.
+   * Executes the delete( @param ) method from LectureMaterialService class.
+   * Asserts that it throws the LectureMaterialNotFoundException exception
+   * and the related message.
+   */
   @Test
   void deleteException() {
 
