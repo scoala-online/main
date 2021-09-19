@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
@@ -29,6 +30,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.scoalaonline.api.util.TestUtils.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,6 +58,7 @@ class LectureMaterialControllerTest {
     this.lectureMaterialList.add(new LectureMaterial("id2", "Document_3.pdf"));
   }
 
+  @DisplayName(value = "Test getting all lecture materials.")
   @Test
   void getAllLectureMaterialsTest() throws Exception{
     given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
@@ -74,21 +77,14 @@ class LectureMaterialControllerTest {
       .willReturn(lectureMaterialList.get(0));
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT !!
-    // !! FOR NO REPETITIVE CODE !!
-    JsonFactory factory = new JsonFactory();
-    StringWriter jsonObjectWriter = new StringWriter();
-    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
 
-    generator.useDefaultPrettyPrinter();
-    generator.useDefaultPrettyPrinter();
-    generator.writeStartObject();
-    generator.writeFieldName("id");
-    generator.writeString("id0");
-    generator.writeFieldName("document");
-    generator.writeString("Document_1.pdf");
-    generator.writeEndObject();
-    generator.close();
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("id");
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("id0");
+    ValuesArray.add("Document_1.pdf");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
     //when & then
     this.mockMvc.perform( get("/lecture-materials/id0")
@@ -118,26 +114,13 @@ class LectureMaterialControllerTest {
   @Test
   void addLectureMaterialTest() throws Exception {
     //given
-    given(lectureMaterialService.getOneById("id3"))
-      .willThrow(LectureMaterialNotFoundException.class);
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT !!
-    // !! FOR NO REPETITIVE CODE !!
-    JsonFactory factory = new JsonFactory();
-    StringWriter jsonObjectWriter = new StringWriter();
-    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
-
-    generator.useDefaultPrettyPrinter();
-    generator.useDefaultPrettyPrinter();
-    generator.writeStartObject();
-    generator.writeFieldName("id");
-    generator.writeString("id3");
-    generator.writeFieldName("document");
-    generator.writeString("Document_3.pdf");
-    generator.writeEndObject();
-    generator.close();
-
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("Document_3.pdf");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
     //when & then
     this.mockMvc.perform(
@@ -146,10 +129,6 @@ class LectureMaterialControllerTest {
         .content(jsonObjectWriter.toString()))
       .andExpect(status().isCreated())
       .andReturn();
-
-//        assertThat(lectureMaterialService.getOneById("id3").getDocument()
-//                .equals("Document_3.pdf"))
-//                .isTrue();
   }
 
   //TODO: MAKE IT IN A WHILE LOOP FOR "" CASE AND NULL CASE
@@ -161,19 +140,12 @@ class LectureMaterialControllerTest {
       .willThrow(LectureMaterialInvalidDocumentException.class);
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT
-    //  FOR NO REPETITIVE CODE !!
-    JsonFactory factory = new JsonFactory();
-    StringWriter jsonObjectWriter = new StringWriter();
-    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
-    generator.useDefaultPrettyPrinter();
-    generator.useDefaultPrettyPrinter();
-    generator.writeStartObject();
-    generator.writeFieldName("document");
-    generator.writeString("");
-    generator.writeEndObject();
-    generator.close();
 
     //when
     MockHttpServletResponse response = mockMvc.perform(
@@ -193,25 +165,18 @@ class LectureMaterialControllerTest {
       .willThrow(LectureMaterialInvalidDocumentException.class);
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT !!
-    // !! FOR NO REPETITIVE CODE !!
-    JsonFactory factory_null = new JsonFactory();
-    StringWriter jsonObjectWriter_null = new StringWriter();
-    JsonGenerator generator_null = factory_null.createGenerator(jsonObjectWriter);
+    List<String> FieldArrayNull = new ArrayList<String>();
+    FieldArrayNull.add("document");
+    List<Object> ValuesArrayNull = new ArrayList<Object>();
+    ValuesArrayNull.add(null);
+    StringWriter jsonObjectWriterNull = buildJsonBody(FieldArrayNull, ValuesArrayNull);
 
-    generator_null.useDefaultPrettyPrinter();
-    generator_null.useDefaultPrettyPrinter();
-    generator_null.writeStartObject();
-    generator_null.writeFieldName("document");
-    generator_null.writeNull();
-    generator_null.writeEndObject();
-    generator_null.close();
 
     //when
     MockHttpServletResponse response_null = mockMvc.perform(
       post("/lecture-materials")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonObjectWriter_null.toString()))
+        .content(jsonObjectWriterNull.toString()))
       .andReturn().getResponse();
 
     //then
@@ -224,19 +189,11 @@ class LectureMaterialControllerTest {
     given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT !!
-    // !! FOR NO REPETITIVE CODE !!
-    JsonFactory factory = new JsonFactory();
-    StringWriter jsonObjectWriter = new StringWriter();
-    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
-
-    generator.useDefaultPrettyPrinter();
-    generator.useDefaultPrettyPrinter();
-    generator.writeStartObject();
-    generator.writeFieldName("document");
-    generator.writeString("Document_3.pdf");
-    generator.writeEndObject();
-    generator.close();
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("Document_3.pdf");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
 
     //when & then
@@ -258,19 +215,11 @@ class LectureMaterialControllerTest {
       .willThrow(LectureMaterialInvalidDocumentException.class);
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT
-    //  FOR NO REPETITIVE CODE !!
-    JsonFactory factory = new JsonFactory();
-    StringWriter jsonObjectWriter = new StringWriter();
-    JsonGenerator generator = factory.createGenerator(jsonObjectWriter);
-
-    generator.useDefaultPrettyPrinter();
-    generator.useDefaultPrettyPrinter();
-    generator.writeStartObject();
-    generator.writeFieldName("document");
-    generator.writeString("");
-    generator.writeEndObject();
-    generator.close();
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
     //when
     MockHttpServletResponse response = mockMvc.perform(
@@ -292,25 +241,18 @@ class LectureMaterialControllerTest {
       .willThrow(LectureMaterialInvalidDocumentException.class);
 
     //Json Generator
-    //TODO MAKE A FUNCTION FOR IT !!
-    // !! FOR NO REPETITIVE CODE !!
-    JsonFactory factory_null = new JsonFactory();
-    StringWriter jsonObjectWriter_null = new StringWriter();
-    JsonGenerator generator_null = factory_null.createGenerator(jsonObjectWriter);
+    List<String> FieldArrayNull = new ArrayList<String>();
+    FieldArrayNull.add("document");
+    List<Object> ValuesArrayNull = new ArrayList<Object>();
+    ValuesArrayNull.add(null);
+    StringWriter jsonObjectWriterNull = buildJsonBody(FieldArrayNull, ValuesArrayNull);
 
-    generator_null.useDefaultPrettyPrinter();
-    generator_null.useDefaultPrettyPrinter();
-    generator_null.writeStartObject();
-    generator_null.writeFieldName("document");
-    generator_null.writeNull();
-    generator_null.writeEndObject();
-    generator_null.close();
 
     //when
     MockHttpServletResponse response_null = mockMvc.perform(
       patch("/lecture-materials/id0")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonObjectWriter_null.toString()))
+        .content(jsonObjectWriterNull.toString()))
       .andReturn().getResponse();
 
     //then

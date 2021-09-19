@@ -35,7 +35,6 @@ class LectureMaterialServiceTest {
     underTestService = new LectureMaterialService(lectureMaterialRepository);
   }
 
-
   @Test
   void getAllTest() {
     // when
@@ -81,24 +80,11 @@ class LectureMaterialServiceTest {
     ArgumentCaptor<LectureMaterial> lectureMaterialArgumentCaptor =
       ArgumentCaptor.forClass(LectureMaterial.class);
 
-    verify(lectureMaterialRepository).save(lectureMaterialArgumentCaptor.capture());
+    verify(lectureMaterialRepository).save(lectureMaterialArgumentCaptor.capture());//
 
     LectureMaterial capturedLectureMaterial = lectureMaterialArgumentCaptor.getValue();
-    assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());
+    assertThat(capturedLectureMaterial.getDocument()).isEqualTo(lectureMaterial.getDocument());//
   }
-  // Other way of add exception
-
-//    @Test
-//    public void savedCustomer_Success() {
-//        LectureMaterial lectureMaterial = new LectureMaterial("id","Document.pdf");
-//
-//        // providing knowledge
-//        when(lectureMaterialRepository.save(any(LectureMaterial.class))).thenReturn(lectureMaterial);
-//
-//        LectureMaterial savedLectureMaterial = lectureMaterialRepository.save(lectureMaterial);
-//        assertThat(savedLectureMaterial.getDocument()).isNotNull();
-//    }
-
   @Test
   void addLectureMaterialInvalidDataExceptionTest() {
     // given
