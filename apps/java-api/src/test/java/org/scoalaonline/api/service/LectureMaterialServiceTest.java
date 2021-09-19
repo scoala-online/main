@@ -14,6 +14,8 @@ import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -123,27 +125,24 @@ class LectureMaterialServiceTest {
    */
   @Test
   void addLectureMaterialInvalidDataExceptionTest() {
-    // given
-    LectureMaterial lectureMaterialEmpty = new LectureMaterial("id", "");
     // If you have repo methods called in the add method
     // make sure they are set to true so the test can pass
     // Example:
     // given(studentRepository.method(@param)).willReturn(true);
 
-    //TODO Resolve repetitive code here
-    //then
-    assertThatThrownBy(() -> underTestService.add(lectureMaterialEmpty))
-      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
-      .hasMessageContaining("Method add: Document field can't be null.");
+    List<Object> exceptionCases = new ArrayList<Object>();
+    exceptionCases.add("");
+    exceptionCases.add(null);
+    for(Object exceptionCase : exceptionCases){
+      // given
+      LectureMaterial lectureMaterial = new LectureMaterial("id", (String) exceptionCase);
+      // when & then
+      assertThatThrownBy(() -> underTestService.add(lectureMaterial))
+        .isInstanceOf(LectureMaterialInvalidDocumentException.class)
+        .hasMessageContaining("Method add: Document field can't be null.");
 
-    verify(lectureMaterialRepository, never()).save(any());
-
-    LectureMaterial lectureMaterialNull = new LectureMaterial("id", null);
-    assertThatThrownBy(() -> underTestService.add(lectureMaterialNull))
-      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
-      .hasMessageContaining("Method add: Document field can't be null.");
-
-    verify(lectureMaterialRepository, never()).save(any());
+      verify(lectureMaterialRepository, never()).save(any());
+    }
   }
 
   /**
@@ -222,27 +221,20 @@ class LectureMaterialServiceTest {
     when(lectureMaterialRepository.findById(anyString()))
       .thenReturn(Optional.of(new LectureMaterial("id","Document.pdf")));
 
-    //Lecture material invalid data exception
-    // 1. Null
-    // given
-    LectureMaterial lectureMaterialNull = new LectureMaterial("id", null);
+    List<Object> exceptionCases = new ArrayList<Object>();
+    exceptionCases.add("");
+    exceptionCases.add(null);
+    for(Object exceptionCase : exceptionCases){
+      // given
+      LectureMaterial lectureMaterial = new LectureMaterial("id", (String) exceptionCase);
 
-    // then
-    assertThatThrownBy(() -> underTestService.update("id",lectureMaterialNull))
-      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
-      .hasMessageContaining("Method update: Document Field Can't Be Null");
+      // when & then
+      assertThatThrownBy(() -> underTestService.update("id",lectureMaterial))
+        .isInstanceOf(LectureMaterialInvalidDocumentException.class)
+        .hasMessageContaining("Method update: Document Field Can't Be Null");
 
-    verify(lectureMaterialRepository, never()).save(any());
-    // 2.Empty string
-    // given
-    LectureMaterial lectureMaterialEmpty = new LectureMaterial("id", "");
-
-    // then
-    assertThatThrownBy(() -> underTestService.update("id",lectureMaterialEmpty))
-      .isInstanceOf(LectureMaterialInvalidDocumentException.class)
-      .hasMessageContaining("Method update: Document Field Can't Be Null");
-
-    verify(lectureMaterialRepository, never()).save(any());
+      verify(lectureMaterialRepository, never()).save(any());
+    }
   }
 
   /**
