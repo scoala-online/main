@@ -134,54 +134,32 @@ class LectureMaterialControllerTest {
   //TODO: MAKE IT IN A WHILE LOOP FOR "" CASE AND NULL CASE
   @Test
   void addLectureMaterialInvalidDataExceptionTest() throws Exception {
-    // Empty String Case
-    // given
-    given(lectureMaterialService.add(new LectureMaterial(null,"")))
-      .willThrow(LectureMaterialInvalidDocumentException.class);
 
-    //Json Generator
-    List<String> FieldArray = new ArrayList<String>();
-    FieldArray.add("document");
-    List<Object> ValuesArray = new ArrayList<Object>();
-    ValuesArray.add("");
-    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
+    List<Object> exceptionCases = new ArrayList<Object>();
+    exceptionCases.add("");
+    exceptionCases.add(null);
+    for(Object exceptionCase : exceptionCases) {
+      // given
+      given(lectureMaterialService.add(new LectureMaterial(null,(String) exceptionCase)))
+        .willThrow(LectureMaterialInvalidDocumentException.class);
 
+      //Json Generator
+      List<String> FieldArray = new ArrayList<String>();
+      FieldArray.add("document");
+      List<Object> ValuesArray = new ArrayList<Object>();
+      ValuesArray.add(exceptionCase);
+      StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
-    //when
-    MockHttpServletResponse response = mockMvc.perform(
-      post("/lecture-materials")
-        .contentType(MediaType.APPLICATION_JSON)
-    .content(jsonObjectWriter.toString()))
+      //when
+      MockHttpServletResponse response = mockMvc.perform(
+       post("/lecture-materials").contentType(MediaType.APPLICATION_JSON)
+      .content(jsonObjectWriter.toString()))
       .andReturn().getResponse();
 
-    //then
-    assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    assertThat(response.getContentAsString()).isEmpty();
-
-
-    // Null String Case
-    // given
-    given(lectureMaterialService.add(new LectureMaterial(null,null)))
-      .willThrow(LectureMaterialInvalidDocumentException.class);
-
-    //Json Generator
-    List<String> FieldArrayNull = new ArrayList<String>();
-    FieldArrayNull.add("document");
-    List<Object> ValuesArrayNull = new ArrayList<Object>();
-    ValuesArrayNull.add(null);
-    StringWriter jsonObjectWriterNull = buildJsonBody(FieldArrayNull, ValuesArrayNull);
-
-
-    //when
-    MockHttpServletResponse response_null = mockMvc.perform(
-      post("/lecture-materials")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonObjectWriterNull.toString()))
-      .andReturn().getResponse();
-
-    //then
-    assertThat(response_null.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    assertThat(response_null.getContentAsString()).isEmpty();
+      //then
+      assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+      assertThat(response.getContentAsString()).isEmpty();
+    }
   }
     @Test
   void updateLectureMaterialTest() throws Exception {
@@ -207,57 +185,35 @@ class LectureMaterialControllerTest {
   //TODO: MAKE IT IN A WHILE LOOP FOR "" CASE AND NULL CASE
   @Test
   void updateLectureMaterialInvalidDataExceptionTest() throws Exception {
-    // Empty String Case
-    // given
-    given(lectureMaterialService.getAll())
-      .willReturn(lectureMaterialList);
-    given(lectureMaterialService.update("id0",new LectureMaterial(null,"")))
-      .willThrow(LectureMaterialInvalidDocumentException.class);
 
-    //Json Generator
-    List<String> FieldArray = new ArrayList<String>();
-    FieldArray.add("document");
-    List<Object> ValuesArray = new ArrayList<Object>();
-    ValuesArray.add("");
-    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
+    List<Object> exceptionCases = new ArrayList<Object>();
+    exceptionCases.add("");
+    exceptionCases.add(null);
+    for(Object exceptionCase: exceptionCases) {
+      // given
+      given(lectureMaterialService.getAll())
+        .willReturn(lectureMaterialList);
+      given(lectureMaterialService.update("id0",new LectureMaterial(null, (String) exceptionCase)))
+        .willThrow(LectureMaterialInvalidDocumentException.class);
 
-    //when
-    MockHttpServletResponse response = mockMvc.perform(
-      patch("/lecture-materials/id0")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonObjectWriter.toString()))
-      .andReturn().getResponse();
+      //Json Generator
+      List<String> FieldArray = new ArrayList<String>();
+      FieldArray.add("document");
+      List<Object> ValuesArray = new ArrayList<Object>();
+      ValuesArray.add(exceptionCase);
+      StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
-    //then
-    assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    assertThat(response.getContentAsString()).isEmpty();
+      //when
+      MockHttpServletResponse response = mockMvc.perform(
+        patch("/lecture-materials/id0")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(jsonObjectWriter.toString()))
+        .andReturn().getResponse();
 
-
-    // Null String Case
-    // given
-    given(lectureMaterialService.getAll())
-      .willReturn(lectureMaterialList);
-    given(lectureMaterialService.update("id0",new LectureMaterial(null,null)))
-      .willThrow(LectureMaterialInvalidDocumentException.class);
-
-    //Json Generator
-    List<String> FieldArrayNull = new ArrayList<String>();
-    FieldArrayNull.add("document");
-    List<Object> ValuesArrayNull = new ArrayList<Object>();
-    ValuesArrayNull.add(null);
-    StringWriter jsonObjectWriterNull = buildJsonBody(FieldArrayNull, ValuesArrayNull);
-
-
-    //when
-    MockHttpServletResponse response_null = mockMvc.perform(
-      patch("/lecture-materials/id0")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonObjectWriterNull.toString()))
-      .andReturn().getResponse();
-
-    //then
-    assertThat(response_null.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-    assertThat(response_null.getContentAsString()).isEmpty();
+      //then
+      assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+      assertThat(response.getContentAsString()).isEmpty();
+    }
   }
 
   @Test
