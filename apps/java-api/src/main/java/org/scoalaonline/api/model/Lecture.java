@@ -24,6 +24,10 @@ public class Lecture {
   //TODO: add @Relationships
 
   //region Constructors
+  public Lecture(){
+
+  }
+
   public Lecture(String id) {
     this.id = id;
   }
