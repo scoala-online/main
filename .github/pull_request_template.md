@@ -1,6 +1,6 @@
 ### This pull request solves issue:
 
-Issue: #<!-- Insert issue number here -->
+Closes: #<!-- Insert issue number here -->
 
 ### Which app is this issue related to?
 
