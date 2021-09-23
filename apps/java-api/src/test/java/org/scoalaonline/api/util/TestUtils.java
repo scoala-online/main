@@ -8,9 +8,6 @@ import java.io.StringWriter;
 import java.util.List;
 
 public class TestUtils {
-  //static methods
-  /* UTIL Method for building json
-  * */
   public static StringWriter buildJsonBody(List<String> fields, List<Object> values) throws IOException {
 
     JsonFactory factory = new JsonFactory();
@@ -29,10 +26,10 @@ public class TestUtils {
         generator.writeString((String) values.get(i));
       else if(values.get(i).getClass().equals(Number.class))
         generator.writeNumber((double) values.get(i));
-      /* For more posible cases, add else if here
+      /* For more possible cases, add else if here
        With the required type
        Example:
-       else if(vlaue.get(i).getClass().equals(MyClass.class))
+       else if(value.get(i).getClass().equals(MyClass.class))
           generator.writeObject((MyObject) value.get(i));
       */
     }
