@@ -17,7 +17,7 @@ public class UserSecurity {
   /**
    * Checks if the user with the specified id is the same as the currently authenticated user
    * @param authentication information about the currently authenticated user.
-   * @param id the id of the specific user
+   * @param id - the id of the specific user
    * @return true or false based of the check
    */
   public boolean hasUserId(Authentication authentication, String id) {
