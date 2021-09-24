@@ -42,7 +42,7 @@ public class RoleService implements ServiceInterface<Role>{
 
   /**
    * Adds a Role entry in the DB based on the received object.
-   * @param entry the Role entry.
+   * @param entry - the Role entry.
    * @throws RoleInvalidNameException
    * @return the Role object that has been saved in the DB
    */
