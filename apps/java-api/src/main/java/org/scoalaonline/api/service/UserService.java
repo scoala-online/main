@@ -249,7 +249,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
   /**
    * Retrieves one Role entry with the given roleName from the DB
-   * Add the Role to User entry given by user
+   * Adds the Role to User entry given by user
    * or throws an error if no entry with that roleName is found.
    * @param user - User entry
    * @param roleName - name of the Role entry
