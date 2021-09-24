@@ -191,7 +191,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * Updates the User entry with the given id based on the received object.
    * Throws an exception if no entry with that id was found.
    * @param id - the id of the entry to update
-   * @param entry the User entry.
+   * @param entry - the User entry.
    * @throws UserNotFoundException
    * @throws UserInvalidNameException
    * @throws UserUsernameNotAllowedException
