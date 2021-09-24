@@ -87,8 +87,8 @@ public class UserController {
    * Sends HTTP status Not Found if there is no entry with the provided username.
    * Sends HTTP status Forbidden if the currently authenticated user is not the same
    * as the one with the given username or does not have permission to see all User entries.
-   * @param username the username of the specific User.
-   * @param authentication information about the currently authenticated user.
+   * @param username - the username of the specific User.
+   * @param authentication - information about the currently authenticated user.
    * @return the Response Entity with a Status Code and a body.
    */
   @GetMapping(value = "/username")
