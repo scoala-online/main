@@ -93,6 +93,7 @@ public class UserController {
   @GetMapping(value = "/username")
   @ResponseBody
   public ResponseEntity<User> getUserByUsername(@RequestParam String username, Authentication authentication) {
+    // Security Check
     List<GrantedAuthority> authorities = new ArrayList<>();
     authorities.addAll(authentication.getAuthorities());
     if (!authentication.getName().trim().equals(username)
