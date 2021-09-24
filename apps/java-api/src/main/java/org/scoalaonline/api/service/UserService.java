@@ -216,7 +216,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     }
 
     if(entry.getUsername() != null && !entry.getUsername().equals("") && !userToUpdate.getUsername().equals(entry.getUsername()))
-      throw new UserUsernameNotAllowedException("Method update: Can not change username.");
+      throw new UserUsernameNotAllowedException("Method update: Cannot change username.");
 
     if(entry.getPassword() != null && !entry.getPassword().equals(""))
       userToUpdate.setPassword(passwordEncoder.encode(entry.getPassword()));
