@@ -61,7 +61,7 @@ public class RoleService implements ServiceInterface<Role>{
    * Updates the Role entry with the given id based on the received object.
    * Throws an exception if no entry with that id was found.
    * @param id - the id of the entry to update
-   * @param entry the Role entry.
+   * @param entry - the Role entry.
    * @return the Role object saved in the DB
    * @throws RoleNotFoundException
    * @throws RoleInvalidNameException
