@@ -100,8 +100,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @return the list of User entries
    */
   public List<User> getAllByRole(String roleName) {
-    List<User> users = userRepository.findAllByRolesContaining(roleName);
-    return users;
+    return userRepository.findAllByRolesContaining(roleName);
   }
 
   /**
