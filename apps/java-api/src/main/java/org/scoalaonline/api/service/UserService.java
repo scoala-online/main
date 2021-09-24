@@ -105,7 +105,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
   /**
    * Adds a User entry in the DB based on the received object.
-   * @param entry the User entry.
+   * @param entry - the User entry.
    * @throws UserInvalidNameException
    * @throws UserInvalidUsernameException
    * @throws UserInvalidPasswordException
