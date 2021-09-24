@@ -145,7 +145,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   /**
    * Adds a User entry in the DB based on the received RegisterForm.
    * Adds ROLE_STUDENT to the list of roles
-   * @param entry the User entry.
+   * @param entry - the User entry.
    * @throws UserInvalidNameException
    * @throws UserInvalidUsernameException
    * @throws UserUsernameAlreadyUsedException
