@@ -89,7 +89,8 @@ public class RoleController {
     } catch ( RoleNotFoundException e )
     {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PATCH: Role Not Found", e );
-    } catch ( RoleInvalidNameException e){
+    } catch ( RoleInvalidNameException e)
+    {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Role Invalid Name", e );
     }
 
