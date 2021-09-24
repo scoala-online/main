@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class JWTService {
   private Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-  private Date access_timer =  new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
-  private Date refresh_timer =  new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
+  private Date accessTimer =  new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
+  private Date refreshTimer =  new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
 
   /**
    * Generates an access token based on the username, requestURL and the list of roles, using the algorithm
