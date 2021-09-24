@@ -238,7 +238,7 @@ public class UserController {
       updatedUser = userService.update( id, user );
     } catch ( UserNotFoundException e ) {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PATCH: User Not Found", e );
-    } catch ( UserInvalidNameException e){
+    } catch ( UserInvalidNameException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: User Invalid Name", e );
     } catch (UserUsernameNotAllowedException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Can not change username", e );
