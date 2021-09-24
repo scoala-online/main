@@ -54,7 +54,7 @@ public class JWTService {
 
   /**
    * Generates a decoded JWT with informations about the authenticated user
-   * ased on the given token, using the algorithm
+   * based on the given token, using the algorithm
    * @param token
    * @return a decoded JWT
    */
