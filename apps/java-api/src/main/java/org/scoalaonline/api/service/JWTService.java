@@ -32,7 +32,7 @@ public class JWTService {
   public String getAccessToken(String username, String requestURL, List<String> roles) {
     return JWT.create()
       .withSubject(username)
-      .withExpiresAt(access_timer)
+      .withExpiresAt(accessTimer)
       .withIssuer(requestURL)
       .withClaim("roles", roles)
       .sign(algorithm);
@@ -47,7 +47,7 @@ public class JWTService {
   public String getRefreshToken(String username, String requestURL) {
     return JWT.create()
       .withSubject(username)
-      .withExpiresAt(access_timer)
+      .withExpiresAt(accessTimer)
       .withIssuer(requestURL)
       .sign(algorithm);
   }
