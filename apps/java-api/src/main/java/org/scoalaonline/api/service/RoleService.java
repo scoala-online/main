@@ -90,6 +90,6 @@ public class RoleService implements ServiceInterface<Role>{
     if(roleRepository.findById(id).isPresent())
       roleRepository.deleteById(id);
     else
-      throw new RoleNotFoundException("Method delete: Role Not Found");
+      throw new RoleNotFoundException("Method delete: Role not found.");
   }
 }
