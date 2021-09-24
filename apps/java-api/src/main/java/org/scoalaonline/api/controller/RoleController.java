@@ -28,7 +28,7 @@ public class RoleController {
 
   /**
    * Sends HTTP status Response Entity with all the Role entries.
-   * @return a Response Entity with HTTP Status OK and a list of the User entries.
+   * @return a Response Entity with HTTP Status OK and a list of the Role entries.
    */
   @GetMapping(value = {"", "/"})
   public ResponseEntity<List<Role>> getAllRoles () {
