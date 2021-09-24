@@ -39,7 +39,6 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
  POST: "/users/register"	registers a new entry with the default role
  PATCH:	"/users/{id}	edits the entry with the provided id
  DELETE:	"/users/{id}	deletes the entry with the provided id
-
  */
 @CrossOrigin
 @RestController
