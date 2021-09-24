@@ -212,7 +212,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     if(entry.getName() != null && !entry.getName().equals("")) {
       userToUpdate.setName(entry.getName());
     } else {
-      throw new UserInvalidNameException("Method update: Name Field Can't Be Null");
+      throw new UserInvalidNameException("Method update: Name field can't be null.");
     }
 
     log.info(String.valueOf(userToUpdate.getUsername().equals(entry.getUsername())));
