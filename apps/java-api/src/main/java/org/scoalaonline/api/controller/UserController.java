@@ -241,7 +241,7 @@ public class UserController {
     } catch ( UserInvalidNameException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: User Invalid Name", e );
     } catch (UserUsernameNotAllowedException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Can not change username", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Cannot change username", e );
     } catch (UserInvalidPasswordException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: User Invalid Password", e );
     } catch (UserInvalidRolesException e) {
