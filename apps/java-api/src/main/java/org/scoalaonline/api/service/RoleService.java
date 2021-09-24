@@ -74,7 +74,7 @@ public class RoleService implements ServiceInterface<Role>{
     if(entry.getName() != null && !entry.getName().equals("")) {
       roleToUpdate.setName(entry.getName());
     } else {
-      throw new RoleInvalidNameException("Method update: Name Field Can't Be Null");
+      throw new RoleInvalidNameException("Method update: Name field can't be null.");
     }
     return roleRepository.save(roleToUpdate);
   }
