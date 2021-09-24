@@ -46,7 +46,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       () -> new UsernameNotFoundException("Method loadUserByUsername: User not found")
     );
 
-    log.info("User {} found in te database", username);
+    log.info("User {} found in the database", username);
 
     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
     user.getRoles().forEach(role -> {
