@@ -91,7 +91,6 @@ public class UserController {
    * @return the Response Entity with a Status Code and a body.
    */
   @GetMapping(value = "/username")
-  @ResponseBody
   public ResponseEntity<User> getUserByUsername(@RequestParam String username, Authentication authentication) {
     // Security Check
     List<GrantedAuthority> authorities = new ArrayList<>();
