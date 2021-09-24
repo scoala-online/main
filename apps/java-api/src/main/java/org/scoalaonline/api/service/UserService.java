@@ -242,7 +242,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     if(userRepository.findById(id).isPresent())
       userRepository.deleteById(id);
     else
-      throw new UserNotFoundException("Method delete: User Not Found");
+      throw new UserNotFoundException("Method delete: User not found.");
   }
 
   /**
