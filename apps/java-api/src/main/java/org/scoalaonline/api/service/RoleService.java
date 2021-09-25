@@ -110,7 +110,7 @@ public class RoleService implements ServiceInterface<Role>{
       roleRepository.deleteById(id);
     }
     else {
-      log.error("Role not found in te database.");
+      log.error("Role not found in the database.");
       throw new RoleNotFoundException("Method delete: Role not found.");
     }
   }
