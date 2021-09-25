@@ -258,7 +258,10 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       () -> new RoleNotFoundException("Method addRoleToUser: Role not found")
     );
     log.info("Adding role {} to user {}", role.getName(), user.getName());
-    user.getRoles().add(role);
+    List<Role> newRoles = user.getRoles();
+    newRoles.add(role);
+    user.setRoles(newRoles);
+
     userRepository.save(user);
   }
 }

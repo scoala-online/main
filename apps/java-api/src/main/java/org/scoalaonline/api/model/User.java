@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.*;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,4 +34,11 @@ public class User {
   @Relationship(type = "HAS_ROLE", direction = Relationship.Direction.OUTGOING)
   private List<Role> roles;
 
+  public List<Role> getRoles() {
+    return new ArrayList<>(roles);
+  }
+
+  public void setRoles(List<Role> roles) {
+    this.roles = new ArrayList<>(roles);
+  }
 }
