@@ -39,7 +39,7 @@ public class RoleController {
   /**
    * Sends an HTTP Response Entity with a specific Role entry
    * Sends Status OK or Status Not Found if there is no entry with the provided id
-   * @param id the id of the specific Role
+   * @param id - the id of the specific Role
    * @return the Response Entity with a Status Code and a Body
    */
   @GetMapping(value = "/{id}")
