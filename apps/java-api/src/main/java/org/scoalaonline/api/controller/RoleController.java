@@ -76,7 +76,7 @@ public class RoleController {
    * Sends HTTP status Response Entity with the Role entry that has been updated.
    * Sends HTTP status Not Found if the Role cannot be found.
    * Sends HTTP status Invalid Value if the Role to be posted is invalid.
-   * @param id the id of the Role to be updated.
+   * @param id - the id of the Role to be updated.
    * @param role the Role to be updated.
    * @return the Response Entity with a Status Code and a body.
    */
