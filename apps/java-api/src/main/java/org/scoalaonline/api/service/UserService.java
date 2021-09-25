@@ -34,7 +34,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   private final PasswordEncoder passwordEncoder;
 
   /**
-   * Retrieves User entry with given username
+   * Retrieves User entry with the given username
    * Creates Spring Security UserDetails based on User entry
    * @param username
    * @return UserDetails object
@@ -136,18 +136,18 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserInvalidNameException("Method add: Name field can't be null.");
     }
 
-    if (entry.getUsername() != null && !entry.getUsername().equals("")) {
+    if (entry.getUsername() != null && !entry.getUsername().equals("") && entry.getUsername().matches("^\\b[\\w.!#$%&’*+/=?^`{|}~-]+@[\\w-]+(?:.[\\w-]+)+\\b$")) {
       userToSave.setUsername(entry.getUsername());
     } else {
-      log.error("Username field can't be null.");
-      throw new UserInvalidUsernameException("Method add: Username field can't be null.");
+      log.error("Invalid username.");
+      throw new UserInvalidUsernameException("Method add: Invalid username.");
     }
 
-    if (entry.getPassword() != null && !entry.getPassword().equals("")) {
+    if (entry.getPassword() != null && !entry.getPassword().equals("") && entry.getPassword().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}")) {
       userToSave.setPassword(passwordEncoder.encode(entry.getPassword()));
     } else {
-      log.error("Password field can't be null.");
-      throw new UserInvalidPasswordException("Method add: Password field can't be null.");
+      log.error("Invalid password.");
+      throw new UserInvalidPasswordException("Method add: Invalid password.");
     }
 
     if (entry.getRoles() != null && !entry.getRoles().isEmpty()) {
@@ -186,7 +186,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserInvalidNameException("Method register: Name field can't be null.");
     }
 
-    if(entry.getUsername() != null && !entry.getUsername().equals("")){
+    if(entry.getUsername() != null && !entry.getUsername().equals("") && entry.getUsername().matches("^\\b[\\w.!#$%&’*+/=?^`{|}~-]+@[\\w-]+(?:.[\\w-]+)+\\b$")){
       if (!userRepository.existsByUsername(entry.getUsername())) {
         userToSave.setUsername(entry.getUsername());
       } else {
@@ -194,15 +194,15 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
         throw new UserUsernameAlreadyUsedException("Method register: Username is already used.");
       }
     } else {
-      log.error("Username field can't be null.");
-      throw new UserInvalidUsernameException("Method register: Username field can't be null.");
+      log.error("Invalid username.");
+      throw new UserInvalidUsernameException("Method register: Invalid username.");
     }
 
-    if(entry.getPassword() != null && !entry.getPassword().equals("")) {
+    if(entry.getPassword() != null && !entry.getPassword().equals("") && entry.getPassword().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}")) {
       userToSave.setPassword(passwordEncoder.encode(entry.getPassword()));
     } else {
-      log.error("Password field can't be null.");
-      throw new UserInvalidPasswordException("Method register: Password field can't be null.");
+      log.error("Invalid password.");
+      throw new UserInvalidPasswordException("Method register: Invalid password.");
     }
 
     userToSave.setRoles(new ArrayList<>());
@@ -250,11 +250,11 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserUsernameNotAllowedException("Method update: Cannot change username.");
     }
 
-    if(entry.getPassword() != null && !entry.getPassword().equals("")) {
+    if(entry.getPassword() != null && !entry.getPassword().equals("") && entry.getPassword().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}")) {
       userToUpdate.setPassword(passwordEncoder.encode(entry.getPassword()));
     } else {
-      log.error("Password field can't be null.");
-      throw new UserInvalidPasswordException("Method update: Password field can't be null.");
+      log.error("Invalid password.");
+      throw new UserInvalidPasswordException("Method update: Invalid password.");
     }
 
     if(entry.getRoles() != null && !entry.getRoles().isEmpty()) {
