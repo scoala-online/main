@@ -62,6 +62,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   @Override
   public List<User> getAll() {
+    log.info("Fetching all users");
     return userRepository.findAll();
   }
 
@@ -74,6 +75,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   @Override
   public User getOneById(String id) throws UserNotFoundException {
+    log.info("Fetching user with id {}", id);
     return userRepository.findById(id).orElseThrow(
       () -> new UserNotFoundException("Method getOneById: User not found")
     );
@@ -100,6 +102,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @return the list of User entries
    */
   public List<User> getAllByRole(String roleName) {
+    log.info("Fetching all users with role {}", roleName);
     return userRepository.findAllByRolesContaining(roleName);
   }
 
@@ -117,6 +120,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserInvalidUsernameException,
     UserInvalidPasswordException,
     UserInvalidRolesException {
+    log.info("Adding user {}", entry.getUsername());
     User userToSave = new User();
 
     if(entry.getName() != null && !entry.getName().equals(""))
@@ -158,6 +162,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserUsernameAlreadyUsedException,
     UserInvalidPasswordException,
     RoleNotFoundException {
+    log.info("Registering user {}", entry.getUsername());
     User userToSave = new User();
 
     if(entry.getName() != null && !entry.getName().equals(""))
@@ -209,6 +214,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       () -> new UserNotFoundException("Method update: User not found")
     );
 
+    log.info("Updating user {}", userToUpdate.getUsername());
     if(entry.getName() != null && !entry.getName().equals("")) {
       userToUpdate.setName(entry.getName());
     } else {
@@ -239,10 +245,13 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   @Override
   public void delete(String id) throws UserNotFoundException {
-    if(userRepository.findById(id).isPresent())
+    if(userRepository.findById(id).isPresent()) {
+      log.info("Deleting user with id {}", id);
       userRepository.deleteById(id);
-    else
+    } else {
+      log.error("User not found in te database");
       throw new UserNotFoundException("Method delete: User not found.");
+    }
   }
 
   /**

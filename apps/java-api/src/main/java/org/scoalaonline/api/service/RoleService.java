@@ -1,6 +1,7 @@
 package org.scoalaonline.api.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.scoalaonline.api.exception.role.RoleInvalidNameException;
 import org.scoalaonline.api.exception.role.RoleNotFoundException;
 import org.scoalaonline.api.model.Role;
@@ -13,6 +14,7 @@ import java.util.List;
  * Contains the Role related logic needed for the API
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class RoleService implements ServiceInterface<Role>{
   private final RoleRepository roleRepository;
@@ -23,6 +25,7 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public List<Role> getAll() {
+    log.info("Fetching all roles");
     return roleRepository.findAll();
   }
 
@@ -35,6 +38,7 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public Role getOneById(String id) throws RoleNotFoundException {
+    log.info("Fetching role with id {}", id);
     return roleRepository.findById(id).orElseThrow(
       () -> new RoleNotFoundException("Method getOneById: Role not found")
     );
@@ -48,6 +52,7 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public Role add(Role entry) throws RoleInvalidNameException {
+    log.info("Adding role {}", entry.getName());
     Role roleToSave = new Role();
     if(entry.getName() != null && !entry.getName().equals(""))
       roleToSave.setName(entry.getName());
@@ -71,6 +76,8 @@ public class RoleService implements ServiceInterface<Role>{
     Role roleToUpdate = roleRepository.findById(id).orElseThrow(
       () -> new RoleNotFoundException("Method update: Role not found")
     );
+
+    log.info("Updating role {}", roleToUpdate.getName());
     if(entry.getName() != null && !entry.getName().equals("")) {
       roleToUpdate.setName(entry.getName());
     } else {
@@ -87,9 +94,13 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public void delete(String id) throws RoleNotFoundException {
-    if(roleRepository.findById(id).isPresent())
+    if(roleRepository.findById(id).isPresent()) {
+      log.info("Deleting role with id {}", id);
       roleRepository.deleteById(id);
-    else
+    }
+    else {
+      log.error("Role not found in te database");
       throw new RoleNotFoundException("Method delete: Role not found.");
+    }
   }
 }
