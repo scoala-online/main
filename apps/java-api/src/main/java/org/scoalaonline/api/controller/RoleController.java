@@ -100,7 +100,7 @@ public class RoleController {
   /**
    * Deletes a role entry and sends a Response Entity
    * with the Status OK or Not Found if there is no entry with the provided id
-   * @param id the id of the Role to be deleted.
+   * @param id - the id of the Role to be deleted.
    * @return a Response Entity with a Status
    */
   @DeleteMapping( value = "/{id}" )
