@@ -58,7 +58,7 @@ public class RoleController {
   /**
    * Sends HTTP status Response Entity with the Role entry that has been created.
    * Sends HTTP status Invalid value if the Role to be posted is invalid.
-   * @param role the Role to be added in the db.
+   * @param role - the Role to be added in the db.
    * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = {"", "/"})
