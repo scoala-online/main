@@ -35,7 +35,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
   /**
    * Retrieves User entry with given username
-   * Creates Spring Security UserDetails based on User entry
+   * Creates Spring Security UserDetails based on the User entry
    * @param username
    * @return UserDetails object
    * @throws UsernameNotFoundException
