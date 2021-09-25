@@ -282,7 +282,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       log.info("Deleting user with id {}...", id);
       userRepository.deleteById(id);
     } else {
-      log.error("User not found in te database.");
+      log.error("User not found in the database.");
       throw new UserNotFoundException("Method delete: User not found.");
     }
   }
