@@ -1,10 +1,8 @@
 package org.scoalaonline.api.service;
 
 
-import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
-import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
-import org.scoalaonline.api.exception.SubjectInvalidValueException;
-import org.scoalaonline.api.exception.SubjectNotFoundException;
+import org.scoalaonline.api.exception.subject.SubjectInvalidValueException;
+import org.scoalaonline.api.exception.subject.SubjectNotFoundException;
 import org.scoalaonline.api.model.Subject;
 import org.scoalaonline.api.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
