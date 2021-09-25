@@ -43,10 +43,10 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username).orElseThrow(
-      () -> new UsernameNotFoundException("Method loadUserByUsername: User not found")
+      () -> new UsernameNotFoundException("Method loadUserByUsername: User not found.")
     );
 
-    log.info("User {} found in the database", username);
+    log.info("User {} found in the database.", username);
 
     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
     user.getRoles().forEach(role -> {
@@ -62,7 +62,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   @Override
   public List<User> getAll() {
-    log.info("Fetching all users");
+    log.info("Fetching all users...");
     return userRepository.findAll();
   }
 
@@ -75,9 +75,12 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   @Override
   public User getOneById(String id) throws UserNotFoundException {
-    log.info("Fetching user with id {}", id);
+    log.info("Fetching user with id {}...", id);
     return userRepository.findById(id).orElseThrow(
-      () -> new UserNotFoundException("Method getOneById: User not found")
+      () -> {
+        log.error("User not found.");
+        return new UserNotFoundException("Method getOneById: User not found.");
+      }
     );
   }
 
@@ -89,9 +92,12 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @throws UserNotFoundException
    */
   public User getOneByUsername(String username) throws UserNotFoundException{
-    log.info("Fetching user {}", username);
+    log.info("Fetching user {}...", username);
     return userRepository.findByUsername(username).orElseThrow(
-      () -> new UserNotFoundException("Method getOneByUsername: User not found")
+      () -> {
+        log.error("User not found.");
+        return new UserNotFoundException("Method getOneByUsername: User not found.");
+      }
     );
   }
 
@@ -102,7 +108,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @return the list of User entries
    */
   public List<User> getAllByRole(String roleName) {
-    log.info("Fetching all users with role {}", roleName);
+    log.info("Fetching all users with role {}...", roleName);
     return userRepository.findAllByRolesContaining(roleName);
   }
 
@@ -120,28 +126,36 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserInvalidUsernameException,
     UserInvalidPasswordException,
     UserInvalidRolesException {
-    log.info("Adding user {}", entry.getUsername());
+    log.info("Adding user {}...", entry.getUsername());
     User userToSave = new User();
 
-    if(entry.getName() != null && !entry.getName().equals(""))
+    if (entry.getName() != null && !entry.getName().equals("")) {
       userToSave.setName(entry.getName());
-    else
+    } else {
+      log.error("Name field can't be null.");
       throw new UserInvalidNameException("Method add: Name field can't be null.");
+    }
 
-    if(entry.getUsername() != null && !entry.getUsername().equals(""))
+    if (entry.getUsername() != null && !entry.getUsername().equals("")) {
       userToSave.setUsername(entry.getUsername());
-    else
+    } else {
+      log.error("Username field can't be null.");
       throw new UserInvalidUsernameException("Method add: Username field can't be null.");
+    }
 
-    if(entry.getPassword() != null && !entry.getPassword().equals(""))
+    if (entry.getPassword() != null && !entry.getPassword().equals("")) {
       userToSave.setPassword(passwordEncoder.encode(entry.getPassword()));
-    else
-    throw new UserInvalidPasswordException("Method add: Password field can't be null.");
+    } else {
+      log.error("Password field can't be null.");
+      throw new UserInvalidPasswordException("Method add: Password field can't be null.");
+    }
 
-    if(entry.getRoles() != null && !entry.getRoles().isEmpty())
+    if (entry.getRoles() != null && !entry.getRoles().isEmpty()) {
       userToSave.setRoles(entry.getRoles());
-    else
+    } else {
+      log.error("Roles field can't be null.");
       throw new UserInvalidRolesException("Method add: Roles field can't be null.");
+    }
 
     return userRepository.save(userToSave);
   }
@@ -162,28 +176,34 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserUsernameAlreadyUsedException,
     UserInvalidPasswordException,
     RoleNotFoundException {
-    log.info("Registering user {}", entry.getUsername());
+    log.info("Registering user {}...", entry.getUsername());
     User userToSave = new User();
 
-    if(entry.getName() != null && !entry.getName().equals(""))
+    if(entry.getName() != null && !entry.getName().equals("")) {
       userToSave.setName(entry.getName());
-    else
+    } else {
+      log.error("Name field can't be null.");
       throw new UserInvalidNameException("Method register: Name field can't be null.");
+    }
 
     if(entry.getUsername() != null && !entry.getUsername().equals("")){
       if (!userRepository.existsByUsername(entry.getUsername())) {
         userToSave.setUsername(entry.getUsername());
       } else {
+        log.error("Username is already used.");
         throw new UserUsernameAlreadyUsedException("Method register: Username is already used.");
       }
-    }
-    else
+    } else {
+      log.error("Username field can't be null.");
       throw new UserInvalidUsernameException("Method register: Username field can't be null.");
+    }
 
-    if(entry.getPassword() != null && !entry.getPassword().equals(""))
+    if(entry.getPassword() != null && !entry.getPassword().equals("")) {
       userToSave.setPassword(passwordEncoder.encode(entry.getPassword()));
-    else
+    } else {
+      log.error("Password field can't be null.");
       throw new UserInvalidPasswordException("Method register: Password field can't be null.");
+    }
 
     userToSave.setRoles(new ArrayList<>());
 
@@ -211,28 +231,38 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserInvalidPasswordException,
     UserInvalidRolesException{
     User userToUpdate = userRepository.findById(id).orElseThrow(
-      () -> new UserNotFoundException("Method update: User not found")
+      () -> {
+        log.error("User not found.");
+        return new UserNotFoundException("Method update: User not found.");
+      }
     );
 
-    log.info("Updating user {}", userToUpdate.getUsername());
+    log.info("Updating user {}...", userToUpdate.getUsername());
     if(entry.getName() != null && !entry.getName().equals("")) {
       userToUpdate.setName(entry.getName());
     } else {
+      log.error("Name field can't be null.");
       throw new UserInvalidNameException("Method update: Name field can't be null.");
     }
 
-    if(entry.getUsername() != null && !entry.getUsername().equals("") && !userToUpdate.getUsername().equals(entry.getUsername()))
+    if(entry.getUsername() != null && !entry.getUsername().equals("") && !userToUpdate.getUsername().equals(entry.getUsername())) {
+      log.error("Cannot change username.");
       throw new UserUsernameNotAllowedException("Method update: Cannot change username.");
+    }
 
-    if(entry.getPassword() != null && !entry.getPassword().equals(""))
+    if(entry.getPassword() != null && !entry.getPassword().equals("")) {
       userToUpdate.setPassword(passwordEncoder.encode(entry.getPassword()));
-    else
+    } else {
+      log.error("Password field can't be null.");
       throw new UserInvalidPasswordException("Method update: Password field can't be null.");
+    }
 
-    if(entry.getRoles() != null && !entry.getRoles().isEmpty())
+    if(entry.getRoles() != null && !entry.getRoles().isEmpty()) {
       userToUpdate.setRoles(entry.getRoles());
-    else
+    } else {
+      log.error("Roles field can't be null.");
       throw new UserInvalidRolesException("Method update: Roles field can't be null.");
+    }
 
     return userRepository.save(userToUpdate);
   }
@@ -246,10 +276,10 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   @Override
   public void delete(String id) throws UserNotFoundException {
     if(userRepository.findById(id).isPresent()) {
-      log.info("Deleting user with id {}", id);
+      log.info("Deleting user with id {}...", id);
       userRepository.deleteById(id);
     } else {
-      log.error("User not found in te database");
+      log.error("User not found in te database.");
       throw new UserNotFoundException("Method delete: User not found.");
     }
   }
@@ -264,7 +294,10 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   public void addRoleToUser(User user, String roleName) throws RoleNotFoundException {
     Role role = roleRepository.findByName(roleName).orElseThrow(
-      () -> new RoleNotFoundException("Method addRoleToUser: Role not found")
+      () -> {
+        log.error("Role not found.");
+        return new RoleNotFoundException("Method addRoleToUser: Role not found.");
+      }
     );
     log.info("Adding role {} to user {}", role.getName(), user.getName());
     List<Role> newRoles = user.getRoles();

@@ -25,7 +25,7 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public List<Role> getAll() {
-    log.info("Fetching all roles");
+    log.info("Fetching all roles...");
     return roleRepository.findAll();
   }
 
@@ -38,9 +38,12 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public Role getOneById(String id) throws RoleNotFoundException {
-    log.info("Fetching role with id {}", id);
+    log.info("Fetching role with id {}...", id);
     return roleRepository.findById(id).orElseThrow(
-      () -> new RoleNotFoundException("Method getOneById: Role not found")
+      () -> {
+        log.error("Role not found.");
+        return new RoleNotFoundException("Method getOneById: Role not found.");
+      }
     );
   }
 
@@ -52,12 +55,15 @@ public class RoleService implements ServiceInterface<Role>{
    */
   @Override
   public Role add(Role entry) throws RoleInvalidNameException {
-    log.info("Adding role {}", entry.getName());
+    log.info("Adding role {}...", entry.getName());
     Role roleToSave = new Role();
-    if(entry.getName() != null && !entry.getName().equals(""))
+
+    if(entry.getName() != null && !entry.getName().equals("")) {
       roleToSave.setName(entry.getName());
-    else
+    } else {
+      log.error("Name field can't be null.");
       throw new RoleInvalidNameException("Method add: Name field can't be null.");
+    }
 
     return roleRepository.save(roleToSave);
   }
@@ -74,15 +80,20 @@ public class RoleService implements ServiceInterface<Role>{
   @Override
   public Role update(String id, Role entry) throws RoleNotFoundException, RoleInvalidNameException {
     Role roleToUpdate = roleRepository.findById(id).orElseThrow(
-      () -> new RoleNotFoundException("Method update: Role not found")
+      () -> {
+        log.error("Role not found.");
+        return new RoleNotFoundException("Method update: Role not found.");
+      }
     );
 
-    log.info("Updating role {}", roleToUpdate.getName());
+    log.info("Updating role {}...", roleToUpdate.getName());
     if(entry.getName() != null && !entry.getName().equals("")) {
       roleToUpdate.setName(entry.getName());
     } else {
+      log.error("Name field can't be null.");
       throw new RoleInvalidNameException("Method update: Name field can't be null.");
     }
+
     return roleRepository.save(roleToUpdate);
   }
 
@@ -95,11 +106,11 @@ public class RoleService implements ServiceInterface<Role>{
   @Override
   public void delete(String id) throws RoleNotFoundException {
     if(roleRepository.findById(id).isPresent()) {
-      log.info("Deleting role with id {}", id);
+      log.info("Deleting role with id {}...", id);
       roleRepository.deleteById(id);
     }
     else {
-      log.error("Role not found in te database");
+      log.error("Role not found in te database.");
       throw new RoleNotFoundException("Method delete: Role not found.");
     }
   }
