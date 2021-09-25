@@ -35,7 +35,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
   /**
    * Retrieves User entry with the given username
-   * Creates Spring Security UserDetails based on User entry
+   * Creates Spring Security UserDetails based on the User entry
    * @param username
    * @return UserDetails object
    * @throws UsernameNotFoundException
@@ -43,7 +43,10 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username).orElseThrow(
-      () -> new UsernameNotFoundException("Method loadUserByUsername: User not found.")
+      () -> {
+        log.error("Username not found.");
+        return new UsernameNotFoundException("Method loadUserByUsername: Username not found.");
+      }
     );
 
     log.info("User {} found in the database.", username);
@@ -279,7 +282,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       log.info("Deleting user with id {}...", id);
       userRepository.deleteById(id);
     } else {
-      log.error("User not found in te database.");
+      log.error("User not found in the database.");
       throw new UserNotFoundException("Method delete: User not found.");
     }
   }

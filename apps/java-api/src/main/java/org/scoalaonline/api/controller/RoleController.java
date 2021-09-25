@@ -39,7 +39,7 @@ public class RoleController {
   /**
    * Sends an HTTP Response Entity with a specific Role entry
    * Sends Status OK or Status Not Found if there is no entry with the provided id
-   * @param id the id of the specific Role
+   * @param id - the id of the specific Role
    * @return the Response Entity with a Status Code and a Body
    */
   @GetMapping(value = "/{id}")
@@ -58,7 +58,7 @@ public class RoleController {
   /**
    * Sends HTTP status Response Entity with the Role entry that has been created.
    * Sends HTTP status Invalid value if the Role to be posted is invalid.
-   * @param role the Role to be added in the db.
+   * @param role - the Role to be added in the db.
    * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = {"", "/"})
@@ -76,7 +76,7 @@ public class RoleController {
    * Sends HTTP status Response Entity with the Role entry that has been updated.
    * Sends HTTP status Not Found if the Role cannot be found.
    * Sends HTTP status Invalid Value if the Role to be posted is invalid.
-   * @param id the id of the Role to be updated.
+   * @param id - the id of the Role to be updated.
    * @param role the Role to be updated.
    * @return the Response Entity with a Status Code and a body.
    */
@@ -100,7 +100,7 @@ public class RoleController {
   /**
    * Deletes a role entry and sends a Response Entity
    * with the Status OK or Not Found if there is no entry with the provided id
-   * @param id the id of the Role to be deleted.
+   * @param id - the id of the Role to be deleted.
    * @return a Response Entity with a Status
    */
   @DeleteMapping( value = "/{id}" )
