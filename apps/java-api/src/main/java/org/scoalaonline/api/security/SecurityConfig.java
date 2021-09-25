@@ -53,25 +53,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.authorizeRequests().antMatchers("/users/login/**", "/users/token/refresh/**").permitAll();
 
-    http.authorizeRequests().antMatchers("/roles").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers("/roles/**").hasAnyAuthority("ROLE_ADMIN");
 
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/role/**").hasAnyAuthority("ROLE_ADMIN");
     // Custom authorization implemented in UserController.
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/username").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/{id}").access("@userSecurity.hasUserId(authentication,#id) or hasAnyAuthority(\"ROLE_ADMIN\")");
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users").hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/username/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/{id}/**").access("@userSecurity.hasUserId(authentication,#id) or hasAnyAuthority(\"ROLE_ADMIN\")");
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority("ROLE_ADMIN");
 
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/lecture-materials").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/lecture-materials/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
 
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/subjects").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/subjects").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/subjects/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/subjects/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/subjects/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/subjects/**").hasAnyAuthority("ROLE_ADMIN");
 
