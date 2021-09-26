@@ -4,6 +4,8 @@ import { ReactComponent as Logo } from './logo.svg';
 import { Route, Link } from 'react-router-dom';
 import { environment } from '../environments/environment';
 
+import HomePage from './components/homePage.component'
+
 export function App() {
   return (
     <div className={styles.app}>
@@ -50,6 +52,11 @@ export function App() {
           </div>
         )}
       />
+      <Route
+        path="/test"
+        exact>
+          <HomePage />
+      </Route>
       {/* END: routes */}
     </div>
   );
