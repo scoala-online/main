@@ -13,15 +13,15 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 /**
- GET:	"/grade"	retrieves all the entries
- GET:	"/grade/{id}"	retrieves the entry with the provided id
- POST: "/grade"	creates a new entry
- PATCH:	"/grade/{id}	edits the entry with the provided id
- DELETE:	"/grade/{id}	deletes the entry with the provided id
+ GET:	"/grades"	retrieves all the entries
+ GET:	"/grades/{id}"	retrieves the entry with the provided id
+ POST: "/grades"	creates a new entry
+ PATCH:	"/grades/{id}	edits the entry with the provided id
+ DELETE:	"/grades/{id}	deletes the entry with the provided id
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/grade")
+@RequestMapping("/grades")
 public class GradeController {
   @Autowired
   GradeService gradeService;

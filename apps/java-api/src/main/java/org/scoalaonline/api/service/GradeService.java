@@ -2,10 +2,7 @@ package org.scoalaonline.api.service;
 
 import org.scoalaonline.api.exception.grade.GradeInvalidValueException;
 import org.scoalaonline.api.exception.grade.GradeNotFoundException;
-import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
-import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.Grade;
-import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +36,7 @@ public class GradeService implements ServiceInterface<Grade> {
   @Override
   public Grade getOneById(String id) throws GradeNotFoundException {
     return gradeRepository.findById(id).orElseThrow(
-      () -> new GradeNotFoundException("Method getOneById: Lecture Material not found")
+      () -> new GradeNotFoundException("Method getOneById: Grade not found")
     );
   }
 
