@@ -25,6 +25,9 @@ public class Grade {
   //@Relationships
 
   //region Constructor
+  public Grade(){
+
+  }
   public Grade(String id) {
     this.id = id;
   }
