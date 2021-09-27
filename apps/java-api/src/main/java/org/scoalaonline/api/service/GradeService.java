@@ -73,7 +73,7 @@ public class GradeService implements ServiceInterface<Grade> {
     if(entry.getValue() > 0 && entry.getValue() < 13) {
       gradeToUpdate.setValue(entry.getValue());
     } else {
-      throw new GradeInvalidValueException("Method update: Value field has to be an integer between 0 and 11 ");
+      throw new GradeInvalidValueException("Method update: Value field has to be an integer between 0 and 13 ");
     }
     return gradeRepository.save(gradeToUpdate);
   }
