@@ -95,7 +95,7 @@ public class LectureService implements ServiceInterface<Lecture> {
     if (lectureRepository.findById(id).isPresent()) {
       lectureRepository.deleteById(id);
     } else {
-      throw new LectureNotFoundException("Method delete: Lecture not Found");
+      throw new LectureNotFoundException("Method delete: Lecture not found");
     }
   }
 }
