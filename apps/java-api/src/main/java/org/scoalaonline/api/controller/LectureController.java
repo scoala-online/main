@@ -56,8 +56,8 @@ public class LectureController {
   }
 
   /**
-   * Sends HTTP status Response Entity with the Lecture entry that has been created.
-   * Sends HTTP status Invalid data if the Lecture to be posted is invalid.
+   * Sends HTTP Response Entity with the Lecture entry that has been created.
+   * Sends HTTP status Bad Request if the Lecture to be posted is invalid.
    * @param lecture the Lecture to be added in the db.
    * @return the Response Entity with a Status Code and a body.
    */
