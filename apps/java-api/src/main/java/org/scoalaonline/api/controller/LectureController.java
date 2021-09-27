@@ -58,7 +58,7 @@ public class LectureController {
   /**
    * Sends HTTP Response Entity with the Lecture entry that has been created.
    * Sends HTTP status Bad Request if the Lecture to be posted is invalid.
-   * @param lecture the Lecture to be added in the db.
+   * @param lecture - the Lecture to be added in the db.
    * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = {"", "/"})
