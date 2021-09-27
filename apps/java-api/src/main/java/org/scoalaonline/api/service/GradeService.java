@@ -49,10 +49,10 @@ public class GradeService implements ServiceInterface<Grade> {
   @Override
   public Grade add(Grade entry) throws GradeInvalidValueException {
     Grade gradeToSave = new Grade();
-    if(entry.getValue() > 0 ) {
+    if(entry.getValue() > 0 && entry.getValue() < 11) {
       gradeToSave.setValue(entry.getValue());
     } else
-      throw new GradeInvalidValueException("Method add: Value field can't be less or equal to 0.");
+      throw new GradeInvalidValueException("Method add: Value field has to be an integer between 0 and 11");
 
     return gradeRepository.save(gradeToSave);
   }
@@ -70,10 +70,10 @@ public class GradeService implements ServiceInterface<Grade> {
     Grade gradeToUpdate = gradeRepository.findById(id).orElseThrow(
       () -> new GradeNotFoundException("Method update: Grade not found")
     );
-    if(entry.getValue() > 0) {
+    if(entry.getValue() > 0 && entry.getValue() < 11) {
       gradeToUpdate.setValue(entry.getValue());
     } else {
-      throw new GradeInvalidValueException("Method update: Value Field Can't Be Null");
+      throw new GradeInvalidValueException("Method update: Value field has to be an integer between 0 and 11 ");
     }
     return gradeRepository.save(gradeToUpdate);
   }
