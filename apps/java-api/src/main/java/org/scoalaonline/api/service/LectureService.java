@@ -87,7 +87,7 @@ public class LectureService implements ServiceInterface<Lecture> {
   /**
    * Deletes the Lecture entry with the given id from the db.
    * Throws an exception if no entry with that id can be found.
-   * @param id the id of the entry to be deleted.
+   * @param id - the id of the entry to be deleted.
    * @throws LectureNotFoundException when the Lecture entry has not been found.
    */
   @Override
