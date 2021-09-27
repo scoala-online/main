@@ -91,7 +91,7 @@ public class GradeController {
     {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PATCH: Grade Not Found", e );
     } catch ( GradeInvalidValueException e){
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Grade Invalid Document", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Grade Invalid Value", e );
     }
 
     return new ResponseEntity<>( updatedGrade, HttpStatus.OK );
