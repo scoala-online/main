@@ -10,7 +10,7 @@ import java.util.Objects;
 
 /**
  * Represents the 'Grade' node from the graph database.
- * It contains a document property.
+ * It contains a value property.
  */
 @Node("Grade")
 public class Grade {
