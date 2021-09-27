@@ -58,7 +58,7 @@ public class GradeService implements ServiceInterface<Grade> {
   }
   /**
    * Updates the Grade entry with the given id based on the received object.
-   * Throws an exception if no entry with that id was found.
+   * Throws an exception if no entry with that id was found or if the edited value is invalid.
    * @param id - the id of the entry to update
    * @param entry
    * @return the Grade object saved in the DB
