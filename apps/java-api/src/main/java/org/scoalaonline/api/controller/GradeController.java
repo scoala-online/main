@@ -74,9 +74,9 @@ public class GradeController {
   }
 
   /**
-   * Sends HTTP status Response Entity with the Grade entry that has been updated.
+   * Sends HTTP Response Entity with the Grade entry that has been updated.
    * Sends HTTP status Not Found if the Grade cannot be found.
-   * Sends HTTP status Invalid Value if the Grade to be posted is invalid.
+   * Sends HTTP status Bad Request if the Grade to be posted is invalid.
    * @param id the id of the Grade to be updated.
    * @param grade the Grade to be updated.
    * @return the Response Entity with a Status Code with a body.
