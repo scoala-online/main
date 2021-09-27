@@ -52,7 +52,7 @@ public class GradeService implements ServiceInterface<Grade> {
     if(entry.getValue() > 0 ) {
       gradeToSave.setValue(entry.getValue());
     } else
-      throw new GradeInvalidValueException("Method add: Value field can't be less or equal than 0.");
+      throw new GradeInvalidValueException("Method add: Value field can't be less or equal to 0.");
 
     return gradeRepository.save(gradeToSave);
   }
