@@ -48,7 +48,7 @@ public class LectureController {
   public ResponseEntity<Lecture> getLectureById(@PathVariable("id") String id) {
     Lecture lecture;
     try {
-      lecture=lectureService.getOneById(id);
+      lecture = lectureService.getOneById(id);
     } catch (LectureNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Lecture Not Found", e);
     }
