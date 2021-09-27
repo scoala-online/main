@@ -57,8 +57,8 @@ public class GradeController {
   }
 
   /**
-   * Sends HTTP status Response Entity with the Grade entry that has been created.
-   * Sends HTTP status Invalid Value if the Grade to be posted is invalid.
+   * Sends HTTP Response Entity with the Grade entry that has been created.
+   * Sends HTTP status Bad Request if the Grade to be posted is invalid.
    * @param grade the Grade to be added in the db.
    * @return the Response Entity with a Status Code and a body.
    */
