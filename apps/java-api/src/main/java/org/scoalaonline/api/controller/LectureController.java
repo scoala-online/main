@@ -88,7 +88,7 @@ public class LectureController {
     } catch (LectureNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Lecture Not Found", e);
     } catch (LectureInvalidTitleException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Lecture Invalid Data", e);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Lecture Invalid Title", e);
     }
 
     return new ResponseEntity<>(updatedLecture, HttpStatus.OK);
