@@ -26,8 +26,8 @@ public class Grade {
 
   //region Constructor
   public Grade(){
-
   }
+ 
   public Grade(String id) {
     this.id = id;
   }
