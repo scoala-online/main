@@ -63,12 +63,12 @@ public class LectureService implements ServiceInterface<Lecture> {
   /**
    * Updates the Lecture entry with the given id based on the received object.
    * Throws an exception if no entry with that id was found.
-   * Throws an exception if the Title is invalid.
-   * @param id the id of the entry to be updated.
-   * @param entry the Lecture entry to be updated.
+   * Throws an exception if the title is invalid.
+   * @param id - the id of the entry to be updated.
+   * @param entry - the Lecture entry to be updated.
    * @return the updated Lecture saved in the db.
    * @throws LectureNotFoundException when the Lecture entry has not been found.
-   * @throws LectureInvalidTitleException when the Title entry is invalid.
+   * @throws LectureInvalidTitleException when the title attribute is invalid.
    */
   @Override
   public Lecture update(String id, Lecture entry) throws LectureNotFoundException, LectureInvalidTitleException {
