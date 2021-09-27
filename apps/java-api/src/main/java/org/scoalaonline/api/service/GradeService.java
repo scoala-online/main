@@ -49,7 +49,7 @@ public class GradeService implements ServiceInterface<Grade> {
   @Override
   public Grade add(Grade entry) throws GradeInvalidValueException {
     Grade gradeToSave = new Grade();
-    if(entry.getValue() > 0 && entry.getValue() < 11) {
+    if(entry.getValue() > 0 && entry.getValue() < 13) {
       gradeToSave.setValue(entry.getValue());
     } else
       throw new GradeInvalidValueException("Method add: Value field has to be an integer between 0 and 11");
