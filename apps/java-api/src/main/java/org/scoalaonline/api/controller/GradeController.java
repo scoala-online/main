@@ -68,7 +68,7 @@ public class GradeController {
     try {
       savedGrade = gradeService.add(grade);
     } catch (GradeInvalidValueException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Grade Invalid Document", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Grade Invalid Value", e );
     }
     return new ResponseEntity<>(savedGrade, HttpStatus.CREATED);
   }
