@@ -47,7 +47,7 @@ public class LectureService implements ServiceInterface<Lecture> {
    * Throws an exception if the title is invalid.
    * @param entry the Lecture entry.
    * @return the Lecture entry that has been saved into the db.
-   * @throws LectureInvalidTitleException when the Title entry is invalid.
+   * @throws LectureInvalidTitleException when the title attribute is invalid.
    */
   @Override
   public Lecture add(Lecture entry) throws LectureInvalidTitleException {
