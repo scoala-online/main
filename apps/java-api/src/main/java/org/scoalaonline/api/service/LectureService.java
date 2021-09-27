@@ -31,7 +31,7 @@ public class LectureService implements ServiceInterface<Lecture> {
   /**
    * Retrieves one Lecture entry with the given id from the DB.
    * Throws an exception if no entry with that id is found.
-   * @param id the id of the Lecture entry.
+   * @param id - the id of the Lecture entry.
    * @return the Lecture entry.
    * @throws LectureNotFoundException when the Lecture entry has not been found.
    */
