@@ -89,6 +89,6 @@ public class GradeService implements ServiceInterface<Grade> {
     if(gradeRepository.findById(id).isPresent())
       gradeRepository.deleteById(id);
     else
-      throw new GradeNotFoundException("Method delete: Grade Not Found");
+      throw new GradeNotFoundException("Method delete: Grade not found");
   }
 }
