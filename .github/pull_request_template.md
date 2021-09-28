@@ -27,7 +27,7 @@ Closes: #<!-- Insert issue number here -->
 - [ ] E2E tests
 
 #### Security Filters - **_For API Only_**
-
+**_Please make sure to add the respective Security Filters before submitting a PR_**
 - [ ] They have been added within this issue.
 - [ ] They need to be added.
 
