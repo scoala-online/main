@@ -1,14 +1,13 @@
 package org.scoalaonline.api.service;
 
-import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
-import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Contains the Lecture Material related logic needed for the API

@@ -1,6 +1,6 @@
 ### This pull request solves issue:
 
-Issue: #<!-- Insert issue number here -->
+Closes: #<!-- Insert issue number here -->
 
 ### Which app is this issue related to?
 
@@ -25,6 +25,12 @@ Issue: #<!-- Insert issue number here -->
 - [ ] Unit tests
 - [ ] Functional tests
 - [ ] E2E tests
+
+#### Security Filters - **_For API Only_**
+
+**_Please make sure to add the respective Security Filters before submitting a PR_**
+
+- [ ] They have been added within this issue.
 
 #### Compatibility tests - **_For E-Learning React App Only_**
 
