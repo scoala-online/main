@@ -26,6 +26,11 @@ Closes: #<!-- Insert issue number here -->
 - [ ] Functional tests
 - [ ] E2E tests
 
+#### Security Filters - **_For API Only_**
+
+- [ ] They have been added within this issue.
+- [ ] They need to be added.
+
 #### Compatibility tests - **_For E-Learning React App Only_**
 
 - [ ] Tested on Safari
