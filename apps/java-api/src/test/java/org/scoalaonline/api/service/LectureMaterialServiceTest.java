@@ -27,14 +27,11 @@ import static org.mockito.Mockito.never;
 @ExtendWith(MockitoExtension.class)
 class LectureMaterialServiceTest {
 
-  @Mock
-  private LectureMaterialRepository lectureMaterialRepository;
+  @InjectMocks
   private LectureMaterialService underTestService;
 
-  @BeforeEach
-  void setUp() {
-    underTestService = new LectureMaterialService(lectureMaterialRepository);
-  }
+  @Mock
+  private LectureMaterialRepository lectureMaterialRepository;
 
   /**
    * Executes the getAll() method from LectureMaterialService class.

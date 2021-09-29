@@ -17,10 +17,6 @@ public class LectureMaterialService implements ServiceInterface<LectureMaterial>
   @Autowired
   LectureMaterialRepository lectureMaterialRepository;
 
-  public LectureMaterialService(LectureMaterialRepository lectureMaterialRepository) {
-    this.lectureMaterialRepository = lectureMaterialRepository;
-  }
-
   /**
    * Retrieves a list of all Lecture Material entries found in the DB
    * @return the list of Lecture Material entries
