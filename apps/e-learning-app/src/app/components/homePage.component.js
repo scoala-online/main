@@ -97,9 +97,9 @@ class HomePage extends Component {
                       <Col>
                         <Card className="text-center" style={cardStyle}>
                           <Card.Body>
-                            <Card.Title>Invatamant gratuit</Card.Title>
+                            <Card.Title>Invatamant de calitate</Card.Title>
                             <Card.Text>
-                              Intreaga materie scolara a fost filmata si oricine are acces nelimitat si gratuit la continut
+                              Fiecare videoclip a fost verificat pentru a oferi informatii adevarate si cerem feedback regulat pentru a afla ce filmari trebuie refacute
                             </Card.Text>
                           </Card.Body>
                         </Card>
@@ -107,9 +107,9 @@ class HomePage extends Component {
                       <Col>
                         <Card className="text-center" style={cardStyle}>
                           <Card.Body>
-                            <Card.Title>Invatamant gratuit</Card.Title>
+                            <Card.Title>Invatamant accesibil</Card.Title>
                             <Card.Text>
-                              Intreaga materie scolara a fost filmata si oricine are acces nelimitat si gratuit la continut
+                              Fiecare lectie este impartita in capitole si contine subtitrari, alaturi de suport de curs si transcript.
                             </Card.Text>
                           </Card.Body>
                         </Card>
