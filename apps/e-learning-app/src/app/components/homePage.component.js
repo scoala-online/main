@@ -12,40 +12,10 @@ import { withRouter } from 'react-router-dom';
 class HomePage extends Component {
 
   render() {
-    const mainContanierStyle = {
-      background: '#dddddd'
-    }
-
-    const titleStyle = {
-      marginTop: '26vh',
-      marginBottom: '39vh',
-      marginLeft: '13vw',
-      marginRight: '13vw'
-    }
-
-    const projectInfoStyle = {
-      marginTop: '10vh',
-      marginBottom: '19vh',
-      marginLeft: '4vw',
-      marginRight: '4vw'
-    }
-
     const cardStyle = {
       background: '#cccccc',
       width: '18vw',
       height: '40vh'
-    }
-
-    const carouselContainerStyle = {
-      marginTop: '14vh',
-      marginBottom: '17vh',
-      marginLeft: '7vw',
-      marginRight: '7vw'
-    }
-
-    const carouselStyle = {
-      width: '52vw',
-      height: '51vh'
     }
 
     const carouselCardStyle = {
@@ -54,32 +24,83 @@ class HomePage extends Component {
       height: '51vh'
     }
 
+    const rowStyle = {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+
     return (
-      <Container fluid style={mainContanierStyle}>
+      <Container fluid style={{
+        background: '#dddddd'
+      }}>
         <Row>
-          <Container fluid style={titleStyle}>
-            <Row>
-              <h1>Scoala Online</h1>
+          <Container fluid style={{
+            marginTop: '26vh',
+            marginBottom: '39vh',
+            marginLeft: '13vw',
+            marginRight: '13vw'
+          }}>
+            <Row style={rowStyle}>
+              <span style={{
+                fontWeight: 'bold',
+                fontSize: '3.75rem',
+                textAlign: 'center'
+              }
+              }>
+                Scoala Online
+              </span>
             </Row>
-            <Row>
-              <h2>12 ani de educatie. Un singur site.</h2>
+            <Row style={rowStyle}>
+              <span style={{
+                fontSize: '1.5rem',
+                textAlign: 'center'
+              }
+              }>
+                12 ani de educatie. Un singur site.
+              </span>
             </Row>
-            <Row>
-              <h3>
-                Invata oriunde vrei, in ritmul tau. <br />
+            <Row style={ {...rowStyle, ...{
+              margin: '30px'
+            }}}>
+              <span style={{
+                fontSize: '1.875rem',
+                textAlign: 'center'
+              }}>
+                Invata oriunde vrei, in ritmul tau.
+              </span>
+            </Row>
+            <Row style={ {...rowStyle, ...{
+              margin: '30px'
+            }}}>
+              <span style={{
+                fontSize: '1.875rem',
+                textAlign: 'center'
+              }}>
                 Alege profesorul in functie de ce stil de explicatie preferi.
-              </h3>
+              </span>
             </Row>
           </Container>
         </Row>
         <Row>
           <Col>
-            <Container fluid style={projectInfoStyle}>
+            <Container fluid style={{
+              marginTop: '10vh',
+              marginBottom: '19vh',
+              marginLeft: '4vw',
+              marginRight: '4vw'
+            }}>
               <Col>
-                <Row>
-                  <div className='p-5 text-center'>
-                    <h2 className='mb-3'>Ce ne dorim sa obtinem din acest proiect?</h2>
-                  </div>
+                <Row style={rowStyle}>
+                  <span style={{
+                    fontStyle: 'normal',
+                    fontWeight: 600,
+                    fontSize: '2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    textAlign: 'center'
+                  }}>
+                    Ce ne dorim sa obtinem din acest proiect?
+                  </span>
                 </Row>
                 <Row>
                   <Container fluid>
@@ -87,7 +108,11 @@ class HomePage extends Component {
                       <Col>
                         <Card className="text-center" style={cardStyle}>
                           <Card.Body>
-                            <Card.Title>Invatamant gratuit</Card.Title>
+                            <Card.Title style={{
+                              fontSize: '20px'
+                            }}>
+                              Invatamant gratuit
+                            </Card.Title>
                             <Card.Text>
                               Intreaga materie scolara a fost filmata si oricine are acces nelimitat si gratuit la continut
                             </Card.Text>
@@ -122,9 +147,17 @@ class HomePage extends Component {
           </Col>
         </Row>
         <Row>
-          <Container fluid style={carouselContainerStyle}>
-            <Row>
-              <Carousel style={carouselStyle}>
+          <Container fluid style={{
+            marginTop: '14vh',
+            marginBottom: '17vh',
+            marginLeft: '7vw',
+            marginRight: '7vw'
+          }}>
+            <Row style={rowStyle}>
+              <Carousel style={{
+                width: '52vw',
+                height: '51vh'
+              }}>
                 <Carousel.Item>
                   <div style={carouselCardStyle}>
                     <h1>
