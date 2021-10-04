@@ -3,7 +3,7 @@ import { ReactComponent as Logo } from './logo.svg';
 
 import { Route, Link } from 'react-router-dom';
 import { environment } from '../environments/environment';
-import Module from 'module';
+import Module from '../components/Model';
 
 export function App() {
   return (
@@ -30,6 +30,9 @@ export function App() {
           <li>
             <Link to="/page-2">Page 2</Link>
           </li>
+          <li>
+            <Link to="/module">Module</Link>
+          </li>
         </ul>
       </div>
       <Route
@@ -54,9 +57,9 @@ export function App() {
       <Route
         path="/module"
         exact
-        >
-          <Module />
-        </Route>
+      >
+        <Module />
+      </Route>
       {/* END: routes */}
     </div>
   );

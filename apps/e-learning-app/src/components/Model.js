@@ -1,4 +1,4 @@
-import VideoContent from '../Page/Home/VideoContent'
+import VideoContent from './VideoContent'
 const Model = () => {
     const content_style = {
         padding: "10px 5.2vw",

@@ -1,7 +1,6 @@
-import React from 'react'
 import Video from "./Video";
 const VideosRow = (props) => {
-    const { type, label, videos, channel } = props
+    const { videos } = props
     const video_row_container_style = {
         backgroundColor: "#fff",
         marginBottom: "20px",
