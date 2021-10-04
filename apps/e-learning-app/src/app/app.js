@@ -3,6 +3,7 @@ import { ReactComponent as Logo } from './logo.svg';
 
 import { Route, Link } from 'react-router-dom';
 import { environment } from '../environments/environment';
+import Module from 'module';
 
 export function App() {
   return (
@@ -50,6 +51,12 @@ export function App() {
           </div>
         )}
       />
+      <Route
+        path="/module"
+        exact
+        >
+          <Module />
+        </Route>
       {/* END: routes */}
     </div>
   );
