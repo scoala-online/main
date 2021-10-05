@@ -1,5 +1,5 @@
-import VideosRow from './VideosRow'
-import Sidebar from './Sidebar'
+import VideosRow from './VideosRow';
+import Sidebar from './Sidebar';
 const VideoContent = () => {
     const allVideos = [
         {

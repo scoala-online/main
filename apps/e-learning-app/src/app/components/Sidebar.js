@@ -62,6 +62,10 @@ function Sidebar(props) {
 
     const sub_title_style = {
         fontWeight: 700,
+        marginBlockStart: "0em",
+        marginBlockEnd: "0em",
+        marginInlineStart: "0px",
+        marginInlineEnd: "0px",
     };
     const nav_back_style = {
         padding: "8px 0px",
