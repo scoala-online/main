@@ -1,9 +1,16 @@
 import VideosRow from './VideosRow';
 import Sidebar from './Sidebar';
+import lectie1 from '../../assets/images/Module/Lectie1.png';
+import lectie2 from '../../assets/images/Module/Lectie2.png';
+import lectie3 from '../../assets/images/Module/Lectie3.png';
+import lectie4 from '../../assets/images/Module/Lectie4.png';
+import lectie5 from '../../assets/images/Module/Lectie5.png';
+import lectie6 from '../../assets/images/Module/Lectie6.png';
+import lectie7 from '../../assets/images/Module/Lectie7.png';
 const VideoContent = () => {
     const allVideos = [
         {
-            thumbnail: `Lectie1.png`,
+            thumbnail: lectie1,
             title: "Froda in literatura interbelica ",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
@@ -16,7 +23,7 @@ const VideoContent = () => {
             uploadedAt: "2020-12-01"
         },
         {
-            thumbnail: `Lectie2.png`,
+            thumbnail: lectie2,
             title: "Froda in literatura interbelica",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
@@ -29,7 +36,7 @@ const VideoContent = () => {
             uploadedAt: "2020-12-01"
         },
         {
-            thumbnail: `Lectie3.png`,
+            thumbnail: lectie3,
             title: "Froda in literatura interbelica ",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
@@ -42,7 +49,7 @@ const VideoContent = () => {
             uploadedAt: "2020-12-01"
         },
         {
-            thumbnail: `Lectie4.png`,
+            thumbnail: lectie4,
             title: "Ion Vinea: \'Manifest activist  catre tinerime\'",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
@@ -55,7 +62,7 @@ const VideoContent = () => {
             uploadedAt: "2020-12-01"
         },
         {
-            thumbnail: `Lectie5.png`,
+            thumbnail: lectie5,
             title: "Tristea Tzara: \'Manifet despe amorul slab si amorul amar\'",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
@@ -68,7 +75,7 @@ const VideoContent = () => {
             uploadedAt: "2020-12-01"
         },
         {
-            thumbnail: `Lectie6.png`,
+            thumbnail: lectie6,
             title: "Punctuatia si justificarile ei sintactice si stilistice",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
@@ -81,7 +88,7 @@ const VideoContent = () => {
             uploadedAt: "2020-12-01"
         },
         {
-            thumbnail: `Lectie7.png`,
+            thumbnail: lectie7,
             title: "Punctiatia si justificarile ei sintactice si stilistice",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
