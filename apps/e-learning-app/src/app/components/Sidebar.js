@@ -8,6 +8,15 @@ function Sidebar(props) {
     const main_style = {
         transition: '.5s ease-in-out',
     };
+    const ul_style = {
+        display: "block",
+        listStyleType: "disc",
+        marginBlockStart: "0em",
+        marginBlockEnd: "0em",
+        marginInlineStart: "0px",
+        marginInlineEnd: "0px",
+        paddingInlineStart: "0px",
+    };
     const nav_style = {
         fontFamily: "Open Sans, sans-serif",
         fontSize: "18px",
@@ -45,6 +54,10 @@ function Sidebar(props) {
         fontSize: '24px',
         fontWeight: 700,
         wordWrap: 'break-word',
+        marginBlockStart: "0em",
+        marginBlockEnd: "0em",
+        marginInlineStart: "0px",
+        marginInlineEnd: "0px",
     };
 
     const sub_title_style = {
@@ -79,7 +92,7 @@ function Sidebar(props) {
                 <BiArrowBack />&nbsp; <span style={{fontSize:'1rem'}}>inapoi la capitole</span>
             </Link>
             <p style={{...nav_p,...title_style}}>{title}</p>
-            <ul>
+            <ul style={ul_style}>
             {SidebarData.map((item) => {
                 while(item.title != null){
                     const listSubtitles = item.subtitles.map((subtitle) => 
