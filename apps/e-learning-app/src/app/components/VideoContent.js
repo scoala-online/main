@@ -10,8 +10,8 @@ import lectie7 from '../../assets/images/Module/Lectie7.png';
 const VideoContent = () => {
     const allVideos = [
         {
-            thumbnail: lectie1,
             title: "Froda in literatura interbelica ",
+            thumbnail: lectie1,
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
             channel: {
