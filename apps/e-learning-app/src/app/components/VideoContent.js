@@ -44,7 +44,7 @@ const VideoContent = () => {
         },
         {
             thumbnail: lectie4,
-            title: "Ion Vinea: \'Manifest activist  catre tinerime\'",
+            title: "Ion Vinea: 'Manifest activist  catre tinerime'",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
             channel: {
@@ -55,7 +55,7 @@ const VideoContent = () => {
         },
         {
             thumbnail: lectie5,
-            title: "Tristea Tzara: \'Manifet despe amorul slab si amorul amar\'",
+            title: "Tristea Tzara: 'Manifet despe amorul slab si amorul amar'",
             videoLink:"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             length: 208,
             channel: {

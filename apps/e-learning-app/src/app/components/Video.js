@@ -8,7 +8,7 @@ const Video = (props) => {
         minWidth: "300px",
         maxWidth: "300px",
         minHeight: "300px",
-        minHeight: "300px",
+        maxHeight: "300px",
     };
     const title_style = {
         fontSize: "20px",
