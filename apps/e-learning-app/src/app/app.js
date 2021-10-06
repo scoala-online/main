@@ -5,13 +5,13 @@ import Module from './components/Module';
 
 export function App() {
   return (
-  <div className={styles.app}>
-    <Router>
-      <Switch>
-        <Route exact path={'/module'} component={Module} />
-      </Switch>
-    </Router>
-  </div>
-  )
+    <div className={styles.app}>
+      <Router>
+        <Switch>
+          <Route exact path={'/module'} component={Module} />
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 export default App;

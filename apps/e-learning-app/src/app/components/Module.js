@@ -1,14 +1,14 @@
-import VideoContent from './VideoContent'
+import VideoContent from './VideoContent';
 const Model = () => {
-    const content_style = {
-        padding: "10px 5.2vw",
-        display: "flex",
-    }
-    return (
-        <div style={content_style}>
-            <VideoContent />
-        </div>
-    )
-}
+  const content_style = {
+    padding: '10px 5.2vw',
+    display: 'flex',
+  };
+  return (
+    <div style={content_style}>
+      <VideoContent />
+    </div>
+  );
+};
 
-export default Model
+export default Model;
