@@ -19,8 +19,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 1812124001,
-            uploadedAt: "2020-12-01"
         },
         {
             thumbnail: lectie2,
@@ -32,8 +30,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 1812001,
-            uploadedAt: "2020-12-01"
         },
         {
             thumbnail: lectie3,
@@ -45,8 +41,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 1812124001,
-            uploadedAt: "2020-12-01"
         },
         {
             thumbnail: lectie4,
@@ -58,8 +52,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 13001,
-            uploadedAt: "2020-12-01"
         },
         {
             thumbnail: lectie5,
@@ -71,8 +63,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 1812001,
-            uploadedAt: "2020-12-01"
         },
         {
             thumbnail: lectie6,
@@ -84,8 +74,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 1812001,
-            uploadedAt: "2020-12-01"
         },
         {
             thumbnail: lectie7,
@@ -97,8 +85,6 @@ const VideoContent = () => {
                 link: "https://www.youtube.com/channel/UC9CoOnJkIBMdeijd9qYoT_g",
                 image: "https://picsum.photos/30/30"
             },
-            viewCount: 1812001,
-            uploadedAt: "2020-12-01"
         },
          
          
