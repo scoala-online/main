@@ -3,7 +3,6 @@ package org.scoalaonline.api.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
@@ -11,15 +10,13 @@ import org.scoalaonline.api.service.LectureMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -30,19 +27,17 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
-import static org.scoalaonline.api.util.TestUtils.*;
+import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureJsonTesters
 @AutoConfigureMockMvc
-@WebMvcTest(controllers = LectureMaterialController.class)
+@SpringBootTest
+@WithMockUser(roles={"ADMIN"})
 @ActiveProfiles("test")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 class LectureMaterialControllerTest {
-
   @Autowired
   private MockMvc mockMvc;
 
@@ -50,7 +45,6 @@ class LectureMaterialControllerTest {
   private LectureMaterialService lectureMaterialService;
 
   private List<LectureMaterial> lectureMaterialList;
-
 
   @BeforeEach
   void setUp() {
