@@ -80,6 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/grades/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/grades/**").hasAnyAuthority("ROLE_ADMIN");
 
+    http.authorizeRequests().antMatchers("/**").denyAll();
+
     http.authorizeRequests().anyRequest().authenticated();
 
     http.addFilter(customAuthenticationFilter);
