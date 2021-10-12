@@ -3,6 +3,7 @@ package org.scoalaonline.api.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
@@ -15,7 +16,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -35,6 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WebMvcTest(controllers = LectureMaterialController.class)
 @ActiveProfiles("test")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
 class LectureMaterialControllerTest {
 
   @Autowired
@@ -63,6 +69,7 @@ class LectureMaterialControllerTest {
    */
   @DisplayName(value = "Test getting all lecture materials.")
   @Test
+  @WithMockUser(username="student", roles={"STUDENT"})
   void getAllLectureMaterialsTest() throws Exception{
     given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
 
