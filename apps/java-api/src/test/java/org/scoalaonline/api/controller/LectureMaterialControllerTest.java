@@ -63,7 +63,6 @@ class LectureMaterialControllerTest {
    */
   @DisplayName(value = "Test getting all lecture materials.")
   @Test
-  @WithMockUser(username="student", roles={"STUDENT"})
   void getAllLectureMaterialsTest() throws Exception{
     given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
 
@@ -82,6 +81,7 @@ class LectureMaterialControllerTest {
    * attribute values as the expected one.
    * @throws Exception
    */
+  @DisplayName(value = "Test getting a lecture material by id.")
   @Test
   void getLectureMaterialByIdTest() throws Exception {
     //given
@@ -112,6 +112,8 @@ class LectureMaterialControllerTest {
    * Asserts that the status is 404 and the response is empty.
    * @throws Exception
    */
+
+  @DisplayName(value = "Test getting a lecture material by id and expect 'Lecutre Material not found' exception.")
   @Test
   void getLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -135,6 +137,7 @@ class LectureMaterialControllerTest {
    * Asserts that the given status is 201.
    * @throws Exception
    */
+  @DisplayName(value = "Test adding a lecture material.")
   @Test
   void addLectureMaterialTest() throws Exception {
     //given
@@ -163,6 +166,7 @@ class LectureMaterialControllerTest {
    * database remains empty.
    * @throws Exception
    */
+  @DisplayName(value = "Test adding a lecture material and expect 'Invalid Data' exception.")
   @Test
   void addLectureMaterialInvalidDataExceptionTest() throws Exception {
 
@@ -200,7 +204,8 @@ class LectureMaterialControllerTest {
    * Asserts that the status is 200.
    * @throws Exception
    */
-    @Test
+  @DisplayName(value = "Test updating a lecture material.")
+  @Test
   void updateLectureMaterialTest() throws Exception {
     // given
     given(lectureMaterialService.getAll()).willReturn(lectureMaterialList);
@@ -229,6 +234,7 @@ class LectureMaterialControllerTest {
    * response is empty.
    * @throws Exception
    */
+  @DisplayName(value = "Test updating a lecture material and expect 'Invalid Data' exception.")
   @Test
   void updateLectureMaterialInvalidDataExceptionTest() throws Exception {
 
@@ -268,6 +274,7 @@ class LectureMaterialControllerTest {
    * response is empty.
    * @throws Exception
    */
+  @DisplayName(value = "Test updating a lecture material and expecting 'Lecture Material not found' exception.")
   @Test
   void updateLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -291,6 +298,7 @@ class LectureMaterialControllerTest {
    * Asserts that the status is 200.
    * @throws Exception
    */
+  @DisplayName(value = "Test deleting a lecture material.")
   @Test
   void deleteLectureMaterialTest() throws Exception {
     // given
@@ -310,7 +318,9 @@ class LectureMaterialControllerTest {
    * Asserts that the status is 404 and the response is empty.
    * @throws Exception
    */
+  @DisplayName(value = "Test deleting a lecture material and expect 'Lecture Material not found' exception.")
   @Test
+  @WithMockUser(username="student", roles={"STUDENT"})
   void deleteLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
     given(lectureMaterialService.getOneById("id3"))
