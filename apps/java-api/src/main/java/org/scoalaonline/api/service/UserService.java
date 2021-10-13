@@ -154,7 +154,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     }
 
     if (entry.getRoles() != null && !entry.getRoles().isEmpty()) {
-      ArrayList<Role> rolesToSave = createRoleList(entry.getRoles());
+      List<Role> rolesToSave = createRoleList(entry.getRoles());
       userToSave.setRoles(rolesToSave);
     } else {
       log.error("Roles field can't be null.");
@@ -262,7 +262,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     }
 
     if(entry.getRoles() != null && !entry.getRoles().isEmpty()) {
-      ArrayList<Role> rolesToSave = createRoleList(entry.getRoles());
+      List<Role> rolesToSave = createRoleList(entry.getRoles());
       userToUpdate.setRoles(rolesToSave);
     } else {
       log.error("Roles field can't be null.");
@@ -318,7 +318,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @return a new list of roles.
    * @throws RoleNotFoundException
    */
-  public ArrayList<Role> createRoleList(List<Role> roles) throws RoleNotFoundException {
+  public List<Role> createRoleList(List<Role> roles) throws RoleNotFoundException {
     ArrayList<Role> rolesToSave = new ArrayList<>();
 
     for (int i = 0, rolesSize = roles.size(); i < rolesSize; i++) {
