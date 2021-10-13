@@ -8,7 +8,9 @@ In case you wish to help maintain the project, please follow the setup guide fro
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+For any changes, please go to the [Projects Tab](https://github.com/scoala-online/main/projects/1) and add a note, explaining what you would like to change.
+One of the project's maintainers will look into it and, if he considers the change a welcome one, he'll create an issue for it.
+Please don't make a pull request without a linked issue for it. It will not be accepted.
 
 Make sure that your proposed changes pass all the tests. Feel free to update the tests to cover your code.
 
