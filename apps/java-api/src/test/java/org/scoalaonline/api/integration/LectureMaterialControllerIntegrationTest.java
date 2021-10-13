@@ -74,12 +74,38 @@ public class LectureMaterialControllerIntegrationTest {
   }
 
   @Test
-  public void getAllTest() throws Exception {
+  public void getAllLectureMaterialsTest() throws Exception {
     this.mockMvc.perform(get("/lecture-materials")).andDo(print())
       .andExpect(status().isOk());
     Optional<LectureMaterial> entity = lectureMaterialRepository.findById(lectureMaterialToSave.getId());
     assertThat(entity.get().getDocument()).isEqualTo("EXAMPLE_DOCUMENT.txt");
   }
 
+  @Test
+  public void addLectureMaterialTest() throws Exception {
+    LectureMaterial entity = new LectureMaterial();
 
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("EXAMPLE_POST_DOCUMENT.pdf");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
+
+    this.mockMvc.perform(post("/lecture-materials")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(jsonObjectWriter.toString())).andDo(print())
+      .andExpect(status().isCreated());
+
+    List<LectureMaterial> entities = lectureMaterialRepository.findAll();
+
+    for (LectureMaterial lectureMaterialToFind: entities) {
+      if(lectureMaterialToFind.getDocument().equals("EXAMPLE_POST_DOCUMENT.pdf")) {
+        entity = lectureMaterialToFind;
+        break;
+      }
+    }
+
+    assertThat(entity.getDocument()).isEqualTo("EXAMPLE_POST_DOCUMENT.pdf");
+    lectureMaterialRepository.delete(entity);
+  }
 }
