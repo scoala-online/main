@@ -248,7 +248,7 @@ public class UserController {
     } catch (UserInvalidRolesException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: User Invalid Roles", e );
     } catch (RoleNotFoundException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Role not found", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Role not found", e );
     }
 
     return new ResponseEntity<>( updatedUser, HttpStatus.OK );
