@@ -128,7 +128,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   public User add(User entry) throws UserInvalidNameException,
     UserInvalidUsernameException,
     UserInvalidPasswordException,
-    UserInvalidRolesException {
+    UserInvalidRolesException, RoleNotFoundException {
     log.info("Adding user {}...", entry.getUsername());
     User userToSave = new User();
 
@@ -154,7 +154,8 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     }
 
     if (entry.getRoles() != null && !entry.getRoles().isEmpty()) {
-      userToSave.setRoles(entry.getRoles());
+      List<Role> rolesToSave = createRoleList(entry.getRoles());
+      userToSave.setRoles(rolesToSave);
     } else {
       log.error("Roles field can't be null.");
       throw new UserInvalidRolesException("Method add: Roles field can't be null.");
@@ -232,7 +233,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserInvalidNameException,
     UserUsernameNotAllowedException,
     UserInvalidPasswordException,
-    UserInvalidRolesException{
+    UserInvalidRolesException, RoleNotFoundException {
     User userToUpdate = userRepository.findById(id).orElseThrow(
       () -> {
         log.error("User not found.");
@@ -261,7 +262,8 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     }
 
     if(entry.getRoles() != null && !entry.getRoles().isEmpty()) {
-      userToUpdate.setRoles(entry.getRoles());
+      List<Role> rolesToSave = createRoleList(entry.getRoles());
+      userToUpdate.setRoles(rolesToSave);
     } else {
       log.error("Roles field can't be null.");
       throw new UserInvalidRolesException("Method update: Roles field can't be null.");
@@ -308,6 +310,29 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     user.setRoles(newRoles);
 
     userRepository.save(user);
+  }
+  /**
+   * Retrieves a list of Role entries based on the ids of the provided list of roles.
+   * Throws an error when it reaches an id with no corresponding role in the DB.
+   * @param roles - list of roles.
+   * @return a new list of roles.
+   * @throws RoleNotFoundException
+   */
+  public List<Role> createRoleList(List<Role> roles) throws RoleNotFoundException {
+    ArrayList<Role> rolesToSave = new ArrayList<>();
+
+    for (int i = 0, rolesSize = roles.size(); i < rolesSize; i++) {
+      Role role = roles.get(i);
+      Role roleToSave = roleRepository.findById(role.getId()).orElseThrow(
+        () -> {
+          log.error("Role not found.");
+          return new RoleNotFoundException("Method createRoleList: Role not found.");
+        }
+      );
+      rolesToSave.add(roleToSave);
+    }
+
+    return rolesToSave;
   }
 }
 
