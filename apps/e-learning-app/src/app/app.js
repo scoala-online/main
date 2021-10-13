@@ -4,17 +4,15 @@ import Layout from './components/Layout';
 
 import './app.module.css';
 
-
 export function App() {
   return (
     <div className="App">
-    <Router>
-      <Switch>
-        <Layout>
-        </Layout>
-      </Switch>
-    </Router>
-  </div>
+      <Router>
+        <Switch>
+          <Layout></Layout>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 export default App;
