@@ -59,9 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/role/**").hasAnyAuthority("ROLE_ADMIN");
     // Custom authorization implemented in UserController.
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/username/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/{id}/**").access("@userSecurity.hasUserId(authentication,#id) or hasAnyAuthority(\"ROLE_ADMIN\")");
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority("ROLE_ADMIN");
 
@@ -69,6 +69,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
+
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/lectures/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lectures/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lectures/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lectures/**").hasAnyAuthority("ROLE_ADMIN");
 
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/subjects/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/subjects/**").hasAnyAuthority("ROLE_ADMIN");
@@ -79,6 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/grades/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/grades/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/grades/**").hasAnyAuthority("ROLE_ADMIN");
+
+    http.authorizeRequests().antMatchers("/**").denyAll();
 
     http.authorizeRequests().anyRequest().authenticated();
 
