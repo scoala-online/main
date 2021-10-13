@@ -1,6 +1,6 @@
 package org.scoalaonline.api.service;
 
-import org.scoalaonline.api.exception.*;
+import org.scoalaonline.api.exception.video.*;
 import org.scoalaonline.api.model.Video;
 import org.scoalaonline.api.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

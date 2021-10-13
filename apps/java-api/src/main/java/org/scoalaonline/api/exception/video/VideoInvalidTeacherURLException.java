@@ -1,4 +1,4 @@
-package org.scoalaonline.api.exception;
+package org.scoalaonline.api.exception.video;
 
 /**
  * Exception class for when the Video TeacherURL field is null
