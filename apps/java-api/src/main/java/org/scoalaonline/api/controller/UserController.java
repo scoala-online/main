@@ -190,6 +190,8 @@ public class UserController {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: User Invalid Password", e );
     } catch (UserInvalidRolesException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: User Invalid Roles", e );
+    } catch (RoleNotFoundException e) {
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Role not found", e );
     }
 
     return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
@@ -247,6 +249,8 @@ public class UserController {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: User Invalid Password", e );
     } catch (UserInvalidRolesException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: User Invalid Roles", e );
+    } catch (RoleNotFoundException e) {
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Role not found", e );
     }
 
     return new ResponseEntity<>( updatedUser, HttpStatus.OK );
