@@ -139,7 +139,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserInvalidNameException("Method add: Name field can't be null.");
     }
 
-    if (entry.getUsername() != null && !entry.getUsername().equals("") && entry.getUsername().matches("^\\b[\\w.!#$%&’*+/=?^`{|}~-]+@[\\w-]+(?:.[\\w-]+)+\\b$")) {
+    if (entry.getUsername() != null && !entry.getUsername().equals("") && entry.getUsername().matches("^(?=.{1,64}@)[A-Za-z0-9_!#$%&'*+-=?^_`{|}~\\/]+(\\.[A-Za-z0-9_=?^_`{|}~\\/-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})*$")) {
       userToSave.setUsername(entry.getUsername());
     } else {
       log.error("Invalid username.");
