@@ -1,5 +1,7 @@
 package org.scoalaonline.api.integration;
 
+import net.minidev.json.parser.JSONParser;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -83,29 +86,24 @@ public class LectureMaterialControllerIntegrationTest {
 
   @Test
   public void addLectureMaterialTest() throws Exception {
-    LectureMaterial entity = new LectureMaterial();
-
     List<String> FieldArray = new ArrayList<String>();
     FieldArray.add("document");
     List<Object> ValuesArray = new ArrayList<Object>();
     ValuesArray.add("EXAMPLE_POST_DOCUMENT.pdf");
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
-    this.mockMvc.perform(post("/lecture-materials")
+    MvcResult obj = this.mockMvc.perform(post("/lecture-materials")
       .contentType(MediaType.APPLICATION_JSON)
       .content(jsonObjectWriter.toString())).andDo(print())
-      .andExpect(status().isCreated());
+      .andExpect(status().isCreated()).andReturn();
 
-    List<LectureMaterial> entities = lectureMaterialRepository.findAll();
+    String s = obj.getResponse().getContentAsString();
+    JSONObject parsedLectureMaterial = new JSONObject(s) ;
 
-    for (LectureMaterial lectureMaterialToFind: entities) {
-      if(lectureMaterialToFind.getDocument().equals("EXAMPLE_POST_DOCUMENT.pdf")) {
-        entity = lectureMaterialToFind;
-        break;
-      }
-    }
-
-    assertThat(entity.getDocument()).isEqualTo("EXAMPLE_POST_DOCUMENT.pdf");
-    lectureMaterialRepository.delete(entity);
+    Optional<LectureMaterial> entity = lectureMaterialRepository.findById(parsedLectureMaterial.get("id").toString());
+    assertThat(entity.get()).isNotNull();
+    assertThat(entity.get().getDocument()).isEqualTo("EXAMPLE_POST_DOCUMENT.pdf");
+    lectureMaterialRepository.delete(entity.get());
   }
+  
 }
