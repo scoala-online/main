@@ -86,7 +86,24 @@ public class LectureMaterialControllerIntegrationTest {
     Optional<LectureMaterial> entity = lectureMaterialRepository.findById(lectureMaterialToSave.getId());
     assertThat(entity.get().getDocument()).isEqualTo("EXAMPLE_DOCUMENT.txt");
   }
-  
+
+  @Test
+  void getLectureMaterialByIdTest() throws Exception {
+    String idParam = lectureMaterialToSave.getId();
+    //when & then
+    MockHttpServletResponse response = this.mockMvc.perform(get("/lecture-materials/" + idParam + "/")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn().getResponse();
+
+    String responseToString = response.getContentAsString();
+    assertThat(responseToString).isNotEmpty();
+
+    JSONObject parsedLectureMaterial = new JSONObject(responseToString) ;
+    assertThat(parsedLectureMaterial.get("id")).isEqualTo(lectureMaterialToSave.getId());
+    assertThat(parsedLectureMaterial.get("document")).isEqualTo(lectureMaterialToSave.getDocument());
+  }
+
   @Test
   public void addLectureMaterialTest() throws Exception {
     List<String> FieldArray = new ArrayList<String>();
