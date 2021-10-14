@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.scoalaonline.api.controller.LectureMaterialController;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,21 @@ public class LectureMaterialControllerIntegrationTest {
     assertThat(parsedLectureMaterial.get("id")).isEqualTo(lectureMaterialToSave.getId());
     assertThat(parsedLectureMaterial.get("document")).isEqualTo(lectureMaterialToSave.getDocument());
   }
+
+  @Test
+  void getLectureMaterialByIdNotFoundExceptionTest() throws Exception {
+    // when
+    MockHttpServletResponse response = mockMvc.perform(
+      get("/lecture-materials/IMPOSSIBLE_ID")
+        .accept(MediaType.APPLICATION_JSON))
+      .andReturn().getResponse();
+
+    // then
+    assertThat(response.getErrorMessage()).isEqualTo("GET: Lecture Material Not Found");
+    assertThat(response.getContentAsString()).isEmpty();
+    assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+  }
+
 
   @Test
   public void addLectureMaterialTest() throws Exception {
