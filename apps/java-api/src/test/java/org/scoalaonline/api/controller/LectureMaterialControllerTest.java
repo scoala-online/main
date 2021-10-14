@@ -26,7 +26,10 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -278,14 +281,23 @@ class LectureMaterialControllerTest {
   @Test
   void updateLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
-    given(lectureMaterialService.getOneById("id3"))
-      .willThrow(new LectureMaterialNotFoundException());
+    given(lectureMaterialService.update("id3",new LectureMaterial(null, "Document")))
+      .willThrow(LectureMaterialNotFoundException.class);
 
-    // when
+    //Json Generator
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("Document");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
+
+    //when
     MockHttpServletResponse response = mockMvc.perform(
       patch("/lecture-materials/id3")
-    .contentType(MediaType.APPLICATION_JSON))
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jsonObjectWriter.toString()))
       .andReturn().getResponse();
+
 
     // then
     assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
@@ -322,9 +334,7 @@ class LectureMaterialControllerTest {
   @Test
   void deleteLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
-    given(lectureMaterialService.getOneById("id3"))
-      .willThrow(new LectureMaterialNotFoundException());
-
+    doThrow(LectureMaterialNotFoundException.class).when(lectureMaterialService).delete("id3");
     // when
     MockHttpServletResponse response = mockMvc.perform(
       delete("/lecture-materials/id3")
