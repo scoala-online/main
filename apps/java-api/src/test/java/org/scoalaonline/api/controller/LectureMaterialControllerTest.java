@@ -122,7 +122,7 @@ class LectureMaterialControllerTest {
 
     // when
     MockHttpServletResponse response = mockMvc.perform(
-      get("/lecture-material/id3")
+      get("/lecture-materials/id3")
         .accept(MediaType.APPLICATION_JSON))
       .andReturn().getResponse();
 
@@ -283,7 +283,7 @@ class LectureMaterialControllerTest {
 
     // when
     MockHttpServletResponse response = mockMvc.perform(
-      patch("/lecture-material/id3")
+      patch("/lecture-materials/id3")
     .contentType(MediaType.APPLICATION_JSON))
       .andReturn().getResponse();
 
@@ -314,13 +314,12 @@ class LectureMaterialControllerTest {
   }
   /**
    * Arranges the absence of a LectureMaterial object with the given id ("id3").
-   * Performs DELETE method at "lecture-material/id3".
+   * Performs DELETE method at "lecture-materials/id3".
    * Asserts that the status is 404 and the response is empty.
    * @throws Exception
    */
   @DisplayName(value = "Test deleting a lecture material and expect 'Lecture Material not found' exception.")
   @Test
-  @WithMockUser(username="student", roles={"STUDENT"})
   void deleteLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
     given(lectureMaterialService.getOneById("id3"))
@@ -328,8 +327,8 @@ class LectureMaterialControllerTest {
 
     // when
     MockHttpServletResponse response = mockMvc.perform(
-      delete("/lecture-material/id3")
-        .contentType(MediaType.APPLICATION_JSON))
+      delete("/lecture-materials/id3")
+        .accept(MediaType.APPLICATION_JSON))
       .andReturn().getResponse();
 
     // then
