@@ -1,4 +1,4 @@
-import Video from './Video';
+import Video from './video/Video';
 const VideosRow = (props) => {
   const { videos } = props;
   const video_row_container_style = {
