@@ -21,7 +21,7 @@ const Video = (props) => {
     <div style={style.video_style}>
       <div style={style.thumbnail_style}>
         <Link style={style.thumbnail_link_style} to={channel.link}>
-          <img style={style.img_style} href={channel.link} src={thumbnail} />
+          <img style={style.img_style} href={channel.link} src={thumbnail} alt={title}/>
         </Link>
         <span style={style.length_style}>{getLengthString(length)}</span>
       </div>
