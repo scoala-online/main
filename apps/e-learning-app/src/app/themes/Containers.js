@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-//Container for the content of a sidebar
+/**
+ * Container for the content of a sidebar
+ */
 export const SidebarContainer = styled.div`
   background: ${({ type }) =>
     type === 'grade'
@@ -16,15 +18,20 @@ export const SidebarContainer = styled.div`
   width: ${({ type }) => (type === 'grade' ? '15.8vw' : '12.2vw')};
   bottom: ${({ bottomVal }) => bottomVal};
   top: ${({ topVal }) => topVal};
-  left: ${({ active, type }) =>
-    type === 'grade'
-      ? active
-        ? '0'
-        : '-15.8vw'
-      : active
-      ? '15.8vw'
-      : '-28vw'};
-  z-index: ${({ type }) => (type === 'grade' ? '10' : '9')};
+  left: ${({ active, type }) => {
+    if (type === 'grade') {
+      if (active) {
+        return '0';
+      }
+      return '-15.8vw';
+    }
+
+    if (active) {
+      return '15.8vw';
+    }
+    return '-28vw';
+  }};
+  z-index: ${({ type }) => (type === 'grade' ? '100' : '99')};
 
   transition: left ${({ type }) => (type === 'grade' ? '350ms' : '1000ms')};
 
