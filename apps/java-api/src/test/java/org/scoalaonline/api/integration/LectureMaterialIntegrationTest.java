@@ -1,6 +1,5 @@
 package org.scoalaonline.api.integration;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -11,8 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
-import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +33,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doThrow;
 import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -55,10 +50,9 @@ public class LectureMaterialIntegrationTest {
 
   @Autowired
   private LectureMaterialRepository lectureMaterialRepository;
-  private LectureMaterial lectureMaterialToSave;
   private MockMvc mockMvc;
   @BeforeEach
-  public void beforeTestSetup() throws Exception {
+  public void beforeTestSetup(){
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
   }
 
