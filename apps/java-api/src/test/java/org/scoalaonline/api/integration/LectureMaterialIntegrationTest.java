@@ -2,10 +2,7 @@ package org.scoalaonline.api.integration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,19 +12,11 @@ import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockServletContext;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import javax.servlet.ServletContext;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -45,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(roles={"ADMIN"})
 public class LectureMaterialIntegrationTest {
 
   @Autowired
@@ -56,9 +44,9 @@ public class LectureMaterialIntegrationTest {
   private static Stream<Arguments> getAllCases() {
 
     // Create a lecture material to add to database
-    ArrayList<LectureMaterial> arrayListNullCase = new ArrayList<LectureMaterial>();
-    ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<LectureMaterial>();
-    ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<LectureMaterial>();
+    ArrayList<LectureMaterial> arrayListNullCase = new ArrayList<>();
+    ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<>();
+    ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<>();
 
     arrayListOneCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
 
@@ -74,9 +62,9 @@ public class LectureMaterialIntegrationTest {
   }
 
   private static Stream<Arguments> getByIdCases() {
-    ArrayList<LectureMaterial> arrayListNullCase = new ArrayList<LectureMaterial>();
-    ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<LectureMaterial>();
-    ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<LectureMaterial>();
+    ArrayList<LectureMaterial> arrayListNullCase = new ArrayList<>();
+    ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<>();
+    ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<>();
 
     arrayListOneCase.add(new LectureMaterial("VALID_ID1","EXAMPLE_DOCUMENT_1.txt"));
 
@@ -91,33 +79,40 @@ public class LectureMaterialIntegrationTest {
     );
   }
 
-  private static Stream<Arguments> addByIdCases() {
+  private static Stream<Arguments> addCases() {
     return Stream.of(
-      Arguments.of("", HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document"),
-      Arguments.of(null,  HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document"),
-      Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null)
+      Arguments.of("UNAUTHORIZED_DOCUMENT.pdf", HttpStatus.FORBIDDEN.value(),"Forbidden","STUDENT"),
+      Arguments.of("UNAUTHORIZED_DOCUMENT.pdf", HttpStatus.FORBIDDEN.value(),"Forbidden","TEACHER"),
+      Arguments.of("", HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document","ADMIN"),
+      Arguments.of(null,  HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document","ADMIN"),
+      Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null,"ADMIN")
     );
   }
 
-  private static Stream<Arguments> updateByIdCases() {
+  private static Stream<Arguments> updateCases() {
     return Stream.of(
-      Arguments.of("INVALID_ID_DOCUMENT.pdf","VALID_ID", "INVALID_ID",HttpStatus.NOT_FOUND.value(),"PATCH: Lecture Material Not Found"),
-      Arguments.of("", "VALID_ID","VALID_ID",HttpStatus.BAD_REQUEST.value(),"PATCH: Lecture Material Invalid Document"),
-      Arguments.of(null,"VALID_ID","VALID_ID",HttpStatus.BAD_REQUEST.value(),"PATCH: Lecture Material Invalid Document"),
-      Arguments.of("NOT_NULL_DOCUMENT.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null)
+      Arguments.of("UNAUTHORIZED_DOCUMENT.pdf","VALID_ID", "VALID_ID",HttpStatus.FORBIDDEN.value(),"Forbidden","STUDENT"),
+      Arguments.of("UNAUTHORIZED_DOCUMENT.pdf","VALID_ID", "VALID_ID",HttpStatus.FORBIDDEN.value(),"Forbidden","TEACHER"),
+
+      Arguments.of("INVALID_ID_DOCUMENT.pdf","VALID_ID", "INVALID_ID",HttpStatus.NOT_FOUND.value(),"PATCH: Lecture Material Not Found","ADMIN"),
+      Arguments.of("", "VALID_ID","VALID_ID",HttpStatus.BAD_REQUEST.value(),"PATCH: Lecture Material Invalid Document","ADMIN"),
+      Arguments.of(null,"VALID_ID","VALID_ID",HttpStatus.BAD_REQUEST.value(),"PATCH: Lecture Material Invalid Document","ADMIN"),
+      Arguments.of("NOT_NULL_DOCUMENT.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null,"ADMIN")
     );
   }
 
   private static Stream<Arguments> deleteByIdCases() {
     return Stream.of(
-      Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID", "INVALID_ID",HttpStatus.NOT_FOUND.value(),"DELETE: Lecture Material Not Found"),
-      Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null)
+      Arguments.of("UNAUTHORIZED_DOCUMENT.pdf","VALID_ID","VALID_ID" , HttpStatus.FORBIDDEN.value(),"Forbidden","STUDENT"),
+      Arguments.of("UNAUTHORIZED_DOCUMENT.pdf","VALID_ID","VALID_ID" , HttpStatus.FORBIDDEN.value(),"Forbidden","TEACHER"),
+
+      Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID", "INVALID_ID",HttpStatus.NOT_FOUND.value(),"DELETE: Lecture Material Not Found","ADMIN"),
+      Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null,"ADMIN")
     );
   }
   @DisplayName(value = "Get all 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("getAllCases")
-  @WithMockUser(roles = {"STUDENT"})
   public void getAllLectureMaterialsTest(ArrayList<LectureMaterial> input) throws Exception {
 
     long numberOfItems = lectureMaterialRepository.count();
@@ -134,8 +129,7 @@ public class LectureMaterialIntegrationTest {
 
       Optional<LectureMaterial> entity = lectureMaterialRepository.findById(lectureMaterial.getId());
       assertThat(entity).isNotNull();
-      assertThat(entity.get().getDocument())
-        .isEqualTo(lectureMaterial.getDocument());
+      assertThat(entity.get().getDocument()).isEqualTo(lectureMaterial.getDocument());
 
       // CONTAINS TIME COMPLEXITY O(n*m) unde n = nr de litere si m aprox. egal cu n => O(n^2)
       // assertThat(response.getContentAsString().contains(lectureMaterial.getId())).isTrue();
@@ -189,18 +183,18 @@ public class LectureMaterialIntegrationTest {
 
   @DisplayName(value = "Add 'Lecture Materials' test")
   @ParameterizedTest
-  @MethodSource("addByIdCases")
-//  @WithMockUser(roles = {"STUDENT"})
-  public void addLectureMaterialTest(String input, Integer status, String errorMessage) throws Exception {
-    List<String> FieldArray = new ArrayList<String>();
+  @MethodSource("addCases")
+  public void addLectureMaterialTest(String input, Integer status, String errorMessage, String role) throws Exception {
+    List<String> FieldArray = new ArrayList<>();
     FieldArray.add("document");
-    List<Object> ValuesArray = new ArrayList<Object>();
+    List<Object> ValuesArray = new ArrayList<>();
     ValuesArray.add(input);
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
     MockHttpServletResponse response = this.mockMvc.perform(post("/lecture-materials")
       .contentType(MediaType.APPLICATION_JSON)
-      .content(jsonObjectWriter.toString())).andDo(print())
+      .content(jsonObjectWriter.toString())
+      .with(user(role).roles(role))).andDo(print())
       .andReturn().getResponse();
 
     assertThat(response.getStatus()).isEqualTo(status);
@@ -225,16 +219,16 @@ public class LectureMaterialIntegrationTest {
 
   @DisplayName(value = "Update 'Lecture Materials' test")
   @ParameterizedTest
-  @MethodSource("updateByIdCases")
-//  @WithMockUser(roles = {"STUDENT"})
-  void updateLectureMaterialTest(String document, String existentId, String wantedId, Integer status, String errorMessage) throws Exception {
+  @MethodSource("updateCases")
+  void updateLectureMaterialTest(String document, String existentId, String wantedId,
+                                 Integer status, String errorMessage,String role) throws Exception {
 
     lectureMaterialRepository.save(new LectureMaterial(existentId, document));
 
     // Json Generator
-    List<String> FieldArray = new ArrayList<String>();
+    List<String> FieldArray = new ArrayList<>();
     FieldArray.add("document");
-    List<Object> ValuesArray = new ArrayList<Object>();
+    List<Object> ValuesArray = new ArrayList<>();
     ValuesArray.add(document);
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
@@ -243,7 +237,8 @@ public class LectureMaterialIntegrationTest {
     MockHttpServletResponse response = this.mockMvc.perform(
       patch("/lecture-materials/" + wantedId + "/")
         .contentType(MediaType.APPLICATION_JSON)
-        .content(jsonObjectWriter.toString()))
+        .content(jsonObjectWriter.toString())
+        .with(user(role).roles(role)))
       .andReturn().getResponse();
 
     // STATUSURILE SUNT CORECTE
@@ -267,15 +262,15 @@ public class LectureMaterialIntegrationTest {
   @DisplayName(value = "Delete 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("deleteByIdCases")
-//  @WithMockUser(roles = {"STUDENT"})
   void deleteLectureMaterialByIdNotFoundExceptionTest(String document, String expectedId, String wantedId,
-                                                      Integer status, String errorMessage) throws Exception {
+                                                      Integer status, String errorMessage, String role) throws Exception {
 
     lectureMaterialRepository.save(new LectureMaterial(expectedId, document));
     // when
     MockHttpServletResponse response = mockMvc.perform(
       delete("/lecture-materials/" + wantedId + "/")
-        .accept(MediaType.APPLICATION_JSON))
+        .accept(MediaType.APPLICATION_JSON)
+        .with(user(role).roles(role)))
       .andReturn().getResponse();
 
     // then
