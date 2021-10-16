@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  overflow-y: overlay;
+  scrollbar-color: #1f4e5a transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  border-radius: 5px;
+  background-color: #1f4e5a;
+  background-clip: padding-box;
+  border: 0.13rem solid transparent;
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  height: 14px;
+  width: 10px;
+  background-position: center;
+  background-image: url('./assets/icons/scroll_arrow_up.svg');
+  background-size: 10.5px 6px;
+  background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  height: 14px;
+  width: 10px;
+  background-position: center;
+  background-image: url('./assets/icons/scroll_arrow_down.svg');
+  background-size: 10.5px 6px;
+  background-repeat: no-repeat;
+}

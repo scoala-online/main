@@ -64,8 +64,3 @@ export const showAuthenticationButton = {
   left: '83.07vw',
   border: '0px',
 };
-
-export const txt_600 = {
-  fontFamily: "'Open Sans', sans-serif",
-  fontWeight: 600,
-};

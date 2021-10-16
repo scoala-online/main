@@ -1,7 +1,9 @@
-import { LinkButton, SidebarContainer } from '../styles/StyledComponents';
-import { calculateTop, calculateBottom } from '../utilities/UtilityMethods';
+import { calculateTop, calculateBottom } from '../../utilities/SidebarUtil';
+import { SidebarContainer } from '../../themes/Containers';
+import { LinkButton } from '../../themes/Buttons';
 
-import * as styles from '../styles/NavMenuStyles';
+import fontStyle from '../../themes/FontFamilies';
+
 
 export default function SideBar(props) {
   let size = props.data.length;
@@ -26,7 +28,7 @@ export default function SideBar(props) {
               last={index + 1 == size}
               onClick={() => props.onClickFunction(index)}
             >
-              <span style={{ ...styles.txt_600, fontSize: props.fontSize }}>
+              <span style={{ ...fontStyle.body_semibold, fontSize: props.fontSize }}>
                 {item}
               </span>
             </LinkButton>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NavMenu from './NavMenu';
+import NavMenu from '../navMenu/NavMenu';
 
 //This component will render the NavBar and the content of the current page
 export default function Layout(props) {

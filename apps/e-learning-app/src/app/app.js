@@ -1,18 +1,15 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import Layout from './components/Layout';
-
-import './app.module.css';
+import Layout from './components/layout/Layout';
 
 export function App() {
   return (
-    <div className="App">
-      <Router>
-        <Switch>
-          <Layout></Layout>
-        </Switch>
-      </Router>
-    </div>
+    <Router>
+      <Switch>
+        <Layout>
+        </Layout>
+      </Switch>
+    </Router>
   );
 }
 export default App;

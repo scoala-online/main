@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 
-import Sidebar from './SideBar';
+import Sidebar from './../sidebar/SideBar';
 
-import { navMenuSize } from '../utilities/UtilityValues';
-import { clase, materii } from '../utilities/Data';
+import { navBarHeight } from '../../themes/Sizes';
+import fontStyle from '../../themes/FontFamilies';
+import { clase, materii } from '../../utilities/MockData';
 
-import * as styles from '../styles/NavMenuStyles';
-import dropdownIcon from '../../assets/icons/dropdown_icon.svg';
-import logo from '../../assets/icons/logo.svg';
+import * as styles from './NavMenuStyles';
+import dropdownIcon from '../../../assets/icons/dropdown_icon.svg';
+import logo from '../../../assets/icons/logo.svg';
 
 export default function NavMenu(props) {
   //States
@@ -72,7 +73,7 @@ export default function NavMenu(props) {
   return (
     <>
       <Navbar
-        style={{ ...styles.navBar, height: navMenuSize.toString() + 'vh' }}
+        style={{ ...styles.navBar, height: navBarHeight.toString() + 'vh' }}
       >
         <Nav style={styles.navBarFirstFragment}>
           <button
@@ -80,7 +81,7 @@ export default function NavMenu(props) {
             onClick={() => setGradeActive(!gradeActive)}
             ref={dropdownButtonRef}
           >
-            <span style={{ ...styles.txt_600, fontSize: '1rem' }}>
+            <span style={{ ...fontStyle.body_semibold, fontSize: '1rem' }}>
               Materiale
             </span>
           </button>
@@ -96,7 +97,7 @@ export default function NavMenu(props) {
           />
           <button style={styles.showAuthenticationButton}>
             <span
-              style={{ ...styles.txt_600, fontSize: '1rem', color: '#fff' }}
+              style={{ ...fontStyle.body_semibold, fontSize: '1rem', color: '#fff' }}
             >
               Autentificare
             </span>
