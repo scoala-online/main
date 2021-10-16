@@ -77,6 +77,23 @@ public class LectureMaterialIntegrationTest {
     );
   }
 
+  private static Stream<Arguments> getByIdCases() {
+    ArrayList<LectureMaterial> arrayListNullCase = new ArrayList<LectureMaterial>();
+    ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<LectureMaterial>();
+    ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<LectureMaterial>();
+
+    arrayListOneCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
+
+    arrayListManyCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
+    arrayListManyCase.add(new LectureMaterial("ID2","EXAMPLE_DOCUMENT_2.txt"));
+    arrayListManyCase.add(new LectureMaterial("ID3","EXAMPLE_DOCUMENT_3.txt"));
+
+    return Stream.of(
+      Arguments.of(arrayListNullCase,"ID1", HttpStatus.NOT_FOUND.value(), "GET: Lecture Material Not Found", null),
+      Arguments.of(arrayListOneCase,"ID1",HttpStatus.OK.value(), null, arrayListOneCase.get(0)),
+      Arguments.of(arrayListManyCase,"ID2", HttpStatus.OK.value(), null, arrayListManyCase.get(1))
+    );
+  }
   @Test
   public void givenWac_whenServletContext_thenItProvidesGreetController() {
     ServletContext servletContext = webApplicationContext.getServletContext();
@@ -92,7 +109,8 @@ public class LectureMaterialIntegrationTest {
     long numberOfItems = lectureMaterialRepository.count();
     lectureMaterialRepository.saveAll(input);
 
-    MockHttpServletResponse response = this.mockMvc.perform(get("/lecture-materials")).andDo(print())
+    MockHttpServletResponse response = this.mockMvc
+      .perform(get("/lecture-materials")).andDo(print())
       .andExpect(status().isOk()).andReturn().getResponse();
 
     JSONArray parsedLectureMaterials = new JSONArray(response.getContentAsString()) ;
@@ -128,38 +146,30 @@ public class LectureMaterialIntegrationTest {
     lectureMaterialRepository.deleteAll(input);
   }
 
-  @Test
-  void getLectureMaterialByIdTest() throws Exception {
-    String idParam = lectureMaterialToSave.getId();
+  @ParameterizedTest
+  @MethodSource("getByIdCases")
+  void getLectureMaterialByIdTest(ArrayList<LectureMaterial> input, String idParam,
+                                  Integer status, String errorMessage, LectureMaterial expectedLectureMaterial) throws Exception {
+    lectureMaterialRepository.saveAll(input);
     //when & then
-    MockHttpServletResponse response = this.mockMvc.perform(get("/lecture-materials/" + idParam + "/")
+    MockHttpServletResponse response = this.mockMvc
+      .perform(get("/lecture-materials/" + idParam + "/")
       .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
       .andReturn().getResponse();
 
-    String responseToString = response.getContentAsString();
-    assertThat(responseToString).isNotEmpty();
+    assertThat(response.getStatus()).isEqualTo(status);
+    assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
 
-    JSONObject parsedLectureMaterial = new JSONObject(responseToString) ;
-    assertThat(parsedLectureMaterial.get("id")).isEqualTo(lectureMaterialToSave.getId());
-    assertThat(parsedLectureMaterial.get("document")).isEqualTo(lectureMaterialToSave.getDocument());
+    if(errorMessage == null) {
+      assertThat(response.getContentAsString()).isNotEmpty();
+
+      JSONObject parsedLectureMaterial = new JSONObject(response.getContentAsString());
+      assertThat(parsedLectureMaterial.get("id")).isEqualTo(expectedLectureMaterial.getId());
+      assertThat(parsedLectureMaterial.get("document")).isEqualTo(expectedLectureMaterial.getDocument());
+    }
+    lectureMaterialRepository.deleteAll(input);
   }
-
-  @Test
-  void getLectureMaterialByIdNotFoundExceptionTest() throws Exception {
-    // when
-    MockHttpServletResponse response = mockMvc.perform(
-      get("/lecture-materials/IMPOSSIBLE_ID")
-        .accept(MediaType.APPLICATION_JSON))
-      .andReturn().getResponse();
-
-    // then
-    assertThat(response.getContentAsString()).isEmpty();
-    assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
-    assertThat(response.getErrorMessage()).isEqualTo("GET: Lecture Material Not Found");
-  }
-
-
+  
   @Test
   // @ParameterizedTest(name = )
   public void addLectureMaterialTest() throws Exception {
