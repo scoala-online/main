@@ -1,12 +1,12 @@
 import VideosRow from './VideosRow';
 import Sidebar from './Sidebar';
-import lectie1 from '../../assets/images/Module/Lectie1.png';
-import lectie2 from '../../assets/images/Module/Lectie2.png';
-import lectie3 from '../../assets/images/Module/Lectie3.png';
-import lectie4 from '../../assets/images/Module/Lectie4.png';
-import lectie5 from '../../assets/images/Module/Lectie5.png';
-import lectie6 from '../../assets/images/Module/Lectie6.png';
-import lectie7 from '../../assets/images/Module/Lectie7.png';
+import lectie1 from '../../assets/tmp/Module/Lectie1.png';
+import lectie2 from '../../assets/tmp/Module/Lectie2.png';
+import lectie3 from '../../assets/tmp/Module/Lectie3.png';
+import lectie4 from '../../assets/tmp/Module/Lectie4.png';
+import lectie5 from '../../assets/tmp/Module/Lectie5.png';
+import lectie6 from '../../assets/tmp/Module/Lectie6.png';
+import lectie7 from '../../assets/tmp/Module/Lectie7.png';
 const VideoContent = () => {
   const allVideos = [
     {
