@@ -1,43 +1,41 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 
-import Sidebar from './../sidebar/SideBar';
-
+import Sidebar from '../sidebar/SideBar';
 import { navBarHeight } from '../../themes/Sizes';
 import fontStyle from '../../themes/FontFamilies';
 import { clase, materii } from '../../utilities/MockData';
 
-import * as styles from './NavMenuStyles';
+import styles from './NavMenuStyles';
 import dropdownIcon from '../../../assets/icons/dropdown_icon.svg';
 import logo from '../../../assets/icons/logo.svg';
 
 export default function NavMenu(props) {
-  //States
+  // States
   const [gradeActive, setGradeActive] = useState(false);
   const [subjectActive, setSubjectActive] = useState(false);
-  const [posSubject, setPosSubject] = useState(0);
+  const [subjectPos, setSubjectPos] = useState(0);
 
-  //Refs
+  // Refs
   const dropdownButtonRef = useRef();
   const gradeSidebarRef = useRef();
   const subjectSidebarRef = useRef();
 
-  //Show/hide second sidebar
-  function showSubjectActive(index) {
-    console.log(index);
-    if (index != posSubject) {
-      setPosSubject(index);
+  // Toggle second sidebar
+  function showSubjectSidebar(index) {
+    if (index !== subjectPos) {
+      setSubjectPos(index);
     } else {
       setSubjectActive(!subjectActive);
     }
   }
 
-  //To Do
+  // TODO: implement function when the page is ready
   function goToPage(index) {
-    console.log(index);
+    return;
   }
 
-  //Used for closing the sidebars when the user clicks outside them
+  // Used for closing the sidebars when the user clicks outside of them
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       if (
@@ -62,7 +60,9 @@ export default function NavMenu(props) {
 
   useEffect(() => {
     if (!subjectActive) setSubjectActive(!subjectActive);
-  }, [posSubject]);
+  // Dependency not needed
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subjectPos]);
 
   useEffect(() => {
     if (!gradeActive) {
@@ -74,7 +74,7 @@ export default function NavMenu(props) {
     <>
       <Navbar
         style={{ ...styles.navBar, height: navBarHeight.toString() + 'vh' }}
-      >
+      > 
         <Nav style={styles.navBarFirstFragment}>
           <button
             style={styles.showMaterialsButton}
@@ -85,8 +85,8 @@ export default function NavMenu(props) {
               Materiale
             </span>
           </button>
-          <img style={styles.dropDownIcon} src={dropdownIcon} />
-          <img style={styles.logo} src={logo} />
+          <img style={styles.dropDownIcon} src={dropdownIcon} alt='dropDown'/>
+          <img style={styles.logo} src={logo} alt='logo'/>
         </Nav>
 
         <Nav style={styles.navBarSecondFragment}>
@@ -110,17 +110,16 @@ export default function NavMenu(props) {
           <Sidebar
             type="grade"
             data={clase}
-            posSubject={posSubject}
             active={gradeActive}
             sideBarRef={gradeSidebarRef}
-            onClickFunction={showSubjectActive}
+            onClickFunction={showSubjectSidebar}
             fontSize="1rem"
           />
 
           <Sidebar
             type="subject"
             data={materii}
-            posSubject={posSubject}
+            posSubject={subjectPos}
             active={subjectActive}
             sideBarRef={subjectSidebarRef}
             onClickFunction={goToPage}
