@@ -209,7 +209,7 @@ class LectureMaterialControllerTest {
   }
 
   /**
-   * Arranges the cration a LectureMaterial object as JSON entry
+   * Arranges the creation a LectureMaterial object as JSON entry
    * and the existence of a LectureMaterial object at specified id ("id0").
    * Performs PATCH method at "lecture-material/id0".
    * Asserts that the status is 200.

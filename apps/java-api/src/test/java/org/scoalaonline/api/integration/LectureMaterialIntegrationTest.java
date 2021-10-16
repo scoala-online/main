@@ -110,34 +110,48 @@ public class LectureMaterialIntegrationTest {
       Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null,"ADMIN")
     );
   }
+  /**
+   * Arranges the existence of a list of entries in the database.
+   * Performs GET method on "/lecture-materials"
+   * Asserts that returns 200 status and the
+   * content size is equal to the number of objects in the database.
+   * Asserts that the JSON output contains added objects
+   *
+   * IMPLEMENTATION DETAILS: after the addition of each list of cases, the function
+   * goes through all the entries found in the returned JSON in REVERSE ORDER
+   * and verifies if each of the added lecture material appears in the JSON properly.
+   * @throws Exception
+   * @param input -> List of added lecture materials
+   */
   @DisplayName(value = "Get all 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("getAllCases")
   public void getAllLectureMaterialsTest(ArrayList<LectureMaterial> input) throws Exception {
 
+    // arrange
     long numberOfItems = lectureMaterialRepository.count();
     lectureMaterialRepository.saveAll(input);
 
+    // when
     MockHttpServletResponse response = this.mockMvc
       .perform(get("/lecture-materials")).andDo(print())
       .andExpect(status().isOk()).andReturn().getResponse();
 
     JSONArray parsedLectureMaterials = new JSONArray(response.getContentAsString()) ;
 
+    // then
     assertThat(parsedLectureMaterials.length()).isEqualTo(numberOfItems + input.size());
+    // Goes through list of test entries
     for (LectureMaterial lectureMaterial: input) {
 
       Optional<LectureMaterial> entity = lectureMaterialRepository.findById(lectureMaterial.getId());
       assertThat(entity).isNotNull();
       assertThat(entity.get().getDocument()).isEqualTo(lectureMaterial.getDocument());
 
-      // CONTAINS TIME COMPLEXITY O(n*m) unde n = nr de litere si m aprox. egal cu n => O(n^2)
-      // assertThat(response.getContentAsString().contains(lectureMaterial.getId())).isTrue();
+      // TIME COMPLEXITY O(T) << O(N) where N is the number of entries in the database and T is the number
+      // of entries added in the testing time, including entries that weren't added by the tests.
 
-      // TIME COMPLEXITY O(T) << O(N) unde N e numerul de entry-uri din baza de date iar T e numarul
-      // de entry-uri adaugate in timpul testarii ( include entry-uri care n-au fost adaugate de teste )
-
-      // Parcurg Lista de JSON-uri cu LectureMaterial pentru a verifica daca apar entitatile noi adaugate
+      // Goes through JSON list to check if the new added entries appear
       JSONObject parsedLectureMaterial = null;
       for(int i = parsedLectureMaterials.length() - 1; i >= 0; i --) {
         parsedLectureMaterial = new JSONObject(parsedLectureMaterials.get(i).toString());
@@ -145,8 +159,8 @@ public class LectureMaterialIntegrationTest {
           break;
         }
       }
-      // daca gasesc, verific sa fi fost adaugat bine, daca nu, esueaza assertu cand compara id-ul
-      // cu al unui alt lecture material
+      // Checks if the entry found in the previous for is the one added by the test
+      // It fails if the entry is not added or found
       assertThat(parsedLectureMaterial).isNotNull();
       assertThat(parsedLectureMaterial.get("id")).isEqualTo(lectureMaterial.getId());
       assertThat(parsedLectureMaterial.get("document")).isEqualTo(lectureMaterial.getDocument());
@@ -154,18 +168,33 @@ public class LectureMaterialIntegrationTest {
     lectureMaterialRepository.deleteAll(input);
   }
 
+  /**
+   * Arranges the existence of a LectureMaterial object at a specified id.
+   * Creates a JSON entry that will be expected to receive.
+   * Performs GET method at "lecture-materials/{@param idParam}".
+   * Asserts that the status is {@param status} and the object returned has the same
+   * attribute values as the expected one. Otherwise asserts that the {@param errorMessage}
+   * is the expected one, and that the body's content is empty.
+   * @throws Exception
+   * @param input -> List of lecture materials;
+   * @param idParam -> The id of the wanted lecture material;
+   * @param status -> Expected status of GET function;
+   * @param errorMessage -> Expected error message;
+   * @param expectedLectureMaterial -> The expected to find lecture material;
+   */
   @DisplayName(value = "Get 'Lecture Materials' by id test")
   @ParameterizedTest
   @MethodSource("getByIdCases")
   void getLectureMaterialByIdTest(ArrayList<LectureMaterial> input, String idParam,
                                   Integer status, String errorMessage, LectureMaterial expectedLectureMaterial) throws Exception {
     lectureMaterialRepository.saveAll(input);
-    //when & then
+    // when
     MockHttpServletResponse response = this.mockMvc
       .perform(get("/lecture-materials/" + idParam + "/")
       .accept(MediaType.APPLICATION_JSON))
       .andReturn().getResponse();
 
+    // then
     assertThat(response.getStatus()).isEqualTo(status);
     assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
 
@@ -181,22 +210,38 @@ public class LectureMaterialIntegrationTest {
     lectureMaterialRepository.deleteAll(input);
   }
 
+  /**
+   * Arranges the creation a LectureMaterial object as JSON entry.
+   * Performs POST at "lecture-material/" with the created JSON.
+   * Asserts that the status is {@param status} and the object returned has the same
+   * attribute values as the expected one. Otherwise asserts that the {@param errorMessage}
+   * is the expected one, and that the body's content is empty.
+   * @throws Exception
+   * @param input -> Name of new document;
+   * @param status -> Expected status of POST function;
+   * @param errorMessage -> Expected error message;
+   * @param role -> Role of the user trying to call POST function;
+   */
   @DisplayName(value = "Add 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("addCases")
   public void addLectureMaterialTest(String input, Integer status, String errorMessage, String role) throws Exception {
+
+    // arrange
     List<String> FieldArray = new ArrayList<>();
     FieldArray.add("document");
     List<Object> ValuesArray = new ArrayList<>();
     ValuesArray.add(input);
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
+    // when
     MockHttpServletResponse response = this.mockMvc.perform(post("/lecture-materials")
       .contentType(MediaType.APPLICATION_JSON)
       .content(jsonObjectWriter.toString())
       .with(user(role).roles(role))).andDo(print())
       .andReturn().getResponse();
 
+    // then
     assertThat(response.getStatus()).isEqualTo(status);
     assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
 
@@ -217,13 +262,29 @@ public class LectureMaterialIntegrationTest {
       lectureMaterialRepository.deleteById(id);
   }
 
+  /**
+   * Arranges the creation a LectureMaterial object as JSON entry
+   * and the existence of a LectureMaterial object at specified id {@param existentId}.
+   * Performs PATCH method at "lecture-material/{@param existentId}".
+   * Asserts that the status is {@param status} and the object returned has the same
+   * attribute values as the expected one. Otherwise asserts that the {@param errorMessage}
+   * is the expected one, and that the body's content is empty.
+   * @throws Exception
+   * @param document -> Name of lecture material document after update;
+   * @param expectedId -> Id of lecture material that needs to be updated;
+   * @param wantedId -> Id given by request;
+   * @param status -> Expected status of PATCH method;
+   * @param errorMessage -> Expected error message;
+   * @param role -> Role of the user trying to call PATCH function;
+   */
   @DisplayName(value = "Update 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("updateCases")
-  void updateLectureMaterialTest(String document, String existentId, String wantedId,
+  void updateLectureMaterialTest(String document, String expectedId, String wantedId,
                                  Integer status, String errorMessage,String role) throws Exception {
 
-    lectureMaterialRepository.save(new LectureMaterial(existentId, document));
+    // arrange
+    lectureMaterialRepository.save(new LectureMaterial(expectedId, document + ".updateMe"));
 
     // Json Generator
     List<String> FieldArray = new ArrayList<>();
@@ -233,7 +294,7 @@ public class LectureMaterialIntegrationTest {
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
 
-    //when & then
+    //when
     MockHttpServletResponse response = this.mockMvc.perform(
       patch("/lecture-materials/" + wantedId + "/")
         .contentType(MediaType.APPLICATION_JSON)
@@ -241,11 +302,10 @@ public class LectureMaterialIntegrationTest {
         .with(user(role).roles(role)))
       .andReturn().getResponse();
 
-    // STATUSURILE SUNT CORECTE
+    // then
     assertThat(response.getStatus()).isEqualTo(status);
     assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
 
-    // JSONU DE OUTPUT E CORECT
     if(errorMessage == null) {
       assertThat(response.getContentAsString()).isNotEmpty();
       Optional<LectureMaterial> entity = lectureMaterialRepository.findById(wantedId);
@@ -256,9 +316,21 @@ public class LectureMaterialIntegrationTest {
     } else {
         assertThat(response.getContentAsString()).isEmpty();
     }
-    lectureMaterialRepository.deleteById(existentId);
+    lectureMaterialRepository.deleteById(expectedId);
   }
 
+  /**
+   * Arranges the existence of entries in the database.
+   * Performs DELETE method at "lecture-material/id0".
+   * Asserts that the status is 200.
+   * @throws Exception
+   * @param document -> Name of lecture material document to delete ;
+   * @param expectedId -> Id of lecture material that needs to be deleted;
+   * @param wantedId -> Id given by request;
+   * @param status -> Expected status of DELETE method;
+   * @param errorMessage -> Expected error message;
+   * @param role -> Role of the user trying to call DELETE function;
+   */
   @DisplayName(value = "Delete 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("deleteByIdCases")
