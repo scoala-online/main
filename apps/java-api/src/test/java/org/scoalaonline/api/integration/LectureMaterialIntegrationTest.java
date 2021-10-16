@@ -94,7 +94,16 @@ public class LectureMaterialIntegrationTest {
       Arguments.of(arrayListManyCase,"ID2", HttpStatus.OK.value(), null, arrayListManyCase.get(1))
     );
   }
-  @Test
+
+  private static Stream<Arguments> addByIdCases() {
+    return Stream.of(
+      Arguments.of("", HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document"),
+      Arguments.of(null,  HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document"),
+      Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null)
+    );
+  }
+
+    @Test
   public void givenWac_whenServletContext_thenItProvidesGreetController() {
     ServletContext servletContext = webApplicationContext.getServletContext();
 
@@ -169,63 +178,36 @@ public class LectureMaterialIntegrationTest {
     }
     lectureMaterialRepository.deleteAll(input);
   }
-  
-  @Test
-  // @ParameterizedTest(name = )
-  public void addLectureMaterialTest() throws Exception {
+
+  @ParameterizedTest
+  @MethodSource("addByIdCases")
+  public void addLectureMaterialTest(String input, Integer status, String errorMessage) throws Exception {
     List<String> FieldArray = new ArrayList<String>();
     FieldArray.add("document");
     List<Object> ValuesArray = new ArrayList<Object>();
-    ValuesArray.add("EXAMPLE_POST_DOCUMENT.pdf");
+    ValuesArray.add(input);
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
     MockHttpServletResponse response = this.mockMvc.perform(post("/lecture-materials")
       .contentType(MediaType.APPLICATION_JSON)
       .content(jsonObjectWriter.toString())).andDo(print())
-      .andExpect(status().isCreated()).andReturn().getResponse();
+      .andReturn().getResponse();
 
-    String responseToString = response.getContentAsString();
-    JSONObject parsedLectureMaterial = new JSONObject(responseToString) ;
+    assertThat(response.getStatus()).isEqualTo(status);
+    assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
 
-    Optional<LectureMaterial> entity = lectureMaterialRepository.findById(parsedLectureMaterial.get("id").toString());
-    assertThat(entity.get()).isNotNull();
-    assertThat(entity.get().getDocument()).isEqualTo("EXAMPLE_POST_DOCUMENT.pdf");
-    lectureMaterialRepository.delete(entity.get());
-  }
-
-  @Test
-  void addLectureMaterialInvalidDataExceptionTest() throws Exception {
-
-    List<Object> exceptionCases = new ArrayList<Object>();
-    exceptionCases.add("");
-    exceptionCases.add(null);
-    for(Object exceptionCase : exceptionCases) {
-
-      //Json Generator
-      List<String> FieldArray = new ArrayList<String>();
-      FieldArray.add("document");
-      List<Object> ValuesArray = new ArrayList<Object>();
-      ValuesArray.add(exceptionCase);
-      StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
-
-      //when
-      MockHttpServletResponse response = mockMvc.perform(
-        post("/lecture-materials").contentType(MediaType.APPLICATION_JSON)
-          .content(jsonObjectWriter.toString()))
-        .andReturn().getResponse();
-
-      //in case it fails, delete the unwanted entry
-      if(!response.getContentAsString().isEmpty()) {
-        JSONObject parsedLectureMaterial = new JSONObject(response.getContentAsString());
-        lectureMaterialRepository.deleteById(parsedLectureMaterial.get("id").toString());
-      }
-
-      //then
-      AssertionsForClassTypes.assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-      AssertionsForClassTypes.assertThat(response.getContentAsString()).isEmpty();
-      assertThat(response.getErrorMessage()).isEqualTo("POST: Lecture Material Invalid Document");
+    String id = null;
+    if(errorMessage == null) {
+      JSONObject parsedLectureMaterial = new JSONObject(response.getContentAsString());
+      Optional<LectureMaterial> entity = lectureMaterialRepository.findById(parsedLectureMaterial.get("id").toString());
+      assertThat(entity.get()).isNotNull();
+      assertThat(entity.get().getDocument()).isEqualTo(input);
+      id = parsedLectureMaterial.get("id").toString();
     }
+    if(id != null)
+      lectureMaterialRepository.deleteById(id);
   }
+  
   @Test
   void updateLectureMaterialTest() throws Exception {
 
