@@ -1,16 +1,15 @@
 package org.scoalaonline.api.integration;
 
-import net.minidev.json.parser.JSONParser;
 import org.assertj.core.api.AssertionsForClassTypes;
+import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.scoalaonline.api.controller.LectureMaterialController;
-import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -34,12 +31,11 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,29 +43,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @WithMockUser(roles={"ADMIN"})
 @WebAppConfiguration
-public class LectureMaterialControllerIntegrationTest {
+public class LectureMaterialIntegrationTest {
 
   @Autowired
   private WebApplicationContext webApplicationContext;
 
   @Autowired
   private LectureMaterialRepository lectureMaterialRepository;
-
-  private  LectureMaterial lectureMaterialToSave;
-
+  private LectureMaterial lectureMaterialToSave;
   private MockMvc mockMvc;
   @BeforeEach
   public void beforeTestSetup() throws Exception {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+  }
+
+  private static Stream<Arguments> getAllCases() {
 
     // Create a lecture material to add to database
-    lectureMaterialToSave = new LectureMaterial();
-    lectureMaterialToSave.setDocument("EXAMPLE_DOCUMENT.txt");
-    lectureMaterialRepository.save(lectureMaterialToSave);
-  }
-  @AfterEach
-  public void afterTestSetup() {
-    lectureMaterialRepository.delete(lectureMaterialToSave);
+    ArrayList<LectureMaterial> arrayListNullCase = new ArrayList<LectureMaterial>();
+    ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<LectureMaterial>();
+    ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<LectureMaterial>();
+
+    arrayListOneCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
+
+    arrayListManyCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
+    arrayListManyCase.add(new LectureMaterial("ID2","EXAMPLE_DOCUMENT_2.txt"));
+    arrayListManyCase.add(new LectureMaterial("ID3","EXAMPLE_DOCUMENT_3.txt"));
+
+    return Stream.of(
+      Arguments.of(arrayListNullCase),
+      Arguments.of(arrayListOneCase),
+      Arguments.of(arrayListManyCase)
+    );
   }
 
   @Test
@@ -80,12 +85,47 @@ public class LectureMaterialControllerIntegrationTest {
     Assertions.assertTrue(servletContext instanceof MockServletContext);
   }
 
-  @Test
-  public void getAllLectureMaterialsTest() throws Exception {
-    this.mockMvc.perform(get("/lecture-materials")).andDo(print())
-      .andExpect(status().isOk());
-    Optional<LectureMaterial> entity = lectureMaterialRepository.findById(lectureMaterialToSave.getId());
-    assertThat(entity.get().getDocument()).isEqualTo("EXAMPLE_DOCUMENT.txt");
+  @ParameterizedTest
+  @MethodSource("getAllCases")
+  public void getAllLectureMaterialsTest(ArrayList<LectureMaterial> input) throws Exception {
+
+    long numberOfItems = lectureMaterialRepository.count();
+    lectureMaterialRepository.saveAll(input);
+
+    MockHttpServletResponse response = this.mockMvc.perform(get("/lecture-materials")).andDo(print())
+      .andExpect(status().isOk()).andReturn().getResponse();
+
+    JSONArray parsedLectureMaterials = new JSONArray(response.getContentAsString()) ;
+
+    assertThat(parsedLectureMaterials.length()).isEqualTo(numberOfItems + input.size());
+    for (LectureMaterial lectureMaterial: input) {
+
+      Optional<LectureMaterial> entity = lectureMaterialRepository.findById(lectureMaterial.getId());
+      assertThat(entity).isNotNull();
+      assertThat(entity.get().getDocument())
+        .isEqualTo(lectureMaterial.getDocument());
+
+      // CONTAINS TIME COMPLEXITY O(n*m) unde n = nr de litere si m aprox. egal cu n => O(n^2)
+      // assertThat(response.getContentAsString().contains(lectureMaterial.getId())).isTrue();
+
+      // TIME COMPLEXITY O(T) << O(N) unde N e numerul de entry-uri din baza de date iar T e numarul
+      // de entry-uri adaugate in timpul testarii ( include entry-uri care n-au fost adaugate de teste )
+
+      // Parcurg Lista de JSON-uri cu LectureMaterial pentru a verifica daca apar entitatile noi adaugate
+      JSONObject parsedLectureMaterial = null;
+      for(int i = parsedLectureMaterials.length() - 1; i >= 0; i --) {
+        parsedLectureMaterial = new JSONObject(parsedLectureMaterials.get(i).toString());
+        if(parsedLectureMaterial.get("id").equals(lectureMaterial.getId())){
+          break;
+        }
+      }
+      // daca gasesc, verific sa fi fost adaugat bine, daca nu, esueaza assertu cand compara id-ul
+      // cu al unui alt lecture material
+      assertThat(parsedLectureMaterial).isNotNull();
+      assertThat(parsedLectureMaterial.get("id")).isEqualTo(lectureMaterial.getId());
+      assertThat(parsedLectureMaterial.get("document")).isEqualTo(lectureMaterial.getDocument());
+    }
+    lectureMaterialRepository.deleteAll(input);
   }
 
   @Test
@@ -114,13 +154,14 @@ public class LectureMaterialControllerIntegrationTest {
       .andReturn().getResponse();
 
     // then
-    assertThat(response.getErrorMessage()).isEqualTo("GET: Lecture Material Not Found");
     assertThat(response.getContentAsString()).isEmpty();
     assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+    assertThat(response.getErrorMessage()).isEqualTo("GET: Lecture Material Not Found");
   }
 
 
   @Test
+  // @ParameterizedTest(name = )
   public void addLectureMaterialTest() throws Exception {
     List<String> FieldArray = new ArrayList<String>();
     FieldArray.add("document");
@@ -174,5 +215,27 @@ public class LectureMaterialControllerIntegrationTest {
       AssertionsForClassTypes.assertThat(response.getContentAsString()).isEmpty();
       assertThat(response.getErrorMessage()).isEqualTo("POST: Lecture Material Invalid Document");
     }
+  }
+  @Test
+  void updateLectureMaterialTest() throws Exception {
+
+//    String idParam = lectureMaterialToUpdate.getId();
+    //Json Generator
+    List<String> FieldArray = new ArrayList<String>();
+    FieldArray.add("document");
+    List<Object> ValuesArray = new ArrayList<Object>();
+    ValuesArray.add("Document_3.pdf");
+    StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
+
+
+    //when & then
+    MockHttpServletResponse response = this.mockMvc.perform(
+      patch("/lecture-materials/id0")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(jsonObjectWriter.toString()))
+      .andExpect(status().isOk())
+      .andReturn().getResponse();
+
+
   }
 }
