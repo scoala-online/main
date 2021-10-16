@@ -5,11 +5,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
@@ -36,6 +38,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doThrow;
 import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -114,6 +117,12 @@ public class LectureMaterialIntegrationTest {
     );
   }
 
+  private static Stream<Arguments> deleteByIdCases() {
+    return Stream.of(
+      Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID", "INVALID_ID",HttpStatus.NOT_FOUND.value(),"DELETE: Lecture Material Not Found"),
+      Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null)
+    );
+  }
     @Test
   public void givenWac_whenServletContext_thenItProvidesGreetController() {
     ServletContext servletContext = webApplicationContext.getServletContext();
@@ -121,7 +130,7 @@ public class LectureMaterialIntegrationTest {
     Assertions.assertNotNull(servletContext);
     Assertions.assertTrue(servletContext instanceof MockServletContext);
   }
-
+  @DisplayName(value = "Get all 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("getAllCases")
   public void getAllLectureMaterialsTest(ArrayList<LectureMaterial> input) throws Exception {
@@ -166,6 +175,7 @@ public class LectureMaterialIntegrationTest {
     lectureMaterialRepository.deleteAll(input);
   }
 
+  @DisplayName(value = "Get 'Lecture Materials' by id test")
   @ParameterizedTest
   @MethodSource("getByIdCases")
   void getLectureMaterialByIdTest(ArrayList<LectureMaterial> input, String idParam,
@@ -186,10 +196,13 @@ public class LectureMaterialIntegrationTest {
       JSONObject parsedLectureMaterial = new JSONObject(response.getContentAsString());
       assertThat(parsedLectureMaterial.get("id")).isEqualTo(expectedLectureMaterial.getId());
       assertThat(parsedLectureMaterial.get("document")).isEqualTo(expectedLectureMaterial.getDocument());
+    } else {
+      assertThat(response.getContentAsString()).isEmpty();
     }
     lectureMaterialRepository.deleteAll(input);
   }
 
+  @DisplayName(value = "Add 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("addByIdCases")
   public void addLectureMaterialTest(String input, Integer status, String errorMessage) throws Exception {
@@ -211,14 +224,20 @@ public class LectureMaterialIntegrationTest {
     if(errorMessage == null) {
       JSONObject parsedLectureMaterial = new JSONObject(response.getContentAsString());
       Optional<LectureMaterial> entity = lectureMaterialRepository.findById(parsedLectureMaterial.get("id").toString());
+
+      assertThat(response.getContentAsString()).isNotEmpty();
       assertThat(entity.get()).isNotNull();
       assertThat(entity.get().getDocument()).isEqualTo(input);
       id = parsedLectureMaterial.get("id").toString();
+    } else {
+      assertThat(response.getContentAsString()).isEmpty();
     }
+
     if(id != null)
       lectureMaterialRepository.deleteById(id);
   }
 
+  @DisplayName(value = "Update 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("updateByIdCases")
   void updateLectureMaterialTest(String document, String existentId, String wantedId, Integer status, String errorMessage) throws Exception {
@@ -246,12 +265,40 @@ public class LectureMaterialIntegrationTest {
 
     // JSONU DE OUTPUT E CORECT
     if(errorMessage == null) {
+      assertThat(response.getContentAsString()).isNotEmpty();
       Optional<LectureMaterial> entity = lectureMaterialRepository.findById(wantedId);
 
       assertThat(entity.get()).isNotNull();
       assertThat(entity.get().getId()).isEqualTo(wantedId);
       assertThat(entity.get().getDocument()).isEqualTo(document);
+    } else {
+        assertThat(response.getContentAsString()).isEmpty();
     }
     lectureMaterialRepository.deleteById(existentId);
   }
+
+  @DisplayName(value = "Delete 'Lecture Materials' test")
+  @ParameterizedTest
+  @MethodSource("deleteByIdCases")
+  void deleteLectureMaterialByIdNotFoundExceptionTest(String document, String expectedId, String wantedId,
+                                                      Integer status, String errorMessage) throws Exception {
+
+    lectureMaterialRepository.save(new LectureMaterial(expectedId, document));
+    // when
+    MockHttpServletResponse response = mockMvc.perform(
+      delete("/lecture-materials/" + wantedId + "/")
+        .accept(MediaType.APPLICATION_JSON))
+      .andReturn().getResponse();
+
+    // then
+    assertThat(response.getStatus()).isEqualTo(status);
+    assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
+    assertThat(response.getContentAsString()).isEmpty();
+
+    if(errorMessage == null) {
+      assertThat(lectureMaterialRepository.findById(expectedId).isEmpty()).isTrue();
+    }
+    lectureMaterialRepository.deleteById(expectedId);
+  }
+
 }
