@@ -1,25 +1,16 @@
-import React from 'react';
+import { Container } from 'react-bootstrap';
 
 import NavMenu from '../navMenu/NavMenu';
+import styles from './LayoutStyle';
 
 //This component will render the NavBar and the content of the current page
 export default function Layout(props) {
   return (
     <>
       <NavMenu />
-      <div
-        style={{
-          width: '100vw',
-          position: 'fixed',
-          top: '7.68vh',
-          bottom: '0px',
-          margin: '0px',
-          padding: '0px',
-          overflowY: 'overlay',
-        }}
-      >
+      <Container fluid style={styles.contentStyle}>
         {props.children}
-      </div>
+      </Container>
     </>
   );
 }
