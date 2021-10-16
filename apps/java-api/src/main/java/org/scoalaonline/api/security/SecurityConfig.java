@@ -48,12 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(),jwtService);
     customAuthenticationFilter.setFilterProcessesUrl("/users/login");
-    http.csrf().disable();
+    http.csrf().disable().cors();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     http.authorizeRequests().antMatchers("/users/login/**", "/users/token/refresh/**").permitAll();
 
     http.authorizeRequests().antMatchers("/roles/**").hasAnyAuthority("ROLE_ADMIN");
+
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/").permitAll();
 
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/role/**").hasAnyAuthority("ROLE_ADMIN");
