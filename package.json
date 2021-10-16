@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^12.1.0",
     "@angular/router": "^12.1.0",
     "@nrwl/angular": "12.8.0",
+    "ci-env": "^1.16.0",
     "core-js": "^3.6.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
