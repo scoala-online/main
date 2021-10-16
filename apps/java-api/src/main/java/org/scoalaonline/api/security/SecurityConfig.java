@@ -67,10 +67,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority("ROLE_ADMIN");
 
+    // TODO: Add security checks once the issue is done.
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/lecture-materials/**").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials/**").permitAll();// .hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lecture-materials/**").permitAll();// .hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lecture-materials/**").permitAll();// .hasAnyAuthority("ROLE_ADMIN");
 
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/lectures/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/lectures/**").hasAnyAuthority("ROLE_ADMIN");
