@@ -3,6 +3,7 @@ package org.scoalaonline.api.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
@@ -17,8 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -36,13 +41,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureJsonTesters
-@AutoConfigureMockMvc
 @SpringBootTest
-@WithMockUser(roles={"ADMIN"})
 @ActiveProfiles("test")
+@WebAppConfiguration
 class LectureMaterialControllerTest {
-  @Autowired
   private MockMvc mockMvc;
+
+  @Autowired
+  private WebApplicationContext webApplicationContext;
 
   @MockBean
   private LectureMaterialService lectureMaterialService;
@@ -51,6 +57,8 @@ class LectureMaterialControllerTest {
 
   @BeforeEach
   void setUp() {
+    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+
     this.lectureMaterialList = new ArrayList<>();
     this.lectureMaterialList.add(new LectureMaterial("id0", "Document_1.pdf"));
     this.lectureMaterialList.add(new LectureMaterial("id1", "Document_2.pdf"));
