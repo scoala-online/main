@@ -13,7 +13,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -35,26 +37,21 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@AutoConfigureMockMvc
 @WithMockUser(roles={"ADMIN"})
-@WebAppConfiguration
 public class LectureMaterialIntegrationTest {
 
   @Autowired
-  private WebApplicationContext webApplicationContext;
-
-  @Autowired
   private LectureMaterialRepository lectureMaterialRepository;
+  @Autowired
   private MockMvc mockMvc;
-  @BeforeEach
-  public void beforeTestSetup(){
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-  }
 
   private static Stream<Arguments> getAllCases() {
 
@@ -81,16 +78,16 @@ public class LectureMaterialIntegrationTest {
     ArrayList<LectureMaterial> arrayListOneCase = new ArrayList<LectureMaterial>();
     ArrayList<LectureMaterial> arrayListManyCase = new ArrayList<LectureMaterial>();
 
-    arrayListOneCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
+    arrayListOneCase.add(new LectureMaterial("VALID_ID1","EXAMPLE_DOCUMENT_1.txt"));
 
-    arrayListManyCase.add(new LectureMaterial("ID1","EXAMPLE_DOCUMENT_1.txt"));
-    arrayListManyCase.add(new LectureMaterial("ID2","EXAMPLE_DOCUMENT_2.txt"));
-    arrayListManyCase.add(new LectureMaterial("ID3","EXAMPLE_DOCUMENT_3.txt"));
+    arrayListManyCase.add(new LectureMaterial("VALID_ID1","EXAMPLE_DOCUMENT_1.txt"));
+    arrayListManyCase.add(new LectureMaterial("VALID_ID2","EXAMPLE_DOCUMENT_2.txt"));
+    arrayListManyCase.add(new LectureMaterial("VALID_ID3","EXAMPLE_DOCUMENT_3.txt"));
 
     return Stream.of(
-      Arguments.of(arrayListNullCase,"ID1", HttpStatus.NOT_FOUND.value(), "GET: Lecture Material Not Found", null),
-      Arguments.of(arrayListOneCase,"ID1",HttpStatus.OK.value(), null, arrayListOneCase.get(0)),
-      Arguments.of(arrayListManyCase,"ID2", HttpStatus.OK.value(), null, arrayListManyCase.get(1))
+      Arguments.of(arrayListNullCase,"INVALID_ID1", HttpStatus.NOT_FOUND.value(), "GET: Lecture Material Not Found", null),
+      Arguments.of(arrayListOneCase,"VALID_ID1",HttpStatus.OK.value(), null, arrayListOneCase.get(0)),
+      Arguments.of(arrayListManyCase,"VALID_ID2", HttpStatus.OK.value(), null, arrayListManyCase.get(1))
     );
   }
 
@@ -117,16 +114,10 @@ public class LectureMaterialIntegrationTest {
       Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null)
     );
   }
-    @Test
-  public void givenWac_whenServletContext_thenItProvidesGreetController() {
-    ServletContext servletContext = webApplicationContext.getServletContext();
-
-    Assertions.assertNotNull(servletContext);
-    Assertions.assertTrue(servletContext instanceof MockServletContext);
-  }
   @DisplayName(value = "Get all 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("getAllCases")
+  @WithMockUser(roles = {"STUDENT"})
   public void getAllLectureMaterialsTest(ArrayList<LectureMaterial> input) throws Exception {
 
     long numberOfItems = lectureMaterialRepository.count();
@@ -199,6 +190,7 @@ public class LectureMaterialIntegrationTest {
   @DisplayName(value = "Add 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("addByIdCases")
+//  @WithMockUser(roles = {"STUDENT"})
   public void addLectureMaterialTest(String input, Integer status, String errorMessage) throws Exception {
     List<String> FieldArray = new ArrayList<String>();
     FieldArray.add("document");
@@ -234,6 +226,7 @@ public class LectureMaterialIntegrationTest {
   @DisplayName(value = "Update 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("updateByIdCases")
+//  @WithMockUser(roles = {"STUDENT"})
   void updateLectureMaterialTest(String document, String existentId, String wantedId, Integer status, String errorMessage) throws Exception {
 
     lectureMaterialRepository.save(new LectureMaterial(existentId, document));
@@ -274,6 +267,7 @@ public class LectureMaterialIntegrationTest {
   @DisplayName(value = "Delete 'Lecture Materials' test")
   @ParameterizedTest
   @MethodSource("deleteByIdCases")
+//  @WithMockUser(roles = {"STUDENT"})
   void deleteLectureMaterialByIdNotFoundExceptionTest(String document, String expectedId, String wantedId,
                                                       Integer status, String errorMessage) throws Exception {
 
