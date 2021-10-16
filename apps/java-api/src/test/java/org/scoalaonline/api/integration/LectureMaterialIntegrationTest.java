@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -100,6 +102,15 @@ public class LectureMaterialIntegrationTest {
       Arguments.of("", HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document"),
       Arguments.of(null,  HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document"),
       Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null)
+    );
+  }
+
+  private static Stream<Arguments> updateByIdCases() {
+    return Stream.of(
+      Arguments.of("INVALID_ID_DOCUMENT.pdf","VALID_ID", "INVALID_ID",HttpStatus.NOT_FOUND.value(),"PATCH: Lecture Material Not Found"),
+      Arguments.of("", "VALID_ID","VALID_ID",HttpStatus.BAD_REQUEST.value(),"PATCH: Lecture Material Invalid Document"),
+      Arguments.of(null,"VALID_ID","VALID_ID",HttpStatus.BAD_REQUEST.value(),"PATCH: Lecture Material Invalid Document"),
+      Arguments.of("NOT_NULL_DOCUMENT.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null)
     );
   }
 
@@ -207,27 +218,40 @@ public class LectureMaterialIntegrationTest {
     if(id != null)
       lectureMaterialRepository.deleteById(id);
   }
-  
-  @Test
-  void updateLectureMaterialTest() throws Exception {
 
-//    String idParam = lectureMaterialToUpdate.getId();
-    //Json Generator
+  @ParameterizedTest
+  @MethodSource("updateByIdCases")
+  void updateLectureMaterialTest(String document, String existentId, String wantedId, Integer status, String errorMessage) throws Exception {
+
+    lectureMaterialRepository.save(new LectureMaterial(existentId, document));
+
+    // Json Generator
     List<String> FieldArray = new ArrayList<String>();
     FieldArray.add("document");
     List<Object> ValuesArray = new ArrayList<Object>();
-    ValuesArray.add("Document_3.pdf");
+    ValuesArray.add(document);
     StringWriter jsonObjectWriter = buildJsonBody(FieldArray, ValuesArray);
 
 
     //when & then
     MockHttpServletResponse response = this.mockMvc.perform(
-      patch("/lecture-materials/id0")
+      patch("/lecture-materials/" + wantedId + "/")
         .contentType(MediaType.APPLICATION_JSON)
         .content(jsonObjectWriter.toString()))
-      .andExpect(status().isOk())
       .andReturn().getResponse();
 
+    // STATUSURILE SUNT CORECTE
+    assertThat(response.getStatus()).isEqualTo(status);
+    assertThat(response.getErrorMessage()).isEqualTo(errorMessage);
 
+    // JSONU DE OUTPUT E CORECT
+    if(errorMessage == null) {
+      Optional<LectureMaterial> entity = lectureMaterialRepository.findById(wantedId);
+
+      assertThat(entity.get()).isNotNull();
+      assertThat(entity.get().getId()).isEqualTo(wantedId);
+      assertThat(entity.get().getDocument()).isEqualTo(document);
+    }
+    lectureMaterialRepository.deleteById(existentId);
   }
 }
