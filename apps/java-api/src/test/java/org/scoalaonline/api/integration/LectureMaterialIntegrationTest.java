@@ -85,7 +85,10 @@ public class LectureMaterialIntegrationTest {
       Arguments.of("UNAUTHORIZED_DOCUMENT.pdf", HttpStatus.FORBIDDEN.value(),"Forbidden","TEACHER"),
       Arguments.of("", HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document","ADMIN"),
       Arguments.of(null,  HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document","ADMIN"),
-      Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null,"ADMIN")
+      Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null,"ADMIN"),
+      Arguments.of("ăâîșț.pdf",  HttpStatus.CREATED.value(),null,"ADMIN"),
+      Arguments.of("!@#$%^&*()„”=+[]{};:'\"\\|,<>/?1234567890-_   .pdf",  HttpStatus.CREATED.value(),null,"ADMIN")
+
     );
   }
 
