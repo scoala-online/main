@@ -10,7 +10,7 @@ export function App() {
       <Router>
         <Switch>
           <Route exact path={'/'}>
-            <HttpDemo resourceUrl='/lecture-materials'/>
+            <HttpDemo/>
           </Route>
         </Switch>
       </Router>
