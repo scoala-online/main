@@ -132,7 +132,6 @@ public class LectureMaterialIntegrationTest {
   public void getAllLectureMaterialsTest(ArrayList<LectureMaterial> input) throws Exception {
 
     // arrange
-    long numberOfItems = lectureMaterialRepository.count();
     lectureMaterialRepository.saveAll(input);
 
     // when
@@ -143,7 +142,6 @@ public class LectureMaterialIntegrationTest {
     JSONArray parsedLectureMaterials = new JSONArray(response.getContentAsString()) ;
 
     // then
-    assertThat(parsedLectureMaterials.length()).isEqualTo(numberOfItems + input.size());
     // Goes through list of test entries
     for (LectureMaterial lectureMaterial: input) {
 
