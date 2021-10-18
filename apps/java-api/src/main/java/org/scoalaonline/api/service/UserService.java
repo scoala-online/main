@@ -128,7 +128,9 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
   public User add(User entry) throws UserInvalidNameException,
     UserInvalidUsernameException,
     UserInvalidPasswordException,
-    UserInvalidRolesException, RoleNotFoundException {
+    UserInvalidRolesException,
+    UserUsernameAlreadyUsedException,
+    RoleNotFoundException {
     log.info("Adding user {}...", entry.getUsername());
     User userToSave = new User();
 
@@ -139,8 +141,13 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserInvalidNameException("Method add: Name field can't be null.");
     }
 
-    if (entry.getUsername() != null && !entry.getUsername().equals("") && entry.getUsername().matches("^(?=.{1,64}@)[A-Za-z0-9_!#$%&'*+-=?^_`{|}~\\/]+(\\.[A-Za-z0-9_=?^_`{|}~\\/-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})*$")) {
-      userToSave.setUsername(entry.getUsername());
+    if (entry.getUsername() != null && !entry.getUsername().equals("") && entry.getUsername().matches("^(?=.{1,64}@)[A-Za-z0-9_!#$%&'*+-=?^_`{|}~\\/]+(\\.[A-Za-z0-9_=?^_`{|}~\\/-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})*$")){
+      if (!userRepository.existsByUsername(entry.getUsername())) {
+        userToSave.setUsername(entry.getUsername());
+      } else {
+        log.error("Username is already used.");
+        throw new UserUsernameAlreadyUsedException("Method add: Username is already used.");
+      }
     } else {
       log.error("Invalid username.");
       throw new UserInvalidUsernameException("Method add: Invalid username.");
