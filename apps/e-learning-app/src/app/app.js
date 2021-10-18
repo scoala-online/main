@@ -9,7 +9,7 @@ export function App() {
     <div className={styles.app}>
       <Router>
         <Switch>
-          <Route exact path={'/'}>
+          <Route exact path={'/demo'}>
             <HttpDemo/>
           </Route>
         </Switch>

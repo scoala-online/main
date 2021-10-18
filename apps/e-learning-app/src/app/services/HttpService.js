@@ -5,12 +5,17 @@ import httpUtil from '../utilities/HttpUtil';
 // Configuration
 axios.defaults.baseURL = process.env.NX_API_URL;
 axios.defaults.responseType = 'json';
+let authToken = null;
+let refreshToken = null;
 
 // Interceptors
 axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     //console.log(config);
+    if (authToken != null) {
+      config.headers['Authorization'] = `Bearer ${authToken}`;
+    }
     return config;
   },
   function (error) {
@@ -23,7 +28,7 @@ axios.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    //console.log(response)
+    // console.log(response)
     return response;
   },
   function (error) {
@@ -38,7 +43,7 @@ const responseHandler = (response, onResponse) => {
   if (onResponse) {
     onResponse(response);
   }
-} 
+};
 
 const errorHandler = (error) => {
   if (error.response) {
@@ -61,6 +66,35 @@ const errorHandler = (error) => {
 
 // Http Service
 const http = {
+  /**
+   * Takes in the credential of a user and calls the API's login route.\
+   * If the credentials were correct then the access and refresh tokens are saved in the service
+   * and the `onLogin` callback is executed.
+   * @param {String} username
+   * @param {String} password
+   * @param {Function} onLogin -> callback that gets executed once the user gets logged in.
+   */
+  login: (username, password, onLogin) => {
+    axios
+      .post('/users/login', { username, password })
+      .then((response) => {
+        authToken = response.data.access_token;
+        refreshToken = response.data.refresh_token;
+        if (onLogin) {
+          onLogin();
+        }
+      })
+      .catch((error) => errorHandler(error));
+  },
+
+  /**
+   * Invalidates the access and refresh tokens.
+   */
+  logout: () => {
+    authToken = null;
+    refreshToken = null;
+  },
+
   /**
    * Gets all resources of a type.\
    * \
@@ -128,17 +162,17 @@ const http = {
    * Example:
    * - '/students'
    * - '/notebooks'
-   * 
+   *
    * The `resourceId` should contain the id of the resource
    * that is being requested.\
    * Example:
    * - 'cc327880f-9252-444b-94c2-b3b28c006'
    *
    * The `onResponse` callback is a `Function` that should take the
-   * ***response*** `Object` as a parameter. 
-   * @param {String} resourceEndpoint 
-   * @param {Object} data 
-   * @param {Function} onResponse 
+   * ***response*** `Object` as a parameter.
+   * @param {String} resourceEndpoint
+   * @param {Object} data
+   * @param {Function} onResponse
    */
   add: (resourceEndpoint, data, onResponse) => {
     axios
@@ -161,12 +195,12 @@ const http = {
    * - '/notebooks'
    *
    * The `onResponse` callback is a `Function` that should take the
-   * ***response*** `Object` as a parameter. 
-   * @param {String} resourceEndpoint 
-   * @param {Object} data 
-   * @param {Function} onResponse 
+   * ***response*** `Object` as a parameter.
+   * @param {String} resourceEndpoint
+   * @param {Object} data
+   * @param {Function} onResponse
    */
-   update: (resourceEndpoint, resourceId, data, onResponse) => {
+  update: (resourceEndpoint, resourceId, data, onResponse) => {
     const endpoint = httpUtil.addPathParameter(resourceEndpoint, resourceId);
     axios
       .patch(endpoint, data)
@@ -174,7 +208,7 @@ const http = {
       .catch((error) => errorHandler(error));
   },
 
-   /**
+  /**
    * Deletes a single resource.\
    * \
    * Calls the api at the `resourceEndpoint` combined with the
@@ -198,13 +232,13 @@ const http = {
    * @param {String} resourceId
    * @param {Function} onResponse
    */
-    delete: (resourceEndpoint, resourceId, onResponse) => {
-      const endpoint = httpUtil.addPathParameter(resourceEndpoint, resourceId);
-      axios
-        .delete(endpoint)
-        .then((response) => responseHandler(response, onResponse))
-        .catch((error) => errorHandler(error));
-    },
+  delete: (resourceEndpoint, resourceId, onResponse) => {
+    const endpoint = httpUtil.addPathParameter(resourceEndpoint, resourceId);
+    axios
+      .delete(endpoint)
+      .then((response) => responseHandler(response, onResponse))
+      .catch((error) => errorHandler(error));
+  },
 
   // Base axios functions
   customGet: axios.get,
