@@ -10,7 +10,7 @@ export function App() {
       <Router>
         <Switch>
           <Route exact path={'/demo'}>
-            <HttpDemo/>
+            <HttpDemo />
           </Route>
         </Switch>
       </Router>
