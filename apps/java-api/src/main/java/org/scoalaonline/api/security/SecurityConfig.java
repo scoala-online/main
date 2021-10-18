@@ -16,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Configures access to API resources
@@ -30,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   /**
    * Sets a BCryptPasswordEncoder for encoding UserDetails password
+   * 
    * @param auth
    * @throws Exception
    */
@@ -39,14 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   * Adds filters for Authentication and Authorization processes
-   * Configures access to API resources
+   * Adds filters for Authentication and Authorization processes Configures access
+   * to API resources
+   * 
    * @param http
    * @throws Exception
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(),jwtService);
+    CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(),
+        jwtService);
     customAuthenticationFilter.setFilterProcessesUrl("/users/login");
     http.csrf().disable().cors();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -62,16 +67,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // Custom authorization implemented in UserController.
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/username/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register/**").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/{id}/**").access("@userSecurity.hasUserId(authentication,#id) or hasAnyAuthority(\"ROLE_ADMIN\")");
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/{id}/**")
+        .access("@userSecurity.hasUserId(authentication,#id) or hasAnyAuthority(\"ROLE_ADMIN\")");
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/users/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/users/**").hasAnyAuthority("ROLE_ADMIN");
 
-    // TODO: Add security checks once the issue is done.
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/lecture-materials/**").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials/**").permitAll();// .hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lecture-materials/**").permitAll();// .hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lecture-materials/**").permitAll();// .hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/lecture-materials/**").hasAnyAuthority("ROLE_ADMIN");
 
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/lectures/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/lectures/**").hasAnyAuthority("ROLE_ADMIN");
@@ -98,7 +103,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   /**
+   * Creates a Configuration Bean that sets the Cors headers for the 
+   * authentication route: `/users/login`.
+   * @return the Cors Configuration Bean
+   */
+  @Bean
+  public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/users/login").allowedOrigins("*");
+      }
+    };
+  }
+
+  /**
    * Creates AuthenticationManagerBean
+   * 
    * @return the Bean
    * @throws Exception
    */
