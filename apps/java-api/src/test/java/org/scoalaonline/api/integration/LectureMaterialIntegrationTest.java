@@ -2,6 +2,8 @@ package org.scoalaonline.api.integration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,6 +43,18 @@ public class LectureMaterialIntegrationTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @AfterEach
+  void afterTests(){
+    lectureMaterialRepository.deleteById("ID1");
+    lectureMaterialRepository.deleteById("ID2");
+    lectureMaterialRepository.deleteById("ID3");
+    lectureMaterialRepository.deleteById("VALID_ID1");
+    lectureMaterialRepository.deleteById("VALID_ID2");
+    lectureMaterialRepository.deleteById("VALID_ID3");
+    lectureMaterialRepository.deleteById("INVALID_ID1");
+    lectureMaterialRepository.deleteById("VALID_ID");
+
+  }
   private static Stream<Arguments> getAllCases() {
 
     // Create a lecture material to add to database
@@ -166,7 +180,6 @@ public class LectureMaterialIntegrationTest {
       assertThat(parsedLectureMaterial.get("id")).isEqualTo(lectureMaterial.getId());
       assertThat(parsedLectureMaterial.get("document")).isEqualTo(lectureMaterial.getDocument());
     }
-    lectureMaterialRepository.deleteAll(input);
   }
 
   /**
@@ -208,7 +221,6 @@ public class LectureMaterialIntegrationTest {
     } else {
       assertThat(response.getContentAsString()).isEmpty();
     }
-    lectureMaterialRepository.deleteAll(input);
   }
 
   /**
@@ -317,7 +329,6 @@ public class LectureMaterialIntegrationTest {
     } else {
         assertThat(response.getContentAsString()).isEmpty();
     }
-    lectureMaterialRepository.deleteById(expectedId);
   }
 
   /**
@@ -354,7 +365,6 @@ public class LectureMaterialIntegrationTest {
     if(errorMessage == null) {
       assertThat(lectureMaterialRepository.findById(expectedId).isEmpty()).isTrue();
     }
-    lectureMaterialRepository.deleteById(expectedId);
   }
 
 }
