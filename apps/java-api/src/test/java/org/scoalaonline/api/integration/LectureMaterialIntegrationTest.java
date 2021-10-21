@@ -1,8 +1,23 @@
 package org.scoalaonline.api.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,19 +34,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -53,8 +55,8 @@ public class LectureMaterialIntegrationTest {
     lectureMaterialRepository.deleteById("VALID_ID3");
     lectureMaterialRepository.deleteById("INVALID_ID1");
     lectureMaterialRepository.deleteById("VALID_ID");
-
-  }
+  } 
+  
   private static Stream<Arguments> getAllCases() {
 
     // Create a lecture material to add to database
@@ -97,12 +99,12 @@ public class LectureMaterialIntegrationTest {
     return Stream.of(
       Arguments.of("UNAUTHORIZED_DOCUMENT.pdf", HttpStatus.FORBIDDEN.value(),"Forbidden","STUDENT"),
       Arguments.of("UNAUTHORIZED_DOCUMENT.pdf", HttpStatus.FORBIDDEN.value(),"Forbidden","TEACHER"),
+
       Arguments.of("", HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document","ADMIN"),
       Arguments.of(null,  HttpStatus.BAD_REQUEST.value(),"POST: Lecture Material Invalid Document","ADMIN"),
       Arguments.of("NOT_NULL_DOCUMENT.pdf",  HttpStatus.CREATED.value(),null,"ADMIN"),
       Arguments.of("ăâîșț.pdf",  HttpStatus.CREATED.value(),null,"ADMIN"),
       Arguments.of("!@#$%^&*()„”=+[]{};:'\"\\|,<>/?1234567890-_   .pdf",  HttpStatus.CREATED.value(),null,"ADMIN")
-
     );
   }
 
@@ -127,6 +129,7 @@ public class LectureMaterialIntegrationTest {
       Arguments.of("DOCUMENT_TO_BE_DELETED.pdf","VALID_ID","VALID_ID" , HttpStatus.OK.value(),null,"ADMIN")
     );
   }
+  
   /**
    * Arranges the existence of a list of entries in the database.
    * Performs GET method on "/lecture-materials"

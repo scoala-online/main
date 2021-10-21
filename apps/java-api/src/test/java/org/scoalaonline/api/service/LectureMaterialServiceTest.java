@@ -1,7 +1,6 @@
 package org.scoalaonline.api.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -48,7 +47,7 @@ class LectureMaterialServiceTest {
   }
 
   /**
-   * Arranges the existence of an custom LectureMaterial object in database.
+   * Arranges the existence of a custom LectureMaterial object in database.
    * Executes the getOneById( @param ) method from LectureMaterialService class.
    * Asserts that it finds the same object arranged in the former step.
    * @throws LectureMaterialNotFoundException
@@ -110,7 +109,7 @@ class LectureMaterialServiceTest {
   }
 
   /**
-   * Arranges the creation of two LectureMaterial object
+   * Arranges the creation of two LectureMaterial objects
    * with invalid attribute values.
    * Executes the add( LectureMaterial @param ) method
    * from LectureMaterialService class.
@@ -146,9 +145,9 @@ class LectureMaterialServiceTest {
    * 2. The object that will update the former.
    * Arranges the existence of the first object in the database.
    * Executes the update( @param ,LectureMaterial @param ) method
-   * from LectureMaterialSevice class.
-   * Asserts that a LectureMaterial object has been added to the database
-   * and it has the same attribute values as the one we want to update with.
+   * from LectureMaterialService class.
+   * Asserts that a LectureMaterial object has been saved to the database
+   * and that it has the same attribute values as the one we want to update with.
    * @throws LectureMaterialNotFoundException
    * @throws LectureMaterialInvalidDocumentException
    */
@@ -178,8 +177,8 @@ class LectureMaterialServiceTest {
   }
 
   /**
-   * Arranges the creation of an LectureMaterial object we will try to
-   * update with and makes sure the database has no entries.
+   * Arranges the creation of a LectureMaterial object we will try to
+   * update with and makes sure the database has no entries to update.
    * Executes the update( @param , LectureMaterial @param ) method
    * from LectureMaterialService class.
    * Asserts that the LectureMaterialNotFoundException exception
@@ -200,10 +199,10 @@ class LectureMaterialServiceTest {
       .isInstanceOf(LectureMaterialNotFoundException.class)
       .hasMessageContaining("Method update: Lecture Material not found");
 
-    verify(lectureMaterialRepository, never()).delete(any());
+    verify(lectureMaterialRepository, never()).save(any());
   }
   /**
-   * Arranges the creation of an LectureMaterial object we will try to
+   * Arranges the creation of a LectureMaterial object we will try to
    * update with and makes sure the object has invalid attribute values.
    * Executes the update( @param , LectureMaterial @param ) method
    * from LectureMaterialService class.
@@ -233,8 +232,8 @@ class LectureMaterialServiceTest {
   }
 
   /**
-   * Arranges the creation of an LectureMaterial object and
-   * makes sure its existence in the database.
+   * Arranges the creation of a LectureMaterial object and
+   * makes sure of its existence in the database.
    * Executes the delete( @param ) method from LectureMaterialService class.
    * Asserts that the deleteById( @param ) method from repository has been
    * executed successfully.

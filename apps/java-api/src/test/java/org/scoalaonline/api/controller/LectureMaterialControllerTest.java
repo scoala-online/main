@@ -1,44 +1,41 @@
 package org.scoalaonline.api.controller;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
 import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.service.LectureMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-import static org.scoalaonline.api.util.TestUtils.buildJsonBody;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureJsonTesters
 @SpringBootTest
@@ -56,7 +53,7 @@ class LectureMaterialControllerTest {
   private List<LectureMaterial> lectureMaterialList;
 
   @BeforeEach
-  void setUp() {
+  void setup() {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
     this.lectureMaterialList = new ArrayList<>();
@@ -86,7 +83,7 @@ class LectureMaterialControllerTest {
 
   /**
    * Arranges the existence of a LectureMaterial object at a specified id.
-   * Creates a JSON entry that will be expected to receive.
+   * Creates a JSON entry that will be expected to be received.
    * Performs GET method at "lecture-materials/id0".
    * Asserts that the status is 200 and the object returned has the same
    * attribute values as the expected one.
@@ -124,7 +121,7 @@ class LectureMaterialControllerTest {
    * @throws Exception
    */
 
-  @DisplayName(value = "Test getting a lecture material by id and expect 'Lecutre Material not found' exception.")
+  @DisplayName(value = "Test getting a lecture material by id and expect 'Lecture Material not found' exception.")
   @Test
   void getLectureMaterialByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -237,6 +234,7 @@ class LectureMaterialControllerTest {
       .andExpect(status().isOk())
       .andReturn();
   }
+
   /**
    * Arranges the creation of LectureMaterial objects
    * with invalid attribute values.
@@ -278,6 +276,7 @@ class LectureMaterialControllerTest {
       assertThat(response.getContentAsString()).isEmpty();
     }
   }
+
   /**
    * Arranges the absence of a LectureMaterial object with the given id ("id3").
    * Performs PATCH method at "lecture-material/id3".
@@ -332,6 +331,7 @@ class LectureMaterialControllerTest {
       .andReturn();
 
   }
+
   /**
    * Arranges the absence of a LectureMaterial object with the given id ("id3").
    * Performs DELETE method at "lecture-materials/id3".
@@ -353,6 +353,4 @@ class LectureMaterialControllerTest {
     assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     assertThat(response.getContentAsString()).isEmpty();
   }
-
-
 }
