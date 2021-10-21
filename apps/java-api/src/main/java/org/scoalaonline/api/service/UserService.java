@@ -9,6 +9,7 @@ import org.scoalaonline.api.model.Role;
 import org.scoalaonline.api.model.User;
 import org.scoalaonline.api.repository.RoleRepository;
 import org.scoalaonline.api.repository.UserRepository;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Contains the User related logic needed for the API
  */
-@Service
+@Service("userService")
 @Slf4j
 @RequiredArgsConstructor
 public class UserService implements ServiceInterface<User>, UserDetailsService {
