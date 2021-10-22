@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { gradeSidebarButtonWidth, subjectSidebarButtonWidth, minSidebarButtonWidth } from './Sizes';
 
 /**
  * Container for the content of a sidebar
@@ -15,25 +16,27 @@ export const SidebarContainer = styled.div`
   font-size: 1.5rem;
 
   position: fixed;
-  width: ${({ type }) => (type === 'grade' ? '15.8vw' : '12.2vw')};
+  width: ${({ type }) => (type === 'grade' ? gradeSidebarButtonWidth.toString() : subjectSidebarButtonWidth.toString())}vw;
+  min-width: ${minSidebarButtonWidth}px;
   bottom: ${({ bottomVal }) => bottomVal};
   top: ${({ topVal }) => topVal};
-  left: ${({ active, type }) => {
+  left: ${({ active, type, windowWidth }) => {
+    let minActive = gradeSidebarButtonWidth * windowWidth / 100 < minSidebarButtonWidth;
     if (type === 'grade') {
       if (active) {
         return '0';
       }
-      return '-15.8vw';
+      return !minActive ? -(gradeSidebarButtonWidth + 10).toString() + 'vw' : -minSidebarButtonWidth.toString() + 'px';
     }
 
     if (active) {
-      return '15.8vw';
+      return !minActive ? gradeSidebarButtonWidth.toString() + 'vw' : minSidebarButtonWidth.toString() + 'px';
     }
-    return '-28vw';
+    return !minActive ? -(gradeSidebarButtonWidth + subjectSidebarButtonWidth).toString() + 'vw' : -2*minSidebarButtonWidth.toString() + 'px';
   }};
   z-index: ${({ type }) => (type === 'grade' ? '100' : '99')};
 
-  transition: left ${({ type }) => (type === 'grade' ? '350ms' : '1000ms')};
+  transition: left ${({ type }) => (type === 'grade' ? '700ms' : '1000ms')}, top 350ms, bottom 350ms;
 
   direction: ${({ type }) => (type === 'grade' ? 'rtl' : 'ltr')};
   overflow-y: auto;
