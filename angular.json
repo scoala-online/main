@@ -117,7 +117,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/e-learning-app/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -127,7 +128,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "e-learning-app-e2e": {
       "root": "apps/e-learning-app-e2e",
@@ -150,9 +152,12 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/e-learning-app-e2e/**/*.js"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["e-learning-app"]
     },
     "java-api": {
       "root": "apps/java-api",
@@ -207,7 +212,8 @@
             "root": "apps/java-api"
           }
         }
-      }
+      },
+      "tags": []
     }
   }
 }
