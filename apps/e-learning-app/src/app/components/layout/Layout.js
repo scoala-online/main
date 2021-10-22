@@ -3,12 +3,22 @@ import { Container } from 'react-bootstrap';
 import NavMenu from '../navMenu/NavMenu';
 import styles from './LayoutStyle';
 
-//This component will render the NavBar and the content of the current page
+/**
+ * Layout renders:
+ * - the nav menu
+ * - the content of the current page
+ * Props:
+ * - dimensions: object ( contains the current height and width of the viewport )
+ * - children: react-component ( the current page )
+ */
 export default function Layout(props) {
+  //Props
+  const dimensions = props.dimensions;
+
   return (
     <>
-      <NavMenu />
-      <Container fluid style={styles.contentStyle}>
+      <NavMenu dimensions={dimensions}/>
+      <Container fluid style={styles.contentStyle(dimensions.height)}>
         {props.children}
       </Container>
     </>
