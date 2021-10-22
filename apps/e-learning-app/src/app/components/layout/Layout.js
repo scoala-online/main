@@ -7,7 +7,7 @@ import styles from './LayoutStyle';
  * Layout renders:
  * - the nav menu
  * - the content of the current page
- * 
+ *
  * Props:
  * - dimensions: object ( contains the current height and width of the viewport )
  * - children: react-component ( the current page )

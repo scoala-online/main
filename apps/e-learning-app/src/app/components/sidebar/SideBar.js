@@ -8,7 +8,7 @@ import http from '../../services/HttpService';
 /**
  * SideBar renders:
  * - a list of buttons on the left side of the page
- * 
+ *
  * Props:
  * - type: string ( the type of sidebar ( 'grade' / 'subject' ) )
  * - subjectPos: number ( position of the first element of the sidebar )
@@ -17,10 +17,10 @@ import http from '../../services/HttpService';
  * - onClickFunction function ( function for the onClick property of the buttons in the list )
  * - dimensions: object ( contains the current height and width of the viewport )
  * - fontSize: string ( font-size for the buttons' text )
- * 
+ *
  * State:
  * - items: list ( contains the list of elements which will be displayed in the sidebar)
- * 
+ *
  * API Calls:
  * - getAll( '/grades' ): gets the list of grades
  * - getAll( '/subject' ): gets the list of subjects
@@ -34,7 +34,7 @@ export default function SideBar(props) {
     } else {
       http.getAll('/subjects', (response) => setItems(response.data));
     }
-  }, [])
+  }, []);
 
   return (
     <SidebarContainer

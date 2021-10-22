@@ -14,7 +14,7 @@ import logo from '../../../assets/icons/logo.svg';
  * - a dropdown icon uderneath the button
  * - a logo icon
  * - when the width of the viewport becomes too small, the text inside the button becomes invisible and the icon takes up the space
- * 
+ *
  * Props:
  * - dimensions: object ( contains the current height and width of the viewport )
  * - toggleGradeSidebar: function ( toggles the sidebar )

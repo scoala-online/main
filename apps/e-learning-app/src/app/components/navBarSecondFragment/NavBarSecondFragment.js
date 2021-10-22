@@ -14,7 +14,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
  * - a button which will toggle the login modal
  * - when the width of the viewport becomes too small, the elements above are replaced by a search and a person icons
  * - a search modal with a search input field and icon (toggled by the search icon in the second case)
- * 
+ *
  * Props:
  * - dimensions: object ( contains the current height and width of the viewport )
  * - toggleSearchModal: function ( toggles the search modal )

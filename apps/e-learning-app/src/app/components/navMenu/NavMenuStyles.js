@@ -1,23 +1,4 @@
-import {
-  navBarHeight,
-  sidebarButtonHeight,
-  minNavBarHeight,
-  minSidebarButtonHeight,
-  materialsButtonTop,
-  minMaterialsButtonTop,
-  dropdownIconTop,
-  minDropdownIconTop,
-  materialsButtonHeight,
-  minMaterialsButtonHeight,
-  minDropdownIconHeight,
-  dropdownIconHeight,
-  gradeSidebarButtonWidth,
-  minMaterialsButtonWidth,
-  logoHeight,
-  minLogoHeight,
-  logoTop,
-  minLogoTop,
-} from '../../themes/Sizes';
+import { navBarHeight, minNavBarHeight } from '../../themes/Sizes';
 
 const navMenuStyles = {
   navBar: {
