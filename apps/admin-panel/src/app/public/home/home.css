@@ -1,0 +1,19 @@
+.body {
+  background-color: #cce3de;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.main .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-left: 15vw;
+  margin-bottom: 20vh;
+}
