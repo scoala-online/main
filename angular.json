@@ -11,7 +11,7 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/admin-panel",
-            "main": "apps/admin-panel/src/main.ts",
+            "main": "apps/admin-panel/src/main.js",
             "tsConfig": "apps/admin-panel/tsconfig.app.json",
             "assets": ["apps/admin-panel/src/assets"]
           },
@@ -22,8 +22,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/admin-panel/src/environments/environment.ts",
-                  "with": "apps/admin-panel/src/environments/environment.prod.ts"
+                  "replace": "apps/admin-panel/src/environments/environment.js",
+                  "with": "apps/admin-panel/src/environments/environment.prod.js"
                 }
               ]
             }
@@ -39,7 +39,7 @@
           "builder": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["apps/admin-panel/**/*.ts"]
+            "lintFilePatterns": ["apps/admin-panel/**/*.js"]
           }
         },
         "test": {
