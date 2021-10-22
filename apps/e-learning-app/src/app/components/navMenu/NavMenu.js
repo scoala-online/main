@@ -17,8 +17,10 @@ import styles from './NavMenuStyles';
  * NavMenu renders:
  * - a navbar at the top of the page containing the NavBarFirstFragment and NavBarSecondFragment components
  * - two sidebars made of the SideBar component
+ * 
  * Props:
  * dimensions: object ( contains the current height and width of the viewport )
+ * 
  * State:
  * - gradeActive: boolean ( the grade sidebar's visibility )
  * - subjectActive: boolean ( the subject sidebar's visibility )

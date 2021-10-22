@@ -18,7 +18,7 @@ const navBarSecondFragmentStyles = {
 
   searchModal: (display, windowHeight) => ({
     background:
-      'linear-gradient(180deg, #1F4E5A 0%, #009C8E 99.99%, rgba(31, 78, 90, 0) 100%)',
+      'linear-gradient(180deg, #009C8E 0%, #1F4E5A 99.99%, rgba(31, 78, 90, 0) 100%)',
     display: display ? 'flex' : 'none',
     alignItems: 'center',
     position: 'fixed',

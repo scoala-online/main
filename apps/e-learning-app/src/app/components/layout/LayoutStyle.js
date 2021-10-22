@@ -12,7 +12,7 @@ const layoutStyle = {
     margin: '0px',
     padding: '0px',
     zIndex: '10',
-    overflowY: 'overlay',
+    overflowY: 'auto',
   }),
 };
 

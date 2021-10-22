@@ -4,7 +4,6 @@
 }
 
 body {
-  overflow-y: overlay;
   scrollbar-color: #1f4e5a transparent;
   scrollbar-width: thin;
 }
