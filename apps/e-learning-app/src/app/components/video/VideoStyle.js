@@ -1,7 +1,7 @@
 const videoStyle = {
   video_style: {
     fontFamily: 'Open Sans, sans-serif',
-    padding: '5px 20px 5px 0',
+    padding: '5px 20px 5px 20px',
     minWidth: '300px',
     maxWidth: '300px',
     minHeight: '300px',

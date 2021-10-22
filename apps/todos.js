@@ -1,8 +1,3 @@
-// TODO: change assets/images/Modules to assets/images/tmp - to indicate that those images are only used 
-// temporarily, and that they need to be deleted once the connection to the database is established.
-
-// TODO: remove logo.svg and star.svg as they are no longer needed
-
 // TODO: fix HUGE fonts
 
 // TODO: fix scaling on smaller devices

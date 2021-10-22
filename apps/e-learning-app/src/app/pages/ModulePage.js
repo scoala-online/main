@@ -3,6 +3,7 @@ const ModulePage = () => {
   const content_style = {
     padding: '10px 5.2vw',
     display: 'flex',
+    width : '100%',
   };
   return (
     <div style={content_style}>

@@ -1,4 +1,7 @@
 import Video from './video/Video';
+import {Grid, Row,Col} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const VideosRow = (props) => {
   const { videos } = props;
   const video_row_container_style = {
@@ -20,15 +23,19 @@ const VideosRow = (props) => {
   };
   return (
     <div style={video_row_container_style}>
-      <div style={videos_label_container_style}>
+       <div style={videos_label_container_style}>
         <div style={videos_label_container_style}></div>
-        <div style={video_row_item}>
-          {videos.map((video) => (
-            <Video video={video} />
-          ))}
-        </div>
-      </div>
-    </div>
+       <div style={video_row_item}>
+            <Row lg="auto" >
+            {videos.map((video) => (
+              <Col>
+                <Video video={video} />
+              </Col>
+            ))}
+            </Row>
+         </div>
+       </div> 
+     </div>
   );
 };
 
