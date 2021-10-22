@@ -1,41 +1,75 @@
 import { useRef, useState, useEffect } from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
+import NavBarFirstFragment from '../navBarFirstFragment/NavBarFirstFragment';
+import NavBarSecondFragment from '../navBarSecondFragment/NavBarSecondFragment';
 
 import Sidebar from '../sidebar/SideBar';
-import { navBarHeight } from '../../themes/Sizes';
-import fontStyle from '../../themes/FontFamilies';
+import { navBarHeight,  gradeSidebarButtonWidth, minMaterialsButtonWidth } from '../../themes/Sizes';
 import { clase, materii } from '../../utilities/MockData';
 
 import styles from './NavMenuStyles';
-import dropdownIcon from '../../../assets/icons/dropdown_icon.svg';
-import logo from '../../../assets/icons/logo.svg';
 
+/**
+ * NavMenu renders:
+ * - a navbar at the top of the page containing the NavBarFirstFragment and NavBarSecondFragment components
+ * - two sidebars made of the SideBar component
+ * Props:
+ * dimensions: object ( contains the current height and width of the viewport )
+ * State:
+ * - gradeActive: boolean ( the grade sidebar's visibility )
+ * - subjectActive: boolean ( the subject sidebar's visibility )
+ * - subjectPos: number ( position of the first element of the subject sidebar )
+ * - searchModalActive: boolean ( the search modal's visibility )
+ */
 export default function NavMenu(props) {
+  // Props
+  const dimensions = props.dimensions;
+
   // States
   const [gradeActive, setGradeActive] = useState(false);
   const [subjectActive, setSubjectActive] = useState(false);
   const [subjectPos, setSubjectPos] = useState(0);
+  const [searchModalActive, setSearchModalActive] = useState(false)
 
   // Refs
   const dropdownButtonRef = useRef();
   const gradeSidebarRef = useRef();
   const subjectSidebarRef = useRef();
 
-  // Toggle second sidebar
-  function showSubjectSidebar(index) {
-    if (index !== subjectPos) {
-      setSubjectPos(index);
-    } else {
+  /**
+   * Toggles the subject sidebar.
+   * @param {Number} index - Position of the first element of the sidebar.
+   */
+  function toggleSubjectSidebar(index) {
+    if (index === subjectPos) {
       setSubjectActive(!subjectActive);
+    } else {
+      setSubjectPos(index);
     }
   }
 
-  // TODO: implement function when the page is ready
+  /**
+   * Toggles the grade sidebar.
+   */
+  function toggleGradeSidebar() {
+    setGradeActive(!gradeActive)
+  }
+
+  /**
+   * Toggles the search modal.
+   */
+  function toggleSearchModal() {
+    setSearchModalActive(!searchModalActive);
+  }
+
+  // TODO: implement function when the page is ready.
   function goToPage(index) {
     return;
   }
 
-  // Used for closing the sidebars when the user clicks outside of them
+  /**
+   * Closes the sidebars when the user clicks outside of them.
+   */
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
       if (
@@ -58,51 +92,49 @@ export default function NavMenu(props) {
     };
   }, [gradeActive, subjectActive]);
 
+  /**
+   * Activates the subject sidebar when subjectPos state is changed.
+   */
   useEffect(() => {
-    if (!subjectActive) setSubjectActive(!subjectActive);
+    if (!subjectActive) setSubjectActive(true);
   // Dependency not needed
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectPos]);
 
+  /**
+   * Disables the subject sidebar if the grade sidebar is disabled.
+   */
   useEffect(() => {
     if (!gradeActive) {
       setSubjectActive(false);
     }
   }, [gradeActive]);
 
+  /**
+   * Disables the search modal if the width of the viewport is big enough to fit the search input field inside the navbar.
+   */
+  useEffect(() => {
+    if (gradeSidebarButtonWidth * props.dimensions.width / 100 >= minMaterialsButtonWidth) {
+      setSearchModalActive(false);
+    }
+  }, [dimensions])
+
   return (
     <>
       <Navbar
         style={{ ...styles.navBar, height: navBarHeight.toString() + 'vh' }}
       > 
-        <Nav style={styles.navBarFirstFragment}>
-          <button
-            style={styles.showMaterialsButton}
-            onClick={() => setGradeActive(!gradeActive)}
-            ref={dropdownButtonRef}
-          >
-            <span style={{ ...fontStyle.body_semibold, fontSize: '1rem' }}>
-              Materiale
-            </span>
-          </button>
-          <img style={styles.dropDownIcon} src={dropdownIcon} alt='dropDown'/>
-          <img style={styles.logo} src={logo} alt='logo'/>
-        </Nav>
+        <NavBarFirstFragment
+          dimensions={dimensions}
+          toggleGradeSidebar={toggleGradeSidebar}
+          dropdownButtonRef={dropdownButtonRef}
+        />
 
-        <Nav style={styles.navBarSecondFragment}>
-          <input
-            style={styles.searchInputField}
-            type="text"
-            placeholder="search bar"
-          />
-          <button style={styles.showAuthenticationButton}>
-            <span
-              style={{ ...fontStyle.body_semibold, fontSize: '1rem', color: '#fff' }}
-            >
-              Autentificare
-            </span>
-          </button>
-        </Nav>
+        <NavBarSecondFragment
+          dimensions={dimensions}
+          searchModalActive={searchModalActive}
+          toggleSearchModal={toggleSearchModal}
+        />
       </Navbar>
 
       {
@@ -112,17 +144,19 @@ export default function NavMenu(props) {
             data={clase}
             active={gradeActive}
             sideBarRef={gradeSidebarRef}
-            onClickFunction={showSubjectSidebar}
+            onClickFunction={toggleSubjectSidebar}
+            dimensions={dimensions}
             fontSize="1rem"
           />
 
           <Sidebar
             type="subject"
             data={materii}
-            posSubject={subjectPos}
+            subjectPos={subjectPos}
             active={subjectActive}
             sideBarRef={subjectSidebarRef}
             onClickFunction={goToPage}
+            dimensions={dimensions}
             fontSize="0.75rem"
           />
         </div>
