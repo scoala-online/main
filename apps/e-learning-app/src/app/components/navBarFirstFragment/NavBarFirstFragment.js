@@ -53,9 +53,7 @@ export default function NavBarFirstFragment(props) {
               : styles.dropDownIconSingle(dimensions.height)
           }
           src={dropdownIcon}
-          onClick={() => {
-            props.toggleGradeSidebar;
-          }}
+          onClick={props.toggleGradeSidebar}
           alt="dropDown"
         />
       </Container>
