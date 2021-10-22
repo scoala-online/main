@@ -1,7 +1,7 @@
 package org.scoalaonline.api.controller;
 
-import org.scoalaonline.api.exception.LectureMaterialInvalidDocumentException;
-import org.scoalaonline.api.exception.LectureMaterialNotFoundException;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialInvalidDocumentException;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.service.LectureMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +57,10 @@ public class LectureMaterialController {
   }
 
   /**
-   * Sends an HTTP Response Entity with the lecture material entry that has been
-   * created, along with Status Created
-   * @param lectureMaterial
-   * @return the Response Entity with a Status Code and a Body
+   * Sends HTTP status Response Entity with the LectureMaterial entry that has been created.
+   * Sends HTTP status Invalid Value if the LectureMaterial to be posted is invalid.
+   * @param lectureMaterial the LectureMaterial to be added in the db.
+   * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = {"", "/"})
   public ResponseEntity<LectureMaterial> addLectureMaterial (@RequestBody LectureMaterial lectureMaterial) {
@@ -68,18 +68,18 @@ public class LectureMaterialController {
     try {
       savedLectureMaterial = lectureMaterialService.add(lectureMaterial);
     } catch (LectureMaterialInvalidDocumentException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Lecture Material Invalid Data", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Lecture Material Invalid Document", e );
     }
     return new ResponseEntity<>(savedLectureMaterial, HttpStatus.CREATED);
   }
 
   /**
-   * Sends an HTTP Response Entity with the lecture material entry that has been
-   * updated, along with the Status OK, or Status Not Found if there
-   * is no entry with the provided id
-   * @param id
-   * @param lectureMaterial
-   * @return the Response Entity with a Status Code and a Body
+   * Sends HTTP status Response Entity with the LectureMaterial entry that has been updated.
+   * Sends HTTP status Not Found if the LectureMaterial cannot be found.
+   * Sends HTTP status Invalid Value if the LectureMaterial to be posted is invalid.
+   * @param id the id of the LectureMaterial to be updated.
+   * @param lectureMaterial the LectureMaterial to be updated.
+   * @return the Response Entity with a Status Code with a body.
    */
   @PatchMapping( value = "/{id}" )
   public ResponseEntity<LectureMaterial> updateLectureMaterial( @PathVariable( "id" ) String id, @RequestBody LectureMaterial lectureMaterial ) {
@@ -91,7 +91,7 @@ public class LectureMaterialController {
     {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "PATCH: Lecture Material Not Found", e );
     } catch ( LectureMaterialInvalidDocumentException e){
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Lecture Material Invalid Data", e );
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Lecture Material Invalid Document", e );
     }
 
     return new ResponseEntity<>( updatedLectureMaterial, HttpStatus.OK );

@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^12.1.0",
     "@angular/router": "^12.1.0",
     "@nrwl/angular": "12.8.0",
+    "axios": "^0.23.0",
     "bootstrap": "^5.1.1",
     "bootstrap-icons": "^1.6.1",
     "core-js": "^3.6.5",

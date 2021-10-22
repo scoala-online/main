@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Layout from './components/layout/Layout';
 import Test from './components/Test';
+import HttpDemo from './services/HttpServiceDemo';
 
 /**
  * App renders the Layout component.
@@ -39,6 +40,9 @@ export function App() {
       <Switch>
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
+          <Route exact path={'/demo'}>
+            <HttpDemo />
+          </Route>
         </Layout>
       </Switch>
     </Router>
