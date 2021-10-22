@@ -9,7 +9,6 @@ import {
   gradeSidebarButtonWidth,
   minMaterialsButtonWidth,
 } from '../../themes/Sizes';
-import { clase, materii } from '../../utilities/MockData';
 
 import styles from './NavMenuStyles';
 
@@ -150,7 +149,6 @@ export default function NavMenu(props) {
         <div style={{ overflow: 'hidden' }}>
           <Sidebar
             type="grade"
-            data={clase}
             active={gradeActive}
             sideBarRef={gradeSidebarRef}
             onClickFunction={toggleSubjectSidebar}
@@ -160,7 +158,6 @@ export default function NavMenu(props) {
 
           <Sidebar
             type="subject"
-            data={materii}
             subjectPos={subjectPos}
             active={subjectActive}
             sideBarRef={subjectSidebarRef}
