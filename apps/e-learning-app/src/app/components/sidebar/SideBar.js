@@ -6,7 +6,7 @@ import fontStyle from '../../themes/FontFamilies';
 /**
  * SideBar renders:
  * - a list of buttons on the left side of the page
- * Props: 
+ * Props:
  * - type: string ( the type of sidebar ( 'grade' / 'subject' ) )
  * - date: list ( the list of names for the buttons )
  * - subjectPos: number ( position of the first element of the sidebar )
@@ -24,29 +24,39 @@ export default function SideBar(props) {
     <SidebarContainer
       type={props.type}
       pos={props.subjectPos}
-      topVal={calculateTop(props.type, itemsAmount, props.subjectPos, props.dimensions.height)}
-      bottomVal={calculateBottom(props.type, itemsAmount, props.subjectPos, props.dimensions.height)}
+      topVal={calculateTop(
+        props.type,
+        itemsAmount,
+        props.subjectPos,
+        props.dimensions.height
+      )}
+      bottomVal={calculateBottom(
+        props.type,
+        itemsAmount,
+        props.subjectPos,
+        props.dimensions.height
+      )}
       windowWidth={props.dimensions.width}
       active={props.active}
       ref={props.sideBarRef}
     >
-      {
-        props.data.map((item, index) => {
-          return (
-            <SidebarButton
-              key={index}
-              type={props.type}
-              last={Number(index) + 1 === Number(itemsAmount)}
-              windowHeight={props.dimensions.height}
-              onClick={() => props.onClickFunction(index)}
+      {props.data.map((item, index) => {
+        return (
+          <SidebarButton
+            key={index}
+            type={props.type}
+            last={Number(index) + 1 === Number(itemsAmount)}
+            windowHeight={props.dimensions.height}
+            onClick={() => props.onClickFunction(index)}
+          >
+            <span
+              style={{ ...fontStyle.body_semibold, fontSize: props.fontSize }}
             >
-              <span style={{ ...fontStyle.body_semibold, fontSize: props.fontSize }}>
-                {item}
-              </span>
-            </SidebarButton>
-          );
-        })
-      }
+              {item}
+            </span>
+          </SidebarButton>
+        );
+      })}
     </SidebarContainer>
   );
 }

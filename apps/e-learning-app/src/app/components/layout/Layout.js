@@ -17,7 +17,7 @@ export default function Layout(props) {
 
   return (
     <>
-      <NavMenu dimensions={dimensions}/>
+      <NavMenu dimensions={dimensions} />
       <Container fluid style={styles.contentStyle(dimensions.height)}>
         {props.children}
       </Container>

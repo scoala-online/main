@@ -1,5 +1,10 @@
 //Contains utility methods and constants values used in other files
-import { navBarHeight, sidebarButtonHeight, minNavBarHeight, minSidebarButtonHeight } from '../themes/Sizes';
+import {
+  navBarHeight,
+  sidebarButtonHeight,
+  minNavBarHeight,
+  minSidebarButtonHeight,
+} from '../themes/Sizes';
 
 let maxSidebarButtonsAmount;
 let currentNavBarHeight;
@@ -12,23 +17,22 @@ let currentWindowHeight;
  * @param {String} type - The type of the Sidebar: Grade/Subject.
  * @param {Number} amount - Amount of buttons on sidebar.
  * @param {Number} index - Position of the first element of the sidebar.
- * @param {Number} windowHeight - Current height of the viewport. 
+ * @param {Number} windowHeight - Current height of the viewport.
  * @returns {String} top offset, calculated in vh.
  */
 export function calculateTop(type, amount, index, windowHeight) {
-
-  if (navBarHeight * windowHeight / 100 >= minNavBarHeight) {
+  if ((navBarHeight * windowHeight) / 100 >= minNavBarHeight) {
     // Sizes scale with the viewport
     currentNavBarHeight = navBarHeight;
     currentSidebarButtonHeight = sidebarButtonHeight;
     currentWindowHeight = 100;
-    unit = "vh";
+    unit = 'vh';
   } else {
     // Sizes are fixed
     currentNavBarHeight = minNavBarHeight;
     currentSidebarButtonHeight = minSidebarButtonHeight;
     currentWindowHeight = windowHeight;
-    unit = "px";
+    unit = 'px';
   }
   maxSidebarButtonsAmount = Math.floor(
     (currentWindowHeight - currentNavBarHeight) / currentSidebarButtonHeight
@@ -47,7 +51,10 @@ export function calculateTop(type, amount, index, windowHeight) {
 
   if (amount <= maxSidebarButtonsAmount - index) {
     // If the elements can fit from the corresponding index
-    return (index * currentSidebarButtonHeight + currentNavBarHeight).toString() + unit;
+    return (
+      (index * currentSidebarButtonHeight + currentNavBarHeight).toString() +
+      unit
+    );
   }
 
   // If the elements cannot fit from the corresponding index
@@ -64,22 +71,22 @@ export function calculateTop(type, amount, index, windowHeight) {
  * @param {String} type - The type of the Sidebar: Grade/Subject.
  * @param {Number} amount - Amount of buttons on sidebar.
  * @param {Number} index - Position of the first element of the sidebar.
- * @param {Number} windowHeight - Current height of the viewport. 
+ * @param {Number} windowHeight - Current height of the viewport.
  * @returns {String} bottom offset, calculated in vh.
  */
 export function calculateBottom(type, amount, index, windowHeight) {
-  if (navBarHeight * windowHeight / 100 >= minNavBarHeight) {
+  if ((navBarHeight * windowHeight) / 100 >= minNavBarHeight) {
     // Sizes scale with the viewport
     currentNavBarHeight = navBarHeight;
     currentSidebarButtonHeight = sidebarButtonHeight;
     currentWindowHeight = 100;
-    unit = "vh";
+    unit = 'vh';
   } else {
     // Sizes are fixed
     currentNavBarHeight = minNavBarHeight;
     currentSidebarButtonHeight = minSidebarButtonHeight;
     currentWindowHeight = windowHeight;
-    unit = "px";
+    unit = 'px';
   }
   maxSidebarButtonsAmount = Math.floor(
     (currentWindowHeight - currentNavBarHeight) / currentSidebarButtonHeight
@@ -89,7 +96,9 @@ export function calculateBottom(type, amount, index, windowHeight) {
   if (type === 'grade') {
     return (
       Math.max(
-        currentWindowHeight - currentNavBarHeight - amount * currentSidebarButtonHeight,
+        currentWindowHeight -
+          currentNavBarHeight -
+          amount * currentSidebarButtonHeight,
         0
       ).toString() + unit
     );

@@ -1,4 +1,23 @@
-import { navBarHeight, sidebarButtonHeight, minNavBarHeight, minSidebarButtonHeight, materialsButtonTop, minMaterialsButtonTop, dropdownIconTop, minDropdownIconTop, materialsButtonHeight, minMaterialsButtonHeight, minDropdownIconHeight, dropdownIconHeight, gradeSidebarButtonWidth, minMaterialsButtonWidth, logoHeight, minLogoHeight, logoTop, minLogoTop } from "../../themes/Sizes";
+import {
+  navBarHeight,
+  sidebarButtonHeight,
+  minNavBarHeight,
+  minSidebarButtonHeight,
+  materialsButtonTop,
+  minMaterialsButtonTop,
+  dropdownIconTop,
+  minDropdownIconTop,
+  materialsButtonHeight,
+  minMaterialsButtonHeight,
+  minDropdownIconHeight,
+  dropdownIconHeight,
+  gradeSidebarButtonWidth,
+  minMaterialsButtonWidth,
+  logoHeight,
+  minLogoHeight,
+  logoTop,
+  minLogoTop,
+} from '../../themes/Sizes';
 
 const navMenuStyles = {
   navBar: {
@@ -8,7 +27,7 @@ const navMenuStyles = {
     backgroundColor: '#fff',
     height: `${navBarHeight}vh`,
     minHeight: `${minNavBarHeight}px`,
-    zIndex:'99',
+    zIndex: '99',
   },
 };
 

@@ -4,7 +4,11 @@ import NavBarFirstFragment from '../navBarFirstFragment/NavBarFirstFragment';
 import NavBarSecondFragment from '../navBarSecondFragment/NavBarSecondFragment';
 
 import Sidebar from '../sidebar/SideBar';
-import { navBarHeight,  gradeSidebarButtonWidth, minMaterialsButtonWidth } from '../../themes/Sizes';
+import {
+  navBarHeight,
+  gradeSidebarButtonWidth,
+  minMaterialsButtonWidth,
+} from '../../themes/Sizes';
 import { clase, materii } from '../../utilities/MockData';
 
 import styles from './NavMenuStyles';
@@ -29,7 +33,7 @@ export default function NavMenu(props) {
   const [gradeActive, setGradeActive] = useState(false);
   const [subjectActive, setSubjectActive] = useState(false);
   const [subjectPos, setSubjectPos] = useState(0);
-  const [searchModalActive, setSearchModalActive] = useState(false)
+  const [searchModalActive, setSearchModalActive] = useState(false);
 
   // Refs
   const dropdownButtonRef = useRef();
@@ -52,7 +56,7 @@ export default function NavMenu(props) {
    * Toggles the grade sidebar.
    */
   function toggleGradeSidebar() {
-    setGradeActive(!gradeActive)
+    setGradeActive(!gradeActive);
   }
 
   /**
@@ -97,8 +101,8 @@ export default function NavMenu(props) {
    */
   useEffect(() => {
     if (!subjectActive) setSubjectActive(true);
-  // Dependency not needed
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Dependency not needed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectPos]);
 
   /**
@@ -114,16 +118,19 @@ export default function NavMenu(props) {
    * Disables the search modal if the width of the viewport is big enough to fit the search input field inside the navbar.
    */
   useEffect(() => {
-    if (gradeSidebarButtonWidth * props.dimensions.width / 100 >= minMaterialsButtonWidth) {
+    if (
+      (gradeSidebarButtonWidth * props.dimensions.width) / 100 >=
+      minMaterialsButtonWidth
+    ) {
       setSearchModalActive(false);
     }
-  }, [dimensions])
+  }, [dimensions]);
 
   return (
     <>
       <Navbar
         style={{ ...styles.navBar, height: navBarHeight.toString() + 'vh' }}
-      > 
+      >
         <NavBarFirstFragment
           dimensions={dimensions}
           toggleGradeSidebar={toggleGradeSidebar}

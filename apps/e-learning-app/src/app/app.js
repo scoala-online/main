@@ -11,10 +11,10 @@ import Test from './components/Test';
  */
 export function App() {
   // State
-  const [dimensions, setDimensions] = useState({ 
+  const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
-    width: window.innerWidth
-  })
+    width: window.innerWidth,
+  });
 
   /**
    * Changes the dimensions state whenever the viewport sizes are changed.
@@ -23,22 +23,22 @@ export function App() {
     function handleResize() {
       setDimensions({
         height: window.innerHeight,
-        width: window.innerWidth
-      })
+        width: window.innerWidth,
+      });
     }
 
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize);
 
-    return _ => {
-      window.removeEventListener('resize', handleResize)
-    }
-  })
+    return (_) => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   return (
     <Router>
       <Switch>
         <Layout dimensions={dimensions}>
-        <Route path="/" component={Test} />
+          <Route path="/" component={Test} />
         </Layout>
       </Switch>
     </Router>

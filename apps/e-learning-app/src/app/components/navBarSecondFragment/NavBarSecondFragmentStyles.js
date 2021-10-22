@@ -1,4 +1,9 @@
-import { navBarHeight, minNavBarHeight, searchInputFieldHeight, minSearchInputFieldHeight} from "../../themes/Sizes";
+import {
+  navBarHeight,
+  minNavBarHeight,
+  searchInputFieldHeight,
+  minSearchInputFieldHeight,
+} from '../../themes/Sizes';
 
 const navBarSecondFragmentStyles = {
   navBarSecondFragment: {
@@ -20,13 +25,19 @@ const navBarSecondFragmentStyles = {
     width: '40vw',
     height: `${navBarHeight}vh`,
     minHeight: `${minNavBarHeight}px`,
-    top: navBarHeight * windowHeight / 100 >= minNavBarHeight ? `${navBarHeight}vh` : `${minNavBarHeight}px`,
+    top:
+      (navBarHeight * windowHeight) / 100 >= minNavBarHeight
+        ? `${navBarHeight}vh`
+        : `${minNavBarHeight}px`,
     left: '60vw',
   }),
 
   searchInputField: (windowHeight, isModal) => ({
     width: isModal ? '32.8vw' : '19.65vw',
-    height: navBarHeight * windowHeight / 100 >= minNavBarHeight ? `${searchInputFieldHeight}vh` : `${minSearchInputFieldHeight}px`,
+    height:
+      (navBarHeight * windowHeight) / 100 >= minNavBarHeight
+        ? `${searchInputFieldHeight}vh`
+        : `${minSearchInputFieldHeight}px`,
 
     marginLeft: '1.2vw',
     borderWidth: '1px',
@@ -44,7 +55,10 @@ const navBarSecondFragmentStyles = {
 
     width: '2.2vh',
     minWidth: `${minSearchInputFieldHeight}px`,
-    height: navBarHeight * windowHeight / 100 >= minNavBarHeight ? `${searchInputFieldHeight}vh` : `${minSearchInputFieldHeight}px`,
+    height:
+      (navBarHeight * windowHeight) / 100 >= minNavBarHeight
+        ? `${searchInputFieldHeight}vh`
+        : `${minSearchInputFieldHeight}px`,
 
     borderWidth: '1px',
     borderLeft: '0',
@@ -53,12 +67,12 @@ const navBarSecondFragmentStyles = {
   }),
 
   searchIcon: {
-    fontSize : '0.9rem',
+    fontSize: '0.9rem',
   },
 
   searchIconSingle: {
     position: 'fixed',
-    fontSize : '1.5rem',
+    fontSize: '1.5rem',
     left: '67vw',
     cursor: 'pointer',
   },
@@ -77,7 +91,7 @@ const navBarSecondFragmentStyles = {
 
   loginIcon: {
     position: 'fixed',
-    fontSize : '1.7rem',
+    fontSize: '1.7rem',
     left: '85vw',
     cursor: 'pointer',
   },

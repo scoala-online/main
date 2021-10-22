@@ -1,6 +1,9 @@
 import { Container, Nav } from 'react-bootstrap';
 import fontStyle from '../../themes/FontFamilies';
-import { gradeSidebarButtonWidth, minMaterialsButtonWidth } from '../../themes/Sizes';
+import {
+  gradeSidebarButtonWidth,
+  minMaterialsButtonWidth,
+} from '../../themes/Sizes';
 import styles from './NavBarSecondFragmentStyles';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -16,49 +19,61 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
  * - toggleSearchModal: function ( toggles the search modal )
  * - searchModalActive: boolean ( the search modal's visibility )
  */
-export default function NavBarSecondFragment (props) {
-    //Props
-    const dimensions = props.dimensions
+export default function NavBarSecondFragment(props) {
+  //Props
+  const dimensions = props.dimensions;
 
-    return (
-        <>
-            {   
-            gradeSidebarButtonWidth * dimensions.width / 100 >= minMaterialsButtonWidth ?
-            <Nav style={styles.navBarSecondFragment}>
-              <input
-                style={styles.searchInputField(dimensions.height, false)}
-                type="text"
-                placeholder="search bar"
-              />
-              <Container style={styles.searchIconBorder(dimensions.height)}>
-                <i style={styles.searchIcon} className="bi bi-search"></i>
-              </Container>
-              <button style={styles.toggleAuthenticationButton}>
-                <span
-                  style={{ ...fontStyle.body_semibold, fontSize: '1rem', color: '#fff' }}
-                >
-                  Autentificare
-                </span>
-              </button>
-            </Nav>
-            :
-            <Nav style={styles.navBarSecondFragment}>
-              <i style={styles.searchIconSingle} className="bi bi-search" onClick={props.toggleSearchModal}></i>
-              <i style={styles.loginIcon} class="bi bi-person"></i>
-            </Nav>
-          }
-  
-          <Nav style={styles.searchModal(props.searchModalActive, dimensions.height)}>
-            <input
-              style={styles.searchInputField(dimensions.height, true)}
-              type="text"
-              placeholder="search bar"
-              onClick={() => {console.log("click")}}
-            />
-            <Container style={styles.searchIconBorder(dimensions.height)}>
-              <i style={styles.searchIcon} className="bi bi-search"></i>
-            </Container>
-          </Nav>
-        </>
-    );
+  return (
+    <>
+      {(gradeSidebarButtonWidth * dimensions.width) / 100 >=
+      minMaterialsButtonWidth ? (
+        <Nav style={styles.navBarSecondFragment}>
+          <input
+            style={styles.searchInputField(dimensions.height, false)}
+            type="text"
+            placeholder="search bar"
+          />
+          <Container style={styles.searchIconBorder(dimensions.height)}>
+            <i style={styles.searchIcon} className="bi bi-search"></i>
+          </Container>
+          <button style={styles.toggleAuthenticationButton}>
+            <span
+              style={{
+                ...fontStyle.body_semibold,
+                fontSize: '1rem',
+                color: '#fff',
+              }}
+            >
+              Autentificare
+            </span>
+          </button>
+        </Nav>
+      ) : (
+        <Nav style={styles.navBarSecondFragment}>
+          <i
+            style={styles.searchIconSingle}
+            className="bi bi-search"
+            onClick={props.toggleSearchModal}
+          ></i>
+          <i style={styles.loginIcon} class="bi bi-person"></i>
+        </Nav>
+      )}
+
+      <Nav
+        style={styles.searchModal(props.searchModalActive, dimensions.height)}
+      >
+        <input
+          style={styles.searchInputField(dimensions.height, true)}
+          type="text"
+          placeholder="search bar"
+          onClick={() => {
+            console.log('click');
+          }}
+        />
+        <Container style={styles.searchIconBorder(dimensions.height)}>
+          <i style={styles.searchIcon} className="bi bi-search"></i>
+        </Container>
+      </Nav>
+    </>
+  );
 }

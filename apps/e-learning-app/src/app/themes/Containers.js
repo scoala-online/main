@@ -1,5 +1,9 @@
 import styled from 'styled-components';
-import { gradeSidebarButtonWidth, subjectSidebarButtonWidth, minSidebarButtonWidth } from './Sizes';
+import {
+  gradeSidebarButtonWidth,
+  subjectSidebarButtonWidth,
+  minSidebarButtonWidth,
+} from './Sizes';
 
 /**
  * Container for the content of a sidebar
@@ -16,27 +20,38 @@ export const SidebarContainer = styled.div`
   font-size: 1.5rem;
 
   position: fixed;
-  width: ${({ type }) => (type === 'grade' ? gradeSidebarButtonWidth.toString() : subjectSidebarButtonWidth.toString())}vw;
+  width: ${({ type }) =>
+    type === 'grade'
+      ? gradeSidebarButtonWidth.toString()
+      : subjectSidebarButtonWidth.toString()}vw;
   min-width: ${minSidebarButtonWidth}px;
   bottom: ${({ bottomVal }) => bottomVal};
   top: ${({ topVal }) => topVal};
   left: ${({ active, type, windowWidth }) => {
-    let minActive = gradeSidebarButtonWidth * windowWidth / 100 < minSidebarButtonWidth;
+    let minActive =
+      (gradeSidebarButtonWidth * windowWidth) / 100 < minSidebarButtonWidth;
     if (type === 'grade') {
       if (active) {
         return '0';
       }
-      return !minActive ? -(gradeSidebarButtonWidth + 10).toString() + 'vw' : -minSidebarButtonWidth.toString() + 'px';
+      return !minActive
+        ? -(gradeSidebarButtonWidth + 10).toString() + 'vw'
+        : -minSidebarButtonWidth.toString() + 'px';
     }
 
     if (active) {
-      return !minActive ? gradeSidebarButtonWidth.toString() + 'vw' : minSidebarButtonWidth.toString() + 'px';
+      return !minActive
+        ? gradeSidebarButtonWidth.toString() + 'vw'
+        : minSidebarButtonWidth.toString() + 'px';
     }
-    return !minActive ? -(gradeSidebarButtonWidth + subjectSidebarButtonWidth).toString() + 'vw' : -2*minSidebarButtonWidth.toString() + 'px';
+    return !minActive
+      ? -(gradeSidebarButtonWidth + subjectSidebarButtonWidth).toString() + 'vw'
+      : -2 * minSidebarButtonWidth.toString() + 'px';
   }};
   z-index: ${({ type }) => (type === 'grade' ? '100' : '99')};
 
-  transition: left ${({ type }) => (type === 'grade' ? '700ms' : '1000ms')}, top 350ms, bottom 350ms;
+  transition: left ${({ type }) => (type === 'grade' ? '700ms' : '1000ms')},
+    top 350ms, bottom 350ms;
 
   direction: ${({ type }) => (type === 'grade' ? 'rtl' : 'ltr')};
   overflow-y: auto;
