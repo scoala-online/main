@@ -40,7 +40,7 @@ const videoStyle = {
     color: 'white',
     fontSize: '12px',
     padding: '5px 5px 5px 5px',
-    bottom: '3px',
+    bottom: '0px',
     left: '0px',
   },
 
