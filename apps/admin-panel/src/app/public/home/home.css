@@ -11,9 +11,22 @@
 }
 
 .main .content {
+  margin-top: 3vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  margin-left: 15vw;
-  margin-bottom: 20vh;
+  justify-content: flex-start;
+  width: 96vw;
+}
+
+.main .content .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.main .content .list-group-item {
+  display: flex;
+  justify-content: space-between;
 }
