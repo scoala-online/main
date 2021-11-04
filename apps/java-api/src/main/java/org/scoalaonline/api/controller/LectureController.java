@@ -77,7 +77,7 @@ public class LectureController {
    * Sends HTTP status Not Found if the Lecture cannot be found.
    * Sends HTTP status Bad Request if the Lecture to be posted is invalid.
    * @param id - the id of the Lecture to be updated.
-   * @param - lecture the Lecture to be updated.
+   * @param lecture - the Lecture to be updated.
    * @return the Response Entity with a Status Code with a body.
    */
   @PatchMapping(value = "/{id}")
