@@ -17,6 +17,10 @@ class HomePage extends Component {
       justifyContent: 'center'
     }
 
+    const cardItems = [{title: "Title 1", sub: "Subtitle 1"}, {title: "Title 2", sub: "Subtitle 2"}, {title: "Title 3", sub: "Subtitle 3"}]
+
+    const carouselPages = [{title: "Title", sub: "Subtitle", imageURL: ""}]
+
     return (
       <Container fluid style={{
         background: '#dddddd'
@@ -71,7 +75,7 @@ class HomePage extends Component {
         </Row>
         <Row>
           <Col>
-            <InfoColumns />
+            <InfoColumns cardItems={cardItems} />
           </Col>
         </Row>
         <Row>
@@ -82,7 +86,7 @@ class HomePage extends Component {
             marginRight: '7vw'
           }}>
             <Row style={rowStyle}>
-              <CardCarousel />
+              <CardCarousel pages={carouselPages} />
             </Row>
           </Container>
         </Row>

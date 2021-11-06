@@ -45,40 +45,22 @@ class InfoColumns extends Component {
           <Row>
             <Container fluid>
               <Row>
-                <Col>
-                  <Card className="text-center" style={cardStyle}>
-                    <Card.Body>
-                      <Card.Title style={{
-                        fontSize: '20px'
-                      }}>
-                        Invatamant gratuit
-                      </Card.Title>
-                      <Card.Text>
-                        Intreaga materie scolara a fost filmata si oricine are acces nelimitat si gratuit la continut
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card className="text-center" style={cardStyle}>
-                    <Card.Body>
-                      <Card.Title>Invatamant de calitate</Card.Title>
-                      <Card.Text>
-                        Fiecare videoclip a fost verificat pentru a oferi informatii adevarate si cerem feedback regulat pentru a afla ce filmari trebuie refacute
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col>
-                  <Card className="text-center" style={cardStyle}>
-                    <Card.Body>
-                      <Card.Title>Invatamant accesibil</Card.Title>
-                      <Card.Text>
-                        Fiecare lectie este impartita in capitole si contine subtitrari, alaturi de suport de curs si transcript.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Col>
+                {this.props.cardItems.map(item => (
+                  <Col>
+                    <Card className="text-center" style={cardStyle}>
+                      <Card.Body>
+                        <Card.Title style={{
+                          fontSize: '20px'
+                        }}>
+                          {item.title}
+                        </Card.Title>
+                        <Card.Text>
+                          {item.sub}
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
               </Row>
             </Container>
           </Row>
