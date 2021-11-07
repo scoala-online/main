@@ -7,7 +7,6 @@ class CardCarousel extends Component {
 
   render() {
     const carouselCardStyle = {
-      background: '#446677',
       width: '52vw',
       height: '51vh'
     }
@@ -19,14 +18,14 @@ class CardCarousel extends Component {
       }}>
         {this.props.pages.map(page => (
           <Carousel.Item>
-            <div style={carouselCardStyle}>
+            <div style={Object.assign(carouselCardStyle, {background: page.background})}>
               <h1>
                 Hello 1
               </h1>
             </div>
             <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+              <h3>{page.title}</h3>
+              <p>{page.sub}</p>
             </Carousel.Caption>
           </Carousel.Item>
         ))}

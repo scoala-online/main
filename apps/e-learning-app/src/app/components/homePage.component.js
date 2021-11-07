@@ -19,7 +19,7 @@ class HomePage extends Component {
 
     const cardItems = [{title: "Title 1", sub: "Subtitle 1"}, {title: "Title 2", sub: "Subtitle 2"}, {title: "Title 3", sub: "Subtitle 3"}]
 
-    const carouselPages = [{title: "Title", sub: "Subtitle", imageURL: ""}]
+    const carouselPages = [{title: "Title1", sub: "Subtitle1", background: "#335577"}, {title: "Title2", sub: "Subtitle2", background: "#882277"}, {title: "Title3", sub: "Subtitle3", background: "#992211"}]
 
     return (
       <Container fluid style={{
