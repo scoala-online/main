@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface UserRepository extends Neo4jRepository<User, String> {
   Boolean existsByUsername(String username);
   Optional<User> findByUsername(String username);
+  Optional<User> findByValidationCode(String validationCode);
+  Optional<User> findByResetPasswordCode(String resetPasswordCode);
   @Query("MATCH (a:User)-[r:HAS_ROLE]->(b:Role) WHERE b.name=$roleName return a")
   List<User> findAllByRolesContaining(@Param("roleName") String roleName);
 }

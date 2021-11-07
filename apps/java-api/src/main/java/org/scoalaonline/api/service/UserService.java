@@ -2,14 +2,16 @@ package org.scoalaonline.api.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.internal.bytebuddy.utility.RandomString;
+import org.scoalaonline.api.DTO.Password;
 import org.scoalaonline.api.DTO.RegisterForm;
+import org.scoalaonline.api.DTO.Username;
 import org.scoalaonline.api.exception.role.RoleNotFoundException;
 import org.scoalaonline.api.exception.user.*;
 import org.scoalaonline.api.model.Role;
 import org.scoalaonline.api.model.User;
 import org.scoalaonline.api.repository.RoleRepository;
 import org.scoalaonline.api.repository.UserRepository;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,10 +34,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService implements ServiceInterface<User>, UserDetailsService {
   private static final String DEFAULT_ROLE = "ROLE_STUDENT";
+  private static final int TIME_TO_EXPIRATION = 30 * 60;
 
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
+  private final MailService mailService;
 
   /**
    * Retrieves User entry with the given username
@@ -161,6 +168,30 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserInvalidPasswordException("Method add: Invalid password.");
     }
 
+    if (entry.getCreatedAt() != null) {
+      userToSave.setCreatedAt(entry.getCreatedAt());
+    } else {
+      userToSave.setCreatedAt(LocalDateTime.now());
+    }
+
+    userToSave.setValidatedAt(entry.getValidatedAt());
+
+    if (entry.getLastModifiedAt() != null) {
+      userToSave.setLastModifiedAt(entry.getLastModifiedAt());
+    } else {
+      userToSave.setLastModifiedAt(LocalDateTime.now());
+    }
+
+    if (entry.getValidated() != null) {
+      userToSave.setValidated(entry.getValidated());
+    } else {
+      userToSave.setValidated(false);
+    }
+
+    userToSave.setValidationCode(entry.getValidationCode());
+    userToSave.setResetPasswordCode(entry.getResetPasswordCode());
+    userToSave.setResetPasswordCodeExpiryDate(entry.getResetPasswordCodeExpiryDate());
+
     if (entry.getRoles() != null && !entry.getRoles().isEmpty()) {
       List<Role> rolesToSave = createRoleList(entry.getRoles());
       userToSave.setRoles(rolesToSave);
@@ -174,20 +205,24 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
   /**
    * Adds a User entry in the DB based on the received RegisterForm.
-   * Adds ROLE_STUDENT to the list of roles
+   * Adds ROLE_STUDENT to the list of roles and sends a mail to the user with the created validation code.
    * @param entry - the User entry.
    * @throws UserInvalidNameException
    * @throws UserInvalidUsernameException
    * @throws UserUsernameAlreadyUsedException
    * @throws UserInvalidPasswordException
    * @throws RoleNotFoundException
+   * @throws UnsupportedEncodingException
+   * @throws MessagingException
    * @return the User object that has been saved in the DB
    */
   public User register(RegisterForm entry) throws UserInvalidNameException,
     UserInvalidUsernameException,
     UserUsernameAlreadyUsedException,
     UserInvalidPasswordException,
-    RoleNotFoundException {
+    RoleNotFoundException,
+    UnsupportedEncodingException,
+    MessagingException {
     log.info("Registering user {}...", entry.getUsername());
     User userToSave = new User();
 
@@ -218,10 +253,130 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     }
 
     userToSave.setRoles(new ArrayList<>());
+    userToSave = addRoleToUser(userToSave, DEFAULT_ROLE);
 
-    addRoleToUser(userToSave, DEFAULT_ROLE);
+    userToSave.setCreatedAt(LocalDateTime.now());
+    userToSave.setLastModifiedAt(LocalDateTime.now());
 
+    String randomCode = RandomString.make(64);
+    userToSave.setValidationCode(randomCode);
+    userToSave.setValidated(false);
+
+    mailService.sendValidateAccountEmail(userToSave.getUsername(), userToSave.getName(), randomCode);
     return userRepository.save(userToSave);
+  }
+
+  /**
+   * Retrieves one User entry with the given validationCode from the DB and validates it
+   * or throws an error if no entry with that validationCode is found.
+   * @param validationCode - the code required for user validation.
+   * @throws UserInvalidValidationCodeException
+   */
+  public void verifyValidation(String validationCode) throws UserInvalidValidationCodeException {
+    log.info("Validating user with code {} ...", validationCode);
+    User user = userRepository.findByValidationCode(validationCode).orElseThrow(
+      () -> {
+        log.error("Invalid validation code.");
+        return new UserInvalidValidationCodeException("Method verifyValidation: Invalid validation code.");
+      }
+    );
+
+    log.info("User was validated.");
+    user.setValidatedAt(LocalDateTime.now());
+    user.setValidationCode(null);
+    user.setValidated(true);
+    userRepository.save(user);
+  }
+
+  /**
+   * Retrieves one User entry with the given username from the DB
+   * or throws an error if no entry with that username is found.
+   * Sends a mail containing the code for password reset, with an expiration date, created for the user.
+   * @param username - username of the User entry.
+   * @throws UnsupportedEncodingException
+   * @throws MessagingException
+   * @throws UserNotFoundException
+   */
+  public void requestResetPassword(Username username) throws UnsupportedEncodingException,
+    MessagingException, UserNotFoundException {
+    log.info("Sending mail for password reset...");
+    User user = userRepository.findByUsername(username.getUsername()).orElseThrow(
+      () -> {
+        log.error("User not found.");
+        return new UserNotFoundException("Method requestPasswordReset: User not found.");
+      }
+    );
+
+    String randomCode = RandomString.make(64);
+    LocalDateTime expiryDate = LocalDateTime.now().plusSeconds(TIME_TO_EXPIRATION);
+    user.setResetPasswordCode(randomCode);
+    user.setResetPasswordCodeExpiryDate(expiryDate);
+
+    mailService.sendResetPasswordEmail(user.getUsername(), user.getName(), randomCode);
+    log.info("Mail sent.");
+
+    userRepository.save(user);
+  }
+
+  /**
+   * Retrieves one User entry with the given resetPasswordCode from the DB ( resetPasswordCode is valid ).
+   * Throws an error if no entry with that resetPasswordCode is found.
+   * Throws an error if the resetPasswordCode is expired.
+   * @param resetPasswordCode - the code required for password reset.
+   * @throws UserInvalidResetPasswordCodeException
+   * @throws UserResetPasswordCodeExpiredException
+   */
+  public void verifyResetPassword(String resetPasswordCode) throws UserInvalidResetPasswordCodeException, UserResetPasswordCodeExpiredException {
+    log.info("Verifying resetPasswordCode {}", resetPasswordCode);
+    User user = userRepository.findByResetPasswordCode(resetPasswordCode).orElseThrow(
+      () -> {
+        log.error("Invalid reset password code.");
+        return new UserInvalidResetPasswordCodeException("Method resetPassword: Invalid reset password code.");
+      }
+    );
+
+    if (user.getResetPasswordCodeExpiryDate().isBefore(LocalDateTime.now())) {
+      log.error("The code for password reset has expired.");
+      throw new UserResetPasswordCodeExpiredException("Method verifyResetPassword: The code for password reset has expired.");
+    }
+
+    log.info("Code is valid.");
+  }
+
+  /**
+   * Retrieves one User entry with the given resetPasswordCode from the DB and changes its password with the given one
+   * or throws an error if no entry with that resetPasswordCode is found.
+   * Throws an error if the new password is invalid.
+   * @param resetPasswordCode - the code required for password reset.
+   * @param password - the new password.
+   * @throws UserInvalidResetPasswordCodeException
+   * @throws UserInvalidPasswordException
+   */
+  public void resetPassword(String resetPasswordCode, Password password) throws UserInvalidResetPasswordCodeException, UserInvalidPasswordException, UserResetPasswordCodeExpiredException {
+    log.info("Changing password for user with resetPasswordCode {}", resetPasswordCode);
+    User user = userRepository.findByResetPasswordCode(resetPasswordCode).orElseThrow(
+      () -> {
+        log.error("Invalid reset password code.");
+        return new UserInvalidResetPasswordCodeException("Method resetPassword: Invalid reset password code.");
+      }
+    );
+
+    if (user.getResetPasswordCodeExpiryDate().isBefore(LocalDateTime.now())) {
+      log.error("The code for password reset has expired.");
+      throw new UserResetPasswordCodeExpiredException("Method resetPassword: The code for password reset has expired.");
+    }
+
+    if(password.getPassword() != null && !password.getPassword().equals("") && password.getPassword().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}")) {
+      user.setPassword(passwordEncoder.encode(password.getPassword()));
+    } else {
+      log.error("Invalid password.");
+      throw new UserInvalidPasswordException("Method resetPassword: Invalid password.");
+    }
+
+    log.info("Password reset.");
+    user.setLastModifiedAt(LocalDateTime.now());
+    user.setResetPasswordCode(null);
+    userRepository.save(user);
   }
 
   /**
@@ -269,6 +424,20 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserInvalidPasswordException("Method update: Invalid password.");
     }
 
+    userToUpdate.setCreatedAt(entry.getCreatedAt());
+    userToUpdate.setValidatedAt(entry.getValidatedAt());
+
+    if (entry.getLastModifiedAt() != null) {
+      userToUpdate.setLastModifiedAt(entry.getLastModifiedAt());
+    } else {
+      userToUpdate.setLastModifiedAt(LocalDateTime.now());
+    }
+
+    userToUpdate.setValidated(entry.getValidated());
+    userToUpdate.setValidationCode(entry.getValidationCode());
+    userToUpdate.setResetPasswordCode(entry.getResetPasswordCode());
+    userToUpdate.setResetPasswordCodeExpiryDate(entry.getResetPasswordCodeExpiryDate());
+
     if(entry.getRoles() != null && !entry.getRoles().isEmpty()) {
       List<Role> rolesToSave = createRoleList(entry.getRoles());
       userToUpdate.setRoles(rolesToSave);
@@ -303,9 +472,10 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * or throws an error if no entry with that roleName is found.
    * @param user - User entry
    * @param roleName - name of the Role entry
+   * @return the modified user
    * @throws RoleNotFoundException
    */
-  public void addRoleToUser(User user, String roleName) throws RoleNotFoundException {
+  public User addRoleToUser(User user, String roleName) throws RoleNotFoundException {
     Role role = roleRepository.findByName(roleName).orElseThrow(
       () -> {
         log.error("Role not found.");
@@ -317,7 +487,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     newRoles.add(role);
     user.setRoles(newRoles);
 
-    userRepository.save(user);
+    return user;
   }
   /**
    * Retrieves a list of Role entries based on the ids of the provided list of roles.
