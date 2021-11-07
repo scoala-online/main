@@ -37,6 +37,7 @@ jobs:
           DB_NEO4J_URI: ${{ secrets.DB_NEO4J_URI }}
           DB_NEO4J_USERNAME: ${{ secrets.DB_NEO4J_USERNAME }}
           DB_NEO4J_PASSWORD: ${{ secrets.DB_NEO4J_PASSWORD }}
+          MAIL_SENDER_PASSWORD: ${{ secrets.MAIL_SENDER_PASSWORD }}
         run: |
           npm ci
           npm run test:ci
