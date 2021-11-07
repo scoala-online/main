@@ -306,7 +306,7 @@ public class UserController {
    * @return a Response Entity with a Status.
    */
   @PatchMapping(value = ("/reset_password/{code}"))
-  public ResponseEntity<HttpStatus> ResetPassword (@PathVariable("code") String code, @RequestBody Password password) {
+  public ResponseEntity<HttpStatus> resetPassword (@PathVariable("code") String code, @RequestBody Password password) {
     try {
       userService.resetPassword(code, password);
     } catch ( UserInvalidResetPasswordCodeException e ) {
