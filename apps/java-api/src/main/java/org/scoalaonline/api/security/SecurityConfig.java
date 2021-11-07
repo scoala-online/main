@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   /**
    * Sets a BCryptPasswordEncoder for encoding UserDetails password
-   * 
+   *
    * @param auth
    * @throws Exception
    */
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   /**
    * Adds filters for Authentication and Authorization processes Configures access
    * to API resources
-   * 
+   *
    * @param http
    * @throws Exception
    */
@@ -67,6 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // Custom authorization implemented in UserController.
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/username/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/verify/validation/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/request_reset_password/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/reset_password/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/verify/reset_password/**").permitAll();
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/{id}/**")
         .access("@userSecurity.hasUserId(authentication,#id) or hasAnyAuthority(\"ROLE_ADMIN\")");
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").hasAnyAuthority("ROLE_ADMIN");
@@ -103,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   * Creates a Configuration Bean that sets the Cors headers for the 
+   * Creates a Configuration Bean that sets the Cors headers for the
    * authentication route: `/users/login`.
    * @return the Cors Configuration Bean
    */
@@ -119,7 +123,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   /**
    * Creates AuthenticationManagerBean
-   * 
+   *
    * @return the Bean
    * @throws Exception
    */
