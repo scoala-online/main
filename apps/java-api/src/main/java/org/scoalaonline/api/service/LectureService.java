@@ -1,8 +1,8 @@
 package org.scoalaonline.api.service;
 
 
-import org.scoalaonline.api.exception.LectureInvalidTitleException;
-import org.scoalaonline.api.exception.LectureNotFoundException;
+import org.scoalaonline.api.exception.Lecture.LectureInvalidTitleException;
+import org.scoalaonline.api.exception.Lecture.LectureNotFoundException;
 import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
