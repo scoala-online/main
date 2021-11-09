@@ -50,7 +50,10 @@ const endpoints = async (resource) => {
     'utf-8'
   );
   endpointPage = endpointPage.replace('{{ Resource }}', resource);
-  endpointPage = endpointPage.replace('{{ Data }}', await endpointsUtil.buildBody(resource));
+  endpointPage = endpointPage.replace(
+    '{{ Data }}',
+    await endpointsUtil.buildBody(resource)
+  );
 
   return endpointPage;
 };

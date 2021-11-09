@@ -7,7 +7,7 @@ axios.defaults.responseType = 'json';
 /**
  * Takes in the name of a resource, queries the API for the given resource, and builds an HTML
  * body with the data received from the API.
- * 
+ *
  * @param {String} resource The name of a resource endpoint.
  * @returns {String} the HTML body showcasing all the API entries for the given resource.
  */
@@ -25,9 +25,9 @@ const buildBody = async (resource) => {
 
 /**
  * Takes in an **element** and constructs a '*Bootstrap Accordion item*' with its data.
- * 
+ *
  * @param {Object} element an entry received from the API.
- * @param {Number} index 
+ * @param {Number} index
  * @returns {String} the HTML accordion item representing the provided **element**.
  */
 const buildItem = (element, index) => {
@@ -58,33 +58,33 @@ const buildItem = (element, index) => {
 
 /**
  * Takes in an **element** and constructs an HTML preview of its contents.
- * 
+ *
  * @param {Object} element an entry received from the API.
  * @returns {String} a series of HTML spans, displaying the content of the **element**.
  */
 const displayItem = (element) => {
-    let content = '';
-    for (const key of Object.keys(element)) {
-        content += `
+  let content = '';
+  for (const key of Object.keys(element)) {
+    content += `
             <span>${key}: ${element[key]}</span><br>
         `;
-    }
-    return content;
-}
+  }
+  return content;
+};
 
 /**
  * Takes in an **element** `Object`, searches through its keys and returns the first one that is not the ***id***.
- * 
+ *
  * @param {Object} element an entry received from the API.
  * @returns {String} the key which represents the title of the given `Object`.
  */
 const getItemTitle = (element) => {
-    for (const key of Object.keys(element)) {
-        if (key !== 'id') {
-            return key;
-        }
+  for (const key of Object.keys(element)) {
+    if (key !== 'id') {
+      return key;
     }
-}
+  }
+};
 
 module.exports = {
   buildBody,
