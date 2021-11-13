@@ -88,7 +88,7 @@ public class SubjectController {
     } catch (SubjectNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Subject Not Found", e);
     } catch (SubjectInvalidValueException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Subject Invalid value", e);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Subject Invalid Value", e);
     }
 
     return new ResponseEntity<>(updatedSubject, HttpStatus.OK);
