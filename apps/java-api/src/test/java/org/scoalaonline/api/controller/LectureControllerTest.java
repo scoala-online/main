@@ -121,7 +121,7 @@ class LectureControllerTest {
    * @throws Exception
    */
 
-  @DisplayName(value = "Test getting a lecture by id and expect 'Lecture not found' exception.")
+  @DisplayName(value = "Test getting a lecture by id and expect 'Lecture not found.' exception.")
   @Test
   void getLectureByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -174,7 +174,7 @@ class LectureControllerTest {
    * database remains empty.
    * @throws Exception
    */
-  @DisplayName(value = "Test adding a lecture and expect 'Invalid Title' exception.")
+  @DisplayName(value = "Test adding a lecture and expect 'Invalid title.' exception.")
   @Test
   void addLectureInvalidTitleExceptionTest() throws Exception {
 
@@ -243,7 +243,7 @@ class LectureControllerTest {
    * response is empty.
    * @throws Exception
    */
-  @DisplayName(value = "Test updating a lecture and expect 'Invalid Title' exception.")
+  @DisplayName(value = "Test updating a lecture and expect 'Invalid title.' exception.")
   @Test
   void updateLectureInvalidTitleExceptionTest() throws Exception {
 
@@ -284,7 +284,7 @@ class LectureControllerTest {
    * response is empty.
    * @throws Exception
    */
-  @DisplayName(value = "Test updating a lecture and expecting 'Lecture not found' exception.")
+  @DisplayName(value = "Test updating a lecture and expecting 'Lecture not found.' exception.")
   @Test
   void updateLectureByIdNotFoundExceptionTest() throws Exception {
     // given
@@ -338,7 +338,7 @@ class LectureControllerTest {
    * Asserts that the status is 404 and the response is empty.
    * @throws Exception
    */
-  @DisplayName(value = "Test deleting a lecture and expect 'Lecture not found' exception.")
+  @DisplayName(value = "Test deleting a lecture and expect 'Lecture not found.' exception.")
   @Test
   void deleteLectureByIdNotFoundExceptionTest() throws Exception {
     // given
