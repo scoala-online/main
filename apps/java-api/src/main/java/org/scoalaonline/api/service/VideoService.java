@@ -40,7 +40,7 @@ public class VideoService implements ServiceInterface<Video>{
     else
       throw new VideoInvalidTitleException("Method add: Video Title field can't be null.");
 
-    if (entry.getVideoLength() != null && !entry.getVideoLength().equals(""))
+    if (entry.getVideoLength() != null && !entry.getVideoLength().isZero())
       videoToSave.setVideoLength(entry.getVideoLength());
     else
       throw new VideoInvalidLengthException("Method add: Video Length field can't be null.");
@@ -89,7 +89,7 @@ public class VideoService implements ServiceInterface<Video>{
     else
       throw new VideoInvalidTitleException("Method add: Video Title field can't be null.");
 
-    if (entry.getVideoLength() != null && !entry.getVideoLength().equals(""))
+    if (entry.getVideoLength() != null && !entry.getVideoLength().isZero())
       videoToUpdate.setVideoLength(entry.getVideoLength());
     else
       throw new VideoInvalidLengthException("Method add: Video Length field can't be null.");
