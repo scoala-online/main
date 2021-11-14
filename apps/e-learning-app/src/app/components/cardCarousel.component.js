@@ -1,37 +1,32 @@
-import React, { Component } from 'react'
 import Carousel from 'react-bootstrap/Carousel'
 
-import { withRouter } from 'react-router-dom';
+export default function CardCarousel(props) {
+  // Props
+  const pages = props.pages;
 
-class CardCarousel extends Component {
+  const carouselCardStyle = {
+    width: '52vw',
+    height: '51vh'
+  }
 
-  render() {
-    const carouselCardStyle = {
+  return (
+    <Carousel style={{
       width: '52vw',
       height: '51vh'
-    }
-
-    return (
-      <Carousel style={{
-        width: '52vw',
-        height: '51vh'
-      }}>
-        {this.props.pages.map(page => (
-          <Carousel.Item>
-            <div style={Object.assign(carouselCardStyle, {background: page.background})}>
-              <h1>
-                Hello 1
-              </h1>
-            </div>
-            <Carousel.Caption>
-              <h3>{page.title}</h3>
-              <p>{page.sub}</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        ))}
-      </Carousel>
-    )
-  }
+    }}>
+      {pages.map(page => (
+        <Carousel.Item>
+          <div style={Object.assign(carouselCardStyle, {background: page.background})}>
+            <h1>
+              Hello 1
+            </h1>
+          </div>
+          <Carousel.Caption>
+            <h3>{page.title}</h3>
+            <p>{page.sub}</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
+  )
 }
-
-export default withRouter(CardCarousel);
