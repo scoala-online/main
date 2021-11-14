@@ -182,6 +182,8 @@ public class UserController {
       savedUser = userService.add(user);
     } catch (UserInvalidNameException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: User Invalid Name", e );
+    } catch (UserUsernameAlreadyUsedException e) {
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Username already used", e );
     } catch (UserInvalidUsernameException e) {
       throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: User Invalid Username", e );
     } catch (UserInvalidPasswordException e) {
