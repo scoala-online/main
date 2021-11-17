@@ -2,7 +2,7 @@ package org.scoalaonline.api.mail;
 
 public enum MailDomain
 {
-  INFO("contact.scoalaonline@gmail.com");
+  INFO("contact.scoalaonline@yahoo.com");
 
   public final String label;
 
