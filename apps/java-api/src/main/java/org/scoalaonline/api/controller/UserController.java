@@ -42,7 +42,8 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
  POST: "/users"	creates a new entry
  POST: "/users/register"	registers a new entry with the default role
  POST: "/users/verify/validation/{code}"	validates a user based on the given code
- POST: "users/request_reset_password"	requests password reset
+ POST: "users/request/validation"	requests a new validation code
+ POST: "users/request/reset_password"	requests password reset
  POST: "/users/verify/reset_password/{code}"	checks if the code for password reset is valid
  POST: "/users/reset_password/{code}"	resets the password of an user based on the given code
  PATCH:	"/users/{id}	edits the entry with the provided id
@@ -256,18 +257,43 @@ public class UserController {
   }
 
   /**
+   * Sends a mail to the user with the provided username containing a new validation code.
+   * Sends a Response Entity with the Status OK, or Not Found if there is no entry with the provided username.
+   * Sends a Response Entity with the Status CONFLICT if the user was already validated.
+   * Sends HTTP status SERVICE UNAVAILABLE if there was a problem sending the mail.
+   * @param username the username of the User who requires a password reset.
+   * @return a Response Entity with a Status.
+   */
+  @PostMapping( value = "/request/validation" )
+  public ResponseEntity<HttpStatus> requestValidation(@RequestBody Username username) {
+    try {
+      userService.resendValidationCode(username);
+    } catch (UserNotFoundException e) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "POST: User Not Found", e);
+    } catch (UserAlreadyValidatedException e) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "POST: User was already validated.", e);
+    }catch (UnsupportedEncodingException e) {
+      throw new ResponseStatusException( HttpStatus.INTERNAL_SERVER_ERROR, "POST: Messaging exception", e );
+    } catch (MessagingException e) {
+      throw new ResponseStatusException( HttpStatus.SERVICE_UNAVAILABLE, "POST: Messaging exception", e );
+    }
+
+    return new ResponseEntity<>( HttpStatus.OK );
+  }
+
+  /**
    * Sends a mail for password reset to the user with the provided username.
    * Sends a Response Entity with the Status OK, or Not Found if there is no entry with the provided username.
    * Sends HTTP status SERVICE UNAVAILABLE if there was a problem sending the mail.
    * @param username the username of the User who requires a password reset.
    * @return a Response Entity with a Status.
    */
-  @PostMapping( value = "/request_reset_password" )
+  @PostMapping( value = "/request/reset_password" )
   public ResponseEntity<HttpStatus> requestResetPassword(@RequestBody Username username) {
     try {
       userService.requestResetPassword(username);
     } catch ( UserNotFoundException e ) {
-      throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Post: User Not Found", e );
+      throw new ResponseStatusException( HttpStatus.NOT_FOUND, "POST: User Not Found", e );
     } catch (UnsupportedEncodingException e) {
     throw new ResponseStatusException( HttpStatus.INTERNAL_SERVER_ERROR, "POST: Messaging exception", e );
     } catch (MessagingException e) {

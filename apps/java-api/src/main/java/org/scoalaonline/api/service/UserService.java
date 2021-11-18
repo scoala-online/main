@@ -262,8 +262,47 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     userToSave.setValidationCode(randomCode);
     userToSave.setValidated(false);
 
+    User userSaved = userRepository.save(userToSave);
+    log.info("The user was created");
+
     mailService.sendValidateAccountEmail(userToSave.getUsername(), userToSave.getName(), randomCode);
-    return userRepository.save(userToSave);
+    log.info("Mail sent.");
+    return userSaved;
+  }
+
+  /**
+   * Sends a mail to the user with the provided username containing a new validation code.
+   * Throws an error if no user with the given username is found or if the user was already validated.
+   * Throws an error if there was a problem sending the mail.
+   * @param username - username of the user.
+   * @throws UnsupportedEncodingException
+   * @throws MessagingException
+   * @throws UserAlreadyValidatedException
+   * @throws UserNotFoundException
+   */
+  public void resendValidationCode(Username username) throws
+    UnsupportedEncodingException,
+    MessagingException,
+    UserAlreadyValidatedException,
+    UserNotFoundException {
+    log.info("Resending validation code for user with username {} ...", username.getUsername());
+    User user = userRepository.findByUsername(username.getUsername()).orElseThrow(
+      () -> {
+        log.error("Invalid username.");
+        return new UserNotFoundException("Method resendValidationCode: User not found.");
+      }
+    );
+    if (user.getValidated()) {
+      log.error("User was already validated.");
+      throw new UserAlreadyValidatedException("Method resendValidationCode: User was already validated.");
+    }
+    String randomCode = RandomString.make(64);
+    user.setValidationCode(randomCode);
+
+    userRepository.save(user);
+
+    mailService.sendValidateAccountEmail(user.getUsername(), user.getName(), randomCode);
+    log.info("Resending validation code is completed");
   }
 
   /**
