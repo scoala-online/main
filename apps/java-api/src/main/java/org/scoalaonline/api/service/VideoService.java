@@ -36,7 +36,7 @@ public class VideoService implements ServiceInterface<Video>{
       throw new VideoInvalidURLException("Method add: Video URL field can't be null.");
 
     if (entry.getVideoTitle() != null && !entry.getVideoTitle().equals(""))
-      videoToSave.setVideoURL(entry.getVideoTitle());
+      videoToSave.setVideoTitle(entry.getVideoTitle());
     else
       throw new VideoInvalidTitleException("Method add: Video Title field can't be null.");
 
