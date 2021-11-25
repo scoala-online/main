@@ -1,5 +1,6 @@
 package org.scoalaonline.api.service;
 
+import org.scoalaonline.api.exception.subject.SubjectNotFoundException;
 import org.scoalaonline.api.exception.video.*;
 import org.scoalaonline.api.model.Video;
 import org.scoalaonline.api.repository.VideoRepository;
@@ -16,9 +17,20 @@ public class VideoService implements ServiceInterface<Video>{
   @Autowired
   VideoRepository videoRepository;
 
+  /**
+   * Retrieves a list of all Video entries found in the DB.
+   * @return the list of Video entries.
+   */
   @Override
   public List<Video> getAll() { return videoRepository.findAll(); }
 
+  /**
+   * Retrieves one Video entry with the given id from the DB.
+   * Throws an exception if no entry with that id is found.
+   * @param id - id of the Video entry.
+   * @return the Video entry.
+   * @throws VideoNotFoundException when the Video entry has not been found.
+   */
   @Override
   public Video getOneById( String id ) throws VideoNotFoundException {
     return videoRepository.findById(id).orElseThrow(
@@ -26,6 +38,20 @@ public class VideoService implements ServiceInterface<Video>{
     );
   }
 
+  /**
+   * Adds a Video entry into the DB based on the received object.
+   * Throws an exception if the value is invalid.
+   * @param entry the Video entry.
+   * @return the Video entry that has been saved in the db.
+   * @throws VideoInvalidURLException when the videoURL entry is invalid.
+   * @throws VideoInvalidTitleException when the videoTitle entry is invalid.
+   * @throws VideoInvalidLengthException when the videoLength entry is invalid.
+   * @throws VideoInvalidTeacherURLException when the teacherURL entry is invalid.
+   * @throws VideoInvalidTeacherImageURLException when the teacherImageURL entry is invalid.
+   * @throws VideoInvalidTranscriptException when the transcript entry is invalid.
+   * @throws VideoInvalidSummaryException when the summary entry is invalid.
+   * @throws VideoInvalidThumbnailException when the thumbnail entry is invalid.
+   */
   @Override
   public Video add(Video entry) throws VideoInvalidURLException, VideoInvalidTitleException, VideoInvalidLengthException, VideoInvalidTeacherURLException, VideoInvalidTeacherImageURLException, VideoInvalidTranscriptException, VideoInvalidSummaryException, VideoInvalidThumbnailException {
     Video videoToSave = new Video();
@@ -73,6 +99,23 @@ public class VideoService implements ServiceInterface<Video>{
     return videoRepository.save(videoToSave);
   }
 
+  /**
+   * Updates the Video entry with the given id based on the received object.
+   * Throws an exception if no entry with that id was found.
+   * Throws an exception if any of its parameters is invalid.
+   * @param id the id of the entry to be updated.
+   * @param entry the Video entry to be updated.
+   * @return the updated Video saved in the db.
+   * @throws VideoNotFoundException when the Video entry has not been found.
+   * @throws VideoInvalidURLException when the videoURL entry is invalid.
+   * @throws VideoInvalidTitleException when the videoTitle entry is invalid.
+   * @throws VideoInvalidLengthException when the videoLength entry is invalid.
+   * @throws VideoInvalidTeacherURLException when the teacherURL entry is invalid.
+   * @throws VideoInvalidTeacherImageURLException when the teacherImageURL entry is invalid.
+   * @throws VideoInvalidTranscriptException when the transcript entry is invalid.
+   * @throws VideoInvalidSummaryException when the summary entry is invalid.
+   * @throws VideoInvalidThumbnailException when the thumbnail entry is invalid.
+   */
   @Override
   public Video update(String id, Video entry) throws VideoNotFoundException, VideoInvalidURLException, VideoInvalidTitleException, VideoInvalidLengthException, VideoInvalidTeacherURLException, VideoInvalidTeacherImageURLException, VideoInvalidTranscriptException, VideoInvalidSummaryException, VideoInvalidThumbnailException {
     Video videoToUpdate = videoRepository.findById(id).orElseThrow(
@@ -122,6 +165,12 @@ public class VideoService implements ServiceInterface<Video>{
     return videoRepository.save(videoToUpdate);
   }
 
+  /**
+   * Deletes the Video entry with the given id from the db.
+   * Throws an exception if no entry with that id can be found.
+   * @param id the id of the entry to be deleted.
+   * @throws VideoNotFoundException when the Video entry has not been found.
+   */
   @Override
   public void delete(String id) throws VideoNotFoundException {
     if(videoRepository.findById(id).isPresent())

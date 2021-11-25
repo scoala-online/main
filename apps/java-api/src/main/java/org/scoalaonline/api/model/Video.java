@@ -139,6 +139,7 @@ public class Video {
 
   //endregion
 
+    //region Equals & Hashcode
     @Override
     public boolean equals(Object o) {
       if (this == o) return true;
@@ -151,5 +152,5 @@ public class Video {
     public int hashCode() {
       return Objects.hash(id, videoURL, videoTitle, videoLength, teacherURL, teacherImageURL, transcript, summary, thumbnail);
     }
-
+    //endregion
   }
