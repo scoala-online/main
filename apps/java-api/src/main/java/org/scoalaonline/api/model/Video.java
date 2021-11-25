@@ -143,7 +143,7 @@ public class Video {
     public boolean equals(Object o) {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
-      org.scoalaonline.api.model.Video that = (org.scoalaonline.api.model.Video) o;
+      Video that = (Video) o;
       return Objects.equals(id, that.id) && Objects.equals(videoURL, that.videoURL) && Objects.equals( videoTitle, that.videoTitle ) && Objects.equals( videoLength, that.videoLength ) && Objects.equals( teacherURL, that.teacherURL ) && Objects.equals( teacherImageURL, that.teacherImageURL ) && Objects.equals( transcript, that.transcript ) && Objects.equals( summary, that.summary ) && Objects.equals( thumbnail, that.thumbnail );
     }
 
