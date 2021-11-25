@@ -1,8 +1,8 @@
 package org.scoalaonline.api.controller;
 
 
-import org.scoalaonline.api.exception.LectureInvalidTitleException;
-import org.scoalaonline.api.exception.LectureNotFoundException;
+import org.scoalaonline.api.exception.lecture.LectureInvalidTitleException;
+import org.scoalaonline.api.exception.lecture.LectureNotFoundException;
 import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class LectureController {
     try {
       lecture = lectureService.getOneById(id);
     } catch (LectureNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Lecture Not Found", e);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Lecture not found.", e);
     }
     return new ResponseEntity<>(lecture, HttpStatus.OK);
   }
@@ -67,7 +67,7 @@ public class LectureController {
     try {
       savedLecture = lectureService.add(lecture);
     } catch (LectureInvalidTitleException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Lecture Invalid Data", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Lecture invalid title.", e);
     }
     return new ResponseEntity<>(savedLecture, HttpStatus.CREATED);
   }
@@ -86,9 +86,9 @@ public class LectureController {
     try {
       updatedLecture = lectureService.update(id, lecture);
     } catch (LectureNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Lecture Not Found", e);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Lecture not found.", e);
     } catch (LectureInvalidTitleException e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Lecture Invalid Title", e);
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "PATCH: Lecture invalid title.", e);
     }
 
     return new ResponseEntity<>(updatedLecture, HttpStatus.OK);
@@ -106,7 +106,7 @@ public class LectureController {
       lectureService.delete(id);
     }
     catch (LectureNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DELETE: Lecture Not Found", e);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DELETE: Lecture not found.", e);
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }

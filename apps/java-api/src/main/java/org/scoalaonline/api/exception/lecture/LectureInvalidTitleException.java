@@ -1,4 +1,4 @@
-package org.scoalaonline.api.exception;
+package org.scoalaonline.api.exception.lecture;
 
 /**
  * Exception class for when the Lecture's title is invalid.
