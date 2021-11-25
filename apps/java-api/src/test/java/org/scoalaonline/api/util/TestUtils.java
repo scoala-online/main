@@ -27,7 +27,7 @@ public class TestUtils {
         generator.writeNull();
       else if(values.get(i).getClass().equals(String.class))
         generator.writeString((String) values.get(i));
-      else if(values.get(i).getClass().equals(Number.class))
+      else if(values.get(i).getClass().equals(Double.class))
         generator.writeNumber((double) values.get(i));
       /* For more possible cases, add else if here
        With the required type
