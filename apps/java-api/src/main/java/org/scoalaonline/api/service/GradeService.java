@@ -70,7 +70,7 @@ public class GradeService implements ServiceInterface<Grade> {
     Grade gradeToUpdate = gradeRepository.findById(id).orElseThrow(
       () -> new GradeNotFoundException("Method update: Grade not found.")
     );
-    if(entry.getValue() > 0 && entry.getValue() < 13) {
+    if(entry.getValue() >= 0 && entry.getValue() <= 13) {
       gradeToUpdate.setValue(entry.getValue());
     } else {
       throw new GradeInvalidValueException("Method update: Value field has to be an integer between 0 and 13.");
