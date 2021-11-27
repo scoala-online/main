@@ -268,6 +268,8 @@ public class UserController {
   public ResponseEntity<HttpStatus> requestValidation(@RequestBody Username username) {
     try {
       userService.resendValidationCode(username);
+    } catch ( UserMissingUsernameException e) {
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Username is missing.", e );
     } catch (UserNotFoundException e) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "POST: User Not Found", e);
     } catch (UserAlreadyValidatedException e) {
@@ -292,6 +294,8 @@ public class UserController {
   public ResponseEntity<HttpStatus> requestResetPassword(@RequestBody Username username) {
     try {
       userService.requestResetPassword(username);
+    } catch ( UserMissingUsernameException e) {
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Username is missing.", e );
     } catch ( UserNotFoundException e ) {
       throw new ResponseStatusException( HttpStatus.NOT_FOUND, "POST: User Not Found", e );
     } catch (UnsupportedEncodingException e) {

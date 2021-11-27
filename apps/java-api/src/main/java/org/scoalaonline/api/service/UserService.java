@@ -2,7 +2,6 @@ package org.scoalaonline.api.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.scoalaonline.api.DTO.Password;
 import org.scoalaonline.api.DTO.RegisterForm;
 import org.scoalaonline.api.DTO.Username;
@@ -25,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Contains the User related logic needed for the API
@@ -258,7 +258,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     userToSave.setCreatedAt(LocalDateTime.now());
     userToSave.setLastModifiedAt(LocalDateTime.now());
 
-    String randomCode = RandomString.make(64);
+    String randomCode = UUID.randomUUID().toString();
     userToSave.setValidationCode(randomCode);
     userToSave.setValidated(false);
 
@@ -279,16 +279,22 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @throws MessagingException
    * @throws UserAlreadyValidatedException
    * @throws UserNotFoundException
+   * @throws UserMissingUsernameException
    */
   public void resendValidationCode(Username username) throws
     UnsupportedEncodingException,
     MessagingException,
     UserAlreadyValidatedException,
-    UserNotFoundException {
+    UserNotFoundException,
+    UserMissingUsernameException {
+    if(username.getUsername() == null || username.getUsername().equals("")) {
+      log.error("Username is missing.");
+      throw new UserMissingUsernameException("Method resendValidationCode: Username is missing.");
+    }
     log.info("Resending validation code for user with username {} ...", username.getUsername());
     User user = userRepository.findByUsername(username.getUsername()).orElseThrow(
       () -> {
-        log.error("Invalid username.");
+        log.error("User not found.");
         return new UserNotFoundException("Method resendValidationCode: User not found.");
       }
     );
@@ -296,7 +302,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       log.error("User was already validated.");
       throw new UserAlreadyValidatedException("Method resendValidationCode: User was already validated.");
     }
-    String randomCode = RandomString.make(64);
+    String randomCode = UUID.randomUUID().toString();
     user.setValidationCode(randomCode);
 
     userRepository.save(user);
@@ -335,9 +341,14 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    * @throws UnsupportedEncodingException
    * @throws MessagingException
    * @throws UserNotFoundException
+   * @throws UserMissingUsernameException
    */
   public void requestResetPassword(Username username) throws UnsupportedEncodingException,
-    MessagingException, UserNotFoundException {
+    MessagingException, UserNotFoundException, UserMissingUsernameException {
+    if(username.getUsername() == null || username.getUsername().equals("")) {
+      log.error("Username is missing.");
+      throw new UserMissingUsernameException("Method resendValidationCode: Username is missing.");
+    }
     log.info("Sending mail for password reset...");
     User user = userRepository.findByUsername(username.getUsername()).orElseThrow(
       () -> {
@@ -346,7 +357,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       }
     );
 
-    String randomCode = RandomString.make(64);
+    String randomCode = UUID.randomUUID().toString();
     LocalDateTime expiryDate = LocalDateTime.now().plusSeconds(TIME_TO_EXPIRATION);
     user.setResetPasswordCode(randomCode);
     user.setResetPasswordCodeExpiryDate(expiryDate);
