@@ -1,6 +1,107 @@
 {
   "version": 1,
   "projects": {
+    "admin-panel": {
+      "root": "apps/admin-panel",
+      "sourceRoot": "apps/admin-panel/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
+          "options": {
+            "outputPath": "dist/apps/admin-panel",
+            "index": "apps/admin-panel/src/index.html",
+            "baseHref": "/",
+            "main": "apps/admin-panel/src/main.js",
+            "polyfills": "apps/admin-panel/src/polyfills.js",
+            "tsConfig": "apps/admin-panel/tsconfig.app.json",
+            "assets": [
+              "apps/admin-panel/src/favicon.ico",
+              "apps/admin-panel/src/assets"
+            ],
+            "styles": ["apps/admin-panel/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/admin-panel/src/environments/environment.js",
+                  "with": "apps/admin-panel/src/environments/environment.prod.js"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "admin-panel:build",
+            "hmr": true,
+            "port": 4300
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "admin-panel:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/admin-panel/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/admin-panel"],
+          "options": {
+            "jestConfig": "apps/admin-panel/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "admin-panel-e2e": {
+      "root": "apps/admin-panel-e2e",
+      "sourceRoot": "apps/admin-panel-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/admin-panel-e2e/cypress.json",
+            "devServerTarget": "admin-panel:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "admin-panel:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/admin-panel-e2e/**/*.js"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["admin-panel"]
+    },
     "e-learning-app": {
       "root": "apps/e-learning-app",
       "sourceRoot": "apps/e-learning-app/src",
