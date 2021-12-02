@@ -35,7 +35,9 @@ public class TestUtils {
       else if(values.get(i).getClass().equals(Double.class))
         generator.writeNumber((double) values.get(i));
       else if(values.get(i).getClass().equals(Duration.class))
-        generator.writeObject((Duration)values.get(i));
+        generator.writeObject((Duration) values.get(i));
+      else if(values.get(i).getClass().equals(Integer.class))
+        generator.writeNumber((int) values.get(i));
       /* For more possible cases, add else if here
        With the required type
        Example:
