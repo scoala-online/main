@@ -50,7 +50,7 @@ public class VideoController {
     try {
       video= videoService.getOneById(id);
     } catch (VideoNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Video Not Found", e);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "GET: Video not found.", e);
     }
     return new ResponseEntity<>(video, HttpStatus.OK);
   }
@@ -100,23 +100,23 @@ public class VideoController {
     try {
       updatedVideo = videoService.update(id, video);
     } catch (VideoNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Video Not Found", e);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "PATCH: Video not found.", e);
     } catch ( VideoInvalidURLException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid URL.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid URL.", e);
     } catch (VideoInvalidTitleException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid title.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid title.", e);
     } catch (VideoInvalidLengthException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid length.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid length.", e);
     } catch (VideoInvalidTeacherURLException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid teacher URL.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid teacher URL.", e);
     } catch (VideoInvalidTeacherImageURLException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid teacher image URL.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid teacher image URL.", e);
     } catch (VideoInvalidTranscriptException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid transcript.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid transcript.", e);
     } catch (VideoInvalidSummaryException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid summary.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid summary.", e);
     } catch (VideoInvalidThumbnailException e) {
-      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "POST: Video invalid thumbnail.", e);
+      throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "PATCH: Video invalid thumbnail.", e);
     }
     return new ResponseEntity<>(updatedVideo, HttpStatus.OK);
   }
@@ -133,7 +133,7 @@ public class VideoController {
       videoService.delete(id);
     }
     catch (VideoNotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DELETE: Video Not Found", e);
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "DELETE: Video not found.", e);
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }

@@ -7,6 +7,7 @@ import org.scoalaonline.api.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class VideoService implements ServiceInterface<Video>{
   @Override
   public Video getOneById( String id ) throws VideoNotFoundException {
     return videoRepository.findById(id).orElseThrow(
-      () -> new VideoNotFoundException("Method getOneById: Video not found")
+      () -> new VideoNotFoundException("Method getOneById: Video not found.")
     );
   }
 
@@ -53,48 +54,51 @@ public class VideoService implements ServiceInterface<Video>{
    * @throws VideoInvalidThumbnailException when the thumbnail entry is invalid.
    */
   @Override
-  public Video add(Video entry) throws VideoInvalidURLException, VideoInvalidTitleException, VideoInvalidLengthException, VideoInvalidTeacherURLException, VideoInvalidTeacherImageURLException, VideoInvalidTranscriptException, VideoInvalidSummaryException, VideoInvalidThumbnailException {
+  public Video add(Video entry) throws VideoInvalidURLException, VideoInvalidTitleException, VideoInvalidLengthException,
+      VideoInvalidTeacherURLException, VideoInvalidTeacherImageURLException, VideoInvalidTranscriptException,
+      VideoInvalidSummaryException, VideoInvalidThumbnailException {
     Video videoToSave = new Video();
 
     if (entry.getVideoURL() != null && !entry.getVideoURL().equals(""))
       videoToSave.setVideoURL(entry.getVideoURL());
     else
-      throw new VideoInvalidURLException("Method add: Video URL field can't be null.");
+      throw new VideoInvalidURLException("Method add: URL field can't be null.");
 
     if (entry.getVideoTitle() != null && !entry.getVideoTitle().equals(""))
       videoToSave.setVideoTitle(entry.getVideoTitle());
     else
-      throw new VideoInvalidTitleException("Method add: Video Title field can't be null.");
+      throw new VideoInvalidTitleException("Method add: Title field can't be null.");
 
-    if (entry.getVideoLength() != null && !entry.getVideoLength().isZero() && !entry.getVideoLength().isNegative())
+    if (entry.getVideoLength() != null && !entry.getVideoLength().isZero() && !entry.getVideoLength().isNegative()
+        && entry.getVideoLength().compareTo(Duration.ofHours(25)) < 0)
       videoToSave.setVideoLength(entry.getVideoLength());
     else
-      throw new VideoInvalidLengthException("Method add: Video Length field can't be null.");
+      throw new VideoInvalidLengthException("Method add: Length field has to be more than 0 and less than 1 day.");
 
     if(entry.getTeacherURL() != null && !entry.getTeacherURL().equals(""))
       videoToSave.setTeacherURL(entry.getTeacherURL());
     else
-      throw new VideoInvalidTeacherURLException("Method add: Video TeacherURL field can't be null.");
+      throw new VideoInvalidTeacherURLException("Method add: TeacherURL field can't be null.");
 
     if (entry.getTeacherImageURL() != null && !entry.getTeacherImageURL().equals(""))
       videoToSave.setTeacherImageURL(entry.getTeacherImageURL());
     else
-      throw new VideoInvalidTeacherImageURLException("Method add: Video TeacherImageURL field can't be null.");
+      throw new VideoInvalidTeacherImageURLException("Method add: TeacherImageURL field can't be null.");
 
     if (entry.getTranscript() != null && !entry.getTranscript().equals(""))
       videoToSave.setTranscript(entry.getTranscript());
     else
-      throw new VideoInvalidTranscriptException("Method add: Video Transcript field can't be null.");
+      throw new VideoInvalidTranscriptException("Method add: Transcript field can't be null.");
 
     if (entry.getSummary() != null && !entry.getSummary().equals(""))
       videoToSave.setSummary(entry.getSummary());
     else
-      throw new VideoInvalidSummaryException("Method add: Video Summary field can't be null.");
+      throw new VideoInvalidSummaryException("Method add: Summary field can't be null.");
 
     if (entry.getThumbnail() != null && !entry.getThumbnail().equals(""))
       videoToSave.setThumbnail(entry.getThumbnail());
     else
-      throw new VideoInvalidThumbnailException("Method add: Video Thumbnail field can't be null.");
+      throw new VideoInvalidThumbnailException("Method add: Thumbnail field can't be null.");
 
     return videoRepository.save(videoToSave);
   }
@@ -117,50 +121,55 @@ public class VideoService implements ServiceInterface<Video>{
    * @throws VideoInvalidThumbnailException when the thumbnail entry is invalid.
    */
   @Override
-  public Video update(String id, Video entry) throws VideoNotFoundException, VideoInvalidURLException, VideoInvalidTitleException, VideoInvalidLengthException, VideoInvalidTeacherURLException, VideoInvalidTeacherImageURLException, VideoInvalidTranscriptException, VideoInvalidSummaryException, VideoInvalidThumbnailException {
+  public Video update(String id, Video entry) throws VideoNotFoundException, VideoInvalidURLException,
+    VideoInvalidTitleException, VideoInvalidLengthException, VideoInvalidTeacherURLException,
+    VideoInvalidTeacherImageURLException, VideoInvalidTranscriptException, VideoInvalidSummaryException,
+    VideoInvalidThumbnailException {
+
     Video videoToUpdate = videoRepository.findById(id).orElseThrow(
-      () -> new VideoNotFoundException("Method update: Video not found")
+      () -> new VideoNotFoundException("Method update: Video not found.")
     );
 
     if (entry.getVideoURL() != null && !entry.getVideoURL().equals(""))
       videoToUpdate.setVideoURL(entry.getVideoURL());
     else
-      throw new VideoInvalidURLException("Method add: Video URL field can't be null.");
+      throw new VideoInvalidURLException("Method update: URL field can't be null.");
 
     if (entry.getVideoTitle() != null && !entry.getVideoTitle().equals(""))
       videoToUpdate.setVideoTitle(entry.getVideoTitle());
     else
-      throw new VideoInvalidTitleException("Method add: Video Title field can't be null.");
+      throw new VideoInvalidTitleException("Method update: Title field can't be null.");
 
-    if (entry.getVideoLength() != null && !entry.getVideoLength().isZero() && !entry.getVideoLength().isNegative())
+    if (entry.getVideoLength() != null && !entry.getVideoLength().isZero() && !entry.getVideoLength().isNegative()
+      && entry.getVideoLength().compareTo(Duration.ofHours(25)) < 0 )
       videoToUpdate.setVideoLength(entry.getVideoLength());
     else
-      throw new VideoInvalidLengthException("Method add: Video Length field can't be null.");
+      throw new VideoInvalidLengthException("Method update: Length field can't be null.");
 
     if(entry.getTeacherURL() != null && !entry.getTeacherURL().equals(""))
       videoToUpdate.setTeacherURL(entry.getTeacherURL());
     else
-      throw new VideoInvalidTeacherURLException("Method add: Video TeacherURL field can't be null.");
+      throw new VideoInvalidTeacherURLException("Method update: TeacherURL field can't be null.");
 
     if (entry.getTeacherImageURL() != null && !entry.getTeacherImageURL().equals(""))
       videoToUpdate.setTeacherImageURL(entry.getTeacherImageURL());
     else
-      throw new VideoInvalidTeacherImageURLException("Method add: Video TeacherImageURL field can't be null.");
+      throw new VideoInvalidTeacherImageURLException("Method update: TeacherImageURL field can't be null.");
 
     if (entry.getTranscript() != null && !entry.getTranscript().equals(""))
       videoToUpdate.setTranscript(entry.getTranscript());
     else
-      throw new VideoInvalidTranscriptException("Method add: Video Transcript field can't be null.");
+      throw new VideoInvalidTranscriptException("Method update: Transcript field can't be null.");
 
     if (entry.getSummary() != null && !entry.getSummary().equals(""))
       videoToUpdate.setSummary(entry.getSummary());
     else
-      throw new VideoInvalidSummaryException("Method add: Video Summary field can't be null.");
+      throw new VideoInvalidSummaryException("Method update: Summary field can't be null.");
 
     if (entry.getThumbnail() != null && !entry.getThumbnail().equals(""))
       videoToUpdate.setThumbnail(entry.getThumbnail());
     else
-      throw new VideoInvalidThumbnailException("Method add: Video Thumbnail field can't be null.");
+      throw new VideoInvalidThumbnailException("Method update: Thumbnail field can't be null.");
 
     return videoRepository.save(videoToUpdate);
   }
@@ -176,6 +185,6 @@ public class VideoService implements ServiceInterface<Video>{
     if(videoRepository.findById(id).isPresent())
       videoRepository.deleteById(id);
     else
-      throw new VideoNotFoundException("Method delete: Video Not Found");
+      throw new VideoNotFoundException("Method delete: Video not found.");
   }
 }
