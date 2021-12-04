@@ -1,4 +1,4 @@
-package org.scoalaonline.api.exception.Lecture;
+package org.scoalaonline.api.exception.lecture;
 
 /**
  * Exception class for when the Lecture entity cannot be found.

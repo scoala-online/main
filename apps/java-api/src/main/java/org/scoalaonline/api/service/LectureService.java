@@ -1,8 +1,8 @@
 package org.scoalaonline.api.service;
 
 
-import org.scoalaonline.api.exception.Lecture.LectureInvalidTitleException;
-import org.scoalaonline.api.exception.Lecture.LectureNotFoundException;
+import org.scoalaonline.api.exception.lecture.LectureInvalidTitleException;
+import org.scoalaonline.api.exception.lecture.LectureNotFoundException;
 import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class LectureService implements ServiceInterface<Lecture> {
   @Override
   public Lecture getOneById(String id) throws LectureNotFoundException {
     return lectureRepository.findById(id).orElseThrow(
-      () -> new LectureNotFoundException("Method getOneById: Lecture not found")
+      () -> new LectureNotFoundException("Method getOneById: Lecture not found.")
     );
   }
 
@@ -55,7 +55,7 @@ public class LectureService implements ServiceInterface<Lecture> {
     if (entry.getTitle() != null && !entry.getTitle().equals(""))
       lecture.setTitle(entry.getTitle());
     else
-      throw new LectureInvalidTitleException("Method add: Title field can't be invalid");
+      throw new LectureInvalidTitleException("Method add: Title field can't be invalid.");
 
     return lectureRepository.save(lecture);
   }
@@ -73,12 +73,12 @@ public class LectureService implements ServiceInterface<Lecture> {
   @Override
   public Lecture update(String id, Lecture entry) throws LectureNotFoundException, LectureInvalidTitleException {
     Lecture lectureToUpdate = lectureRepository.findById(id).orElseThrow(
-      () -> new LectureNotFoundException("Method update: Lecture not found")
+      () -> new LectureNotFoundException("Method update: Lecture not found.")
     );
     if (entry.getTitle() != null && !entry.getTitle().equals("")) {
       lectureToUpdate.setTitle(entry.getTitle());
     } else {
-      throw new LectureInvalidTitleException("Method update: Title field can't be invalid");
+      throw new LectureInvalidTitleException("Method update: Title field can't be invalid.");
     }
 
     return lectureRepository.save(lectureToUpdate);
@@ -95,7 +95,7 @@ public class LectureService implements ServiceInterface<Lecture> {
     if (lectureRepository.findById(id).isPresent()) {
       lectureRepository.deleteById(id);
     } else {
-      throw new LectureNotFoundException("Method delete: Lecture not found");
+      throw new LectureNotFoundException("Method delete: Lecture not found.");
     }
   }
 }
