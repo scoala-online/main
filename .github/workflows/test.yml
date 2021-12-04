@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.4
         with:
-          node-version: '12'
+          node-version: '16.13.0'
 
       # Setup JDK for java tests
       - name: Set up JDK 11
@@ -39,5 +39,6 @@ jobs:
           DB_NEO4J_PASSWORD: ${{ secrets.DB_NEO4J_PASSWORD }}
           MAIL_SENDER_PASSWORD: ${{ secrets.MAIL_SENDER_PASSWORD }}
         run: |
+          npm install -g npm@8.1.3
           npm ci
           npm run test:ci
