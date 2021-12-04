@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.*;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,27 @@ public class User {
 
   @Property("password")
   private String password;
+
+  @Property("created_at")
+  private LocalDateTime createdAt;
+
+  @Property("validated_at")
+  private LocalDateTime validatedAt;
+
+  @Property("last_modified_at")
+  private LocalDateTime lastModifiedAt;
+
+  @Property("validated")
+  private Boolean validated;
+
+  @Property("validation_code")
+  private String validationCode;
+
+  @Property("reset_password_code")
+  private String resetPasswordCode;
+
+  @Property("reset_password_code_expiry_date")
+  private LocalDateTime resetPasswordCodeExpiryDate;
 
   @Relationship(type = "HAS_ROLE", direction = Relationship.Direction.OUTGOING)
   private List<Role> roles;
