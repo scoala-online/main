@@ -1,5 +1,5 @@
 import VideosRow from './VideosRow';
-import Sidebar from './Sidebar';
+import Sidebar from './moduleSidebar/Sidebar';
 import lectie1 from '../../assets/tmp/Module/Lectie1.png';
 import lectie2 from '../../assets/tmp/Module/Lectie2.png';
 import lectie3 from '../../assets/tmp/Module/Lectie3.png';
