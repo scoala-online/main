@@ -36,7 +36,7 @@ public class GradeService implements ServiceInterface<Grade> {
   @Override
   public Grade getOneById(String id) throws GradeNotFoundException {
     return gradeRepository.findById(id).orElseThrow(
-      () -> new GradeNotFoundException("Method getOneById: Grade not found")
+      () -> new GradeNotFoundException("Method getOneById: Grade not found.")
     );
   }
 
@@ -49,10 +49,10 @@ public class GradeService implements ServiceInterface<Grade> {
   @Override
   public Grade add(Grade entry) throws GradeInvalidValueException {
     Grade gradeToSave = new Grade();
-    if(entry.getValue() > 0 && entry.getValue() < 13) {
+    if(entry.getValue() >= 0 && entry.getValue() <= 13) {
       gradeToSave.setValue(entry.getValue());
     } else
-      throw new GradeInvalidValueException("Method add: Value field has to be an integer between 0 and 13");
+      throw new GradeInvalidValueException("Method add: Value field has to be an integer between 0 and 13.");
 
     return gradeRepository.save(gradeToSave);
   }
@@ -68,12 +68,12 @@ public class GradeService implements ServiceInterface<Grade> {
   @Override
   public Grade update(String id, Grade entry) throws GradeInvalidValueException, GradeNotFoundException {
     Grade gradeToUpdate = gradeRepository.findById(id).orElseThrow(
-      () -> new GradeNotFoundException("Method update: Grade not found")
+      () -> new GradeNotFoundException("Method update: Grade not found.")
     );
-    if(entry.getValue() > 0 && entry.getValue() < 13) {
+    if(entry.getValue() >= 0 && entry.getValue() <= 13) {
       gradeToUpdate.setValue(entry.getValue());
     } else {
-      throw new GradeInvalidValueException("Method update: Value field has to be an integer between 0 and 13 ");
+      throw new GradeInvalidValueException("Method update: Value field has to be an integer between 0 and 13.");
     }
     return gradeRepository.save(gradeToUpdate);
   }
@@ -89,6 +89,6 @@ public class GradeService implements ServiceInterface<Grade> {
     if(gradeRepository.findById(id).isPresent())
       gradeRepository.deleteById(id);
     else
-      throw new GradeNotFoundException("Method delete: Grade not found");
+      throw new GradeNotFoundException("Method delete: Grade not found.");
   }
 }
