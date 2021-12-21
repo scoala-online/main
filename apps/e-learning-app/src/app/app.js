@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import styles from './app.module.css';
 
 import Layout from './components/layout/Layout';
 import Test from './components/Test';
@@ -38,7 +37,7 @@ export function App() {
   });
 
   return (
-    <Router>
+    <><Router>
       <Switch>
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
@@ -47,14 +46,15 @@ export function App() {
           </Route>
         </Layout>
       </Switch>
-    </Router>
-    <div className={styles.app}>
-      <Router>
-        <Switch>
-          <Route exact path={'/module'} component={ModulePage} />
-        </Switch>
-      </Router>
-    </div>
+    </Router><div>
+        <Router>
+          <Switch>
+          <Layout dimensions={dimensions}>
+            <Route exact path={'/module'} component={ModulePage} />
+            </Layout>
+          </Switch>
+        </Router>
+      </div></>
   );
 }
 export default App;
