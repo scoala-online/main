@@ -18,19 +18,23 @@ function Sidebar(props) {
     paddingInlineStart: '0px',
   };
   const nav_style = {
+    
     fontFamily: 'Open Sans, sans-serif',
     fontSize: '18px',
     background: 'rgb(189,189,189)',
     bottom: '0',
     'box-shadow': '0 0 5px #666',
-    height: '100%',
+    height: '50%',
     'padding-top': '38px',
-    position: 'absolute',
+    'margin-top':'10rem',
+    position: 'fixed',
+    float:'left',
+    'overflow-y':"scroll",
     display: 'block',
     top: '0',
     left: '0',
     transition: '.5s ease-in-out',
-    width: '15vw',
+    width: '17vw',
     minWidth: '200px',
   };
   const nav_p = {
@@ -83,19 +87,17 @@ function Sidebar(props) {
     alignItems: 'center',
   };
   const nav_expand_style = {
-    marginLeft: '17rem',
     transitionDelay: '.25s',
   };
   return (
     <>
-      <span style={nav_expand_style}></span>
       <nav style={nav_style}>
         <Link to="#" style={nav_back_style}>
           <BiArrowBack />
           &nbsp; <span style={{ fontSize: '1rem' }}>inapoi la capitole</span>
         </Link>
         <p style={{ ...nav_p, ...title_style }}>{title}</p>
-        <ul style={ul_style}>
+        <ul style={ul_style} >
           {SidebarData.map((item) => {
             while (item.title != null) {
               const listSubtitles = item.subtitles.map((subtitle) => (
