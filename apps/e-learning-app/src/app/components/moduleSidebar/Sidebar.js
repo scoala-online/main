@@ -2,7 +2,7 @@ import './Sidebar.css';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData.js';
 import { BiArrowBack } from 'react-icons/bi';
-import { navBarHeight, minNavBarHeight } from '../../themes/Sizes.js';
+import { navBarHeight, minNavBarHeight, modulePageBackButton } from '../../themes/Sizes.js';
 function Sidebar(props) {
   const { title } = props;
   //Style Variables
@@ -27,7 +27,7 @@ function Sidebar(props) {
     'box-shadow': '0 0 5px #666',
     height: '70%',
     'padding-top': '38px',
-    'margin-top': `calc(max(${navBarHeight}vh,${minNavBarHeight}px) + 68px)` ,
+    'margin-top': `calc(max(${navBarHeight}vh,${minNavBarHeight}px) + ${modulePageBackButton}px)` ,
     position: 'fixed',
     float:'left',
     'overflow-y':"auto",
@@ -89,7 +89,7 @@ function Sidebar(props) {
     alignItems: 'center',
     width: '17vw',
     minWidth: '250px',
-    height:'68px',
+    height:`${modulePageBackButton}px`,
     'margin-top': `calc(max(${navBarHeight}vh,${minNavBarHeight}px))` ,
 
   };
