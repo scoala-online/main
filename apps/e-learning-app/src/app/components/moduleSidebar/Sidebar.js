@@ -2,6 +2,7 @@ import './Sidebar.css';
 import { Link } from 'react-router-dom';
 import { SidebarData } from './SidebarData.js';
 import { BiArrowBack } from 'react-icons/bi';
+import { navBarHeight, minNavBarHeight } from '../../themes/Sizes.js';
 function Sidebar(props) {
   const { title } = props;
   //Style Variables
@@ -26,16 +27,17 @@ function Sidebar(props) {
     'box-shadow': '0 0 5px #666',
     height: '70%',
     'padding-top': '38px',
-    'margin-top':'4rem',
+    'margin-top': `calc(max(${navBarHeight}vh,${minNavBarHeight}px) + 68px)` ,
     position: 'fixed',
     float:'left',
-    'overflow-y':"scroll",
+    'overflow-y':"auto",
+    'overflow-x':'hidden',
     display: 'block',
     top: '0',
     left: '0',
     transition: '.5s ease-in-out',
     width: '17vw',
-    minWidth: '200px',
+    minWidth: '250px',
   };
   const nav_p = {
     color: '#000',
@@ -71,31 +73,36 @@ function Sidebar(props) {
   };
   const nav_back_style = {
     padding: '8px 0px',
-    position: 'absolute',
+    position: 'fixed',
+    float:'left',
     left: '2px',
     top: 0,
     fontSize: '20px',
     textAlign: 'center',
     color: '#000',
     backgroundColor: 'rgb(242,242,242)',
-    width: '100%',
     fontWeight: '600',
     textDecoration: 'none',
     wordWrap: 'breakWord',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '17vw',
+    minWidth: '250px',
+    height:'68px',
+    'margin-top': `calc(max(${navBarHeight}vh,${minNavBarHeight}px))` ,
+
   };
   const nav_expand_style = {
     transitionDelay: '.25s',
   };
   return (
     <>
-      <nav style={nav_style}>
-        <Link to="#" style={nav_back_style}>
+      <Link to="#" style={nav_back_style}>
           <BiArrowBack />
           &nbsp; <span style={{ fontSize: '1rem' }}>inapoi la capitole</span>
-        </Link>
+      </Link>
+      <nav style={nav_style}>
         <p style={{ ...nav_p, ...title_style }}>{title}</p>
         <ul style={ul_style} >
           {SidebarData.map((item) => {
