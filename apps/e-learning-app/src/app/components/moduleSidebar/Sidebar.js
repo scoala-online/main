@@ -1,6 +1,6 @@
 import './Sidebar.css';
 import { Link } from 'react-router-dom';
-import { MockData } from './MockData.js';
+import { MockData } from '../MockData.js';
 import { BiArrowBack } from 'react-icons/bi';
 
 import style from './SidebarStyles.js';
