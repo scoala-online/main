@@ -12,7 +12,7 @@
 
 // TODO: resolve warnings - sidebar, video  V
 
-// TODO: add comments X
+// TODO: add comments V
 
 // TODO: refactor for react bootstrap V
 
@@ -22,5 +22,11 @@
 // TODO: make the videosRow a responsive grid -> https://react-bootstrap.github.io/layout/grid/ V
 
 // TODO: separate mocked data from real data, like in sidebarData  V
+
+// TODO: put sidebar to the left X
+
+// TODO: make a:hover a react const [Sidebar.css] X
+
+// TODO: move 'allVideos' from ModuleContent to MockData X
 
 // TODO: delete this file once all changes are applied X

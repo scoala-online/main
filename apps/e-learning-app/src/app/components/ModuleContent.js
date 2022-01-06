@@ -1,4 +1,4 @@
-import VideosRow from './ContentGrid';
+import ContentGrid from './ContentGrid';
 import Sidebar from './moduleSidebar/Sidebar';
 import lectie1 from '../../assets/tmp/Module/Lectie1.png';
 import lectie2 from '../../assets/tmp/Module/Lectie2.png';
@@ -7,7 +7,16 @@ import lectie4 from '../../assets/tmp/Module/Lectie4.png';
 import lectie5 from '../../assets/tmp/Module/Lectie5.png';
 import lectie6 from '../../assets/tmp/Module/Lectie6.png';
 import lectie7 from '../../assets/tmp/Module/Lectie7.png';
-const VideoContent = () => {
+
+/**
+ * MODULE PAGE
+ * 
+ * ModuleContent renders:
+ * - the Sidebar component (from ./moduleSidebar/Sidebar.js)
+ * - the ContentGrid component (from ./ContentGrid.js)
+ */
+
+const ModuleContent = () => {
   const allVideos = [
     {
       title: 'Froda in literatura interbelica ',
@@ -90,9 +99,9 @@ const VideoContent = () => {
   return (
     <>
       <Sidebar title="II. Studiu de caz" />
-      <VideosRow type="normal" label="Recommended" videos={allVideos} />
+      <ContentGrid type="normal" label="Recommended" videos={allVideos} />
     </>
   );
 };
 
-export default VideoContent;
+export default ModuleContent;

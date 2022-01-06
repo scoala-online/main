@@ -1,4 +1,12 @@
-import VideoContent from '../components/ModuleContent';
+import ModuleContent from '../components/ModuleContent';
+
+/**
+ * MODULE PAGE
+ * 
+ * ModulePage renders:
+ * - ModuleContent component (from ../ModuleContent.js)
+ */
+
 const ModulePage = () => {
   const content_style = {
     padding: '10px 5.2vw',
@@ -7,7 +15,7 @@ const ModulePage = () => {
   };
   return (
     <div style={content_style}>
-      <VideoContent />
+      <ModuleContent />
     </div>
   );
 };

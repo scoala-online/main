@@ -4,6 +4,17 @@ import { MockData } from './MockData.js';
 import { BiArrowBack } from 'react-icons/bi';
 
 import style from './SidebarStyles.js';
+
+/**
+ * MODULE PAGE
+ * 
+ * Sidebar renders:
+ * - a list of buttons on the left side of the page
+ * - a button that goes back to 'Content Page'
+ * 
+ * Props:
+ * - title: string (the name of the title that will appear on the top of the sidebar)
+ */
 function Sidebar(props) {
   const { title } = props;
   //Style Variables

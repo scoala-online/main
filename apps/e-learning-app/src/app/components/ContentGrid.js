@@ -1,8 +1,18 @@
-import Video from './video/Video';
+import Video from './moduleVideo/Video';
 import {Row,Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const VideosRow = (props) => {
+/**
+ * MODULE PAGE
+ * 
+ * ContentGrid renders:
+ * - a grid of Video components (from ./moduleVideo/Video.js)
+ * 
+ * Props:
+ * - videos: Video (video components from ./moduleVideo/Video.js)
+ */
+
+const ContentGrid = (props) => {
   const { videos } = props;
   const videos_label_container_style = {
     padding: '40px 10px 40px 0',
@@ -23,4 +33,4 @@ const VideosRow = (props) => {
   );
 };
 
-export default VideosRow;
+export default ContentGrid;

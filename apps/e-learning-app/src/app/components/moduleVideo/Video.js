@@ -1,6 +1,23 @@
 import { Link } from 'react-router-dom';
 import style from './VideoStyle';
 
+/**
+ * MODULE PAGE
+ * 
+ * Video renders:
+ * - a photo
+ * - two paragraphs under the photo
+ * - component (showing numbers) placed down-left of the photo
+ * 
+ * Props:
+ * - thumbnail: string (the path of the photo)
+ * - title: string (the name displayed under the photo)
+ * - videoLink: string (the link of the video's coresponding page)
+ * - channel: string (the link to the user that created the video)
+ * - length: int (number of seconds the video takes)
+ * 
+ */
+
 const Video = (props) => {
   const { video } = props;
   const { thumbnail, title, videoLink, channel, length } = video;
