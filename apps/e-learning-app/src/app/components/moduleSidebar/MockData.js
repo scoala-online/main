@@ -1,4 +1,4 @@
-export const SidebarData = [
+export const MockData = [
   {
     subtitle: 'Fronda in literatura interbelica',
     path: '',

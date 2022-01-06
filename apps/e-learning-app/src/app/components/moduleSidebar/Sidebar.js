@@ -1,6 +1,6 @@
 import './Sidebar.css';
 import { Link } from 'react-router-dom';
-import { SidebarData } from './SidebarData.js';
+import { MockData } from './MockData.js';
 import { BiArrowBack } from 'react-icons/bi';
 
 import style from './SidebarStyles.js';
@@ -17,7 +17,7 @@ function Sidebar(props) {
       <nav style={style.nav_style}>
         <p style={{ ...style.nav_p, ...style.title_style }}>{title}</p>
         <ul style={style.ul_style} >
-          {SidebarData.map((item) => {
+          {MockData.map((item) => {
             while (item.title != null) {
               const listSubtitles = item.subtitles.map((subtitle) => (
                 <Link style={style.sidebar_item_link} to={subtitle.path}>

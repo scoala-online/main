@@ -1,4 +1,4 @@
-import VideoContent from '../components/VideoContent';
+import VideoContent from '../components/ModuleContent';
 const ModulePage = () => {
   const content_style = {
     padding: '10px 5.2vw',

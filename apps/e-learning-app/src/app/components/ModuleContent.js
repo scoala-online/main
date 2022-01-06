@@ -1,4 +1,4 @@
-import VideosRow from './VideosRow';
+import VideosRow from './ContentGrid';
 import Sidebar from './moduleSidebar/Sidebar';
 import lectie1 from '../../assets/tmp/Module/Lectie1.png';
 import lectie2 from '../../assets/tmp/Module/Lectie2.png';
