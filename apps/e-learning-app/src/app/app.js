@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Test from './components/Test';
 import HttpDemo from './services/HttpServiceDemo';
+import ModulePage from './pages/ModulePage';
 
 /**
  * App renders the Layout component.
@@ -36,7 +37,7 @@ export function App() {
   });
 
   return (
-    <Router>
+    <><Router>
       <Switch>
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
@@ -45,7 +46,15 @@ export function App() {
           </Route>
         </Layout>
       </Switch>
-    </Router>
+    </Router><div>
+        <Router>
+          <Switch>
+          <Layout dimensions={dimensions}>
+            <Route exact path={'/module'} component={ModulePage} />
+            </Layout>
+          </Switch>
+        </Router>
+      </div></>
   );
 }
 export default App;
