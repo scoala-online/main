@@ -21,7 +21,7 @@ import lectie7 from '../../assets/tmp/Module/Lectie7.png';
 
 */
 
-export const MockData = [
+export const SidebarTtitles = [
   {
     subtitle: 'Fronda in literatura interbelica',
     path: '',

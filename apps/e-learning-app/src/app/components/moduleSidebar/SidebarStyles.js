@@ -26,6 +26,7 @@ const sidebarStyles = {
         float:'left',
         'overflow-y':"auto",
         'overflow-x':'hidden',
+        direction:'rtl',
         display: 'block',
         top: '0',
         left: '0',
@@ -39,14 +40,18 @@ const sidebarStyles = {
         padding: '12px 16px',
         transition: '.5s',
         'text-decoration': 'none',
+        direction:'ltr',
+
     },
     sidebar_item_link : {
         color: '#000',
         display: 'block',
-        padding: '12px 47px',
+        padding: '12px 24px',
         transition: '.5s',
         'text-decoration': 'none',
         'word-wrap': 'break-word',
+        direction:'ltr',
+
     },
     title_style : {
         fontSize: '24px',
@@ -59,6 +64,7 @@ const sidebarStyles = {
     },
     sub_title_style : {
         fontWeight: 700,
+        padding: '12px 24px',
         marginBlockStart: '0em',
         marginBlockEnd: '0em',
         marginInlineStart: '0px',

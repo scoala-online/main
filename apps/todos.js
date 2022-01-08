@@ -23,10 +23,16 @@
 
 // TODO: separate mocked data from real data, like in sidebarData  V
 
-// TODO: put sidebar to the left X
+// TODO: put sidebar to the left v
 
 // TODO: make a:hover a react const [Sidebar.css] X
 
-// TODO: move 'allVideos' from ModuleContent to MockData X
+// TODO: move 'allVideos' from ModuleContent to MockData V
+
+// TODO: rename mock datas in MOCKDATA.JS V
+
+// BUG: Sidebar extending too much on wide screens
+
+// TODO: Modify sizes
 
 // TODO: delete this file once all changes are applied X
