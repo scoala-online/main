@@ -25,14 +25,14 @@
 
 // TODO: put sidebar to the left v
 
-// TODO: make a:hover a react const [Sidebar.css] X
+// TODO: make a:hover a react const [Sidebar.css] V
 
 // TODO: move 'allVideos' from ModuleContent to MockData V
 
 // TODO: rename mock datas in MOCKDATA.JS V
 
-// BUG: Sidebar extending too much on wide screens
+// BUG: Sidebar extending too much on wide screens V
 
-// TODO: Modify sizes
+// TODO: Modify sizes V
 
 // TODO: delete this file once all changes are applied X

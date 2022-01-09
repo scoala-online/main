@@ -16,7 +16,7 @@ const ContentGrid = (props) => {
   const { videos } = props;
   const videos_label_container_style = {
     padding: '40px 10px 40px 0',
-    marginLeft: '17rem',
+    marginLeft: '17vw',
   };
   return (
     <div >
