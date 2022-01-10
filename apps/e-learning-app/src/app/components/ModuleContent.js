@@ -9,10 +9,11 @@ import { allVideos } from './MockData';
  * - the ContentGrid component (from ./ContentGrid.js)
  */
 
-const ModuleContent = () => {
+const ModuleContent = (props) => {
+  const title = props.title;
   return (
     <>
-      <Sidebar title="II. Studiu de caz" />
+      <Sidebar title={title} />
       <ContentGrid type="normal" label="Recommended" videos={allVideos} />
     </>
   );

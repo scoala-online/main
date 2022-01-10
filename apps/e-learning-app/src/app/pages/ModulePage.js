@@ -15,7 +15,7 @@ const ModulePage = () => {
   };
   return (
     <div style={content_style}>
-      <ModuleContent />
+      <ModuleContent title="II. Studiu de caz"/>
     </div>
   );
 };

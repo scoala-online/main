@@ -48,7 +48,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.1.2",
+    "@angular-devkit/build-angular": "12.2.11",
     "@angular-eslint/eslint-plugin": "~12.3.0",
     "@angular-eslint/eslint-plugin-template": "~12.3.0",
     "@angular-eslint/template-parser": "~12.3.0",
@@ -62,9 +62,9 @@
     "@nrwl/linter": "13.0.1",
     "@nrwl/node": "13.0.1",
     "@nrwl/nx-cloud": "12.5.0",
-    "@nrwl/react": "^13.4.3",
+    "@nrwl/react": "13.0.1",
     "@nrwl/tao": "13.0.1",
-    "@nrwl/web": "^13.4.3",
+    "@nrwl/web": "13.0.1",
     "@nrwl/workspace": "13.0.1",
     "@nxrocks/nx-spring-boot": "^3.0.0",
     "@testing-library/react": "12.1.2",
