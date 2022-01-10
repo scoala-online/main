@@ -37,24 +37,27 @@ export function App() {
   });
 
   return (
-    <><Router>
-      <Switch>
-        <Layout dimensions={dimensions}>
-          <Route path="/" component={Test} />
-          <Route exact path={'/demo'}>
-            <HttpDemo />
-          </Route>
-        </Layout>
-      </Switch>
-    </Router><div>
+    <>
+      <Router>
+        <Switch>
+          <Layout dimensions={dimensions}>
+            <Route path="/" component={Test} />
+            <Route exact path={'/demo'}>
+              <HttpDemo />
+            </Route>
+          </Layout>
+        </Switch>
+      </Router>
+      <div>
         <Router>
           <Switch>
-          <Layout dimensions={dimensions}>
-            <Route exact path={'/module'} component={ModulePage} />
+            <Layout dimensions={dimensions}>
+              <Route exact path={'/module'} component={ModulePage} />
             </Layout>
           </Switch>
         </Router>
-      </div></>
+      </div>
+    </>
   );
 }
 export default App;

@@ -7,27 +7,27 @@ import style from './SidebarStyles.js';
 
 /**
  * MODULE PAGE
- * 
+ *
  * Sidebar renders:
  * - a list of buttons on the left side of the page
  * - a button that goes back to 'Content Page'
- * 
+ *
  * Props:
  * - title: string (the name of the title that will appear on the top of the sidebar)
  */
 function Sidebar(props) {
   const { title } = props;
   //Style Variables
-  
+
   return (
     <>
       <Link to="#" style={style.nav_back_style}>
-          <BiArrowBack />
-          &nbsp; <span style={{ fontSize: '1rem' }}>inapoi la capitole</span>
+        <BiArrowBack />
+        &nbsp; <span style={{ fontSize: '1rem' }}>inapoi la capitole</span>
       </Link>
       <nav style={style.nav_style}>
         <p style={{ ...style.nav_p, ...style.title_style }}>{title}</p>
-        <ul style={style.ul_style} >
+        <ul style={style.ul_style}>
           {SidebarTtitles.map((item) => {
             while (item.title != null) {
               const listSubtitles = item.subtitles.map((subtitle) => (
@@ -37,7 +37,9 @@ function Sidebar(props) {
               ));
               return (
                 <>
-                  <p style={{ ...style.nav_p, ...style.sub_title_style }}>{item.title}:</p>
+                  <p style={{ ...style.nav_p, ...style.sub_title_style }}>
+                    {item.title}:
+                  </p>
                   {listSubtitles}
                 </>
               );
