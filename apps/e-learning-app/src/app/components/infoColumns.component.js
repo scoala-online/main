@@ -14,31 +14,9 @@ export default function InfoColumns(props) {
     height: '40vh'
   }
 
-  const rowStyle = {
-    display: 'flex',
-    justifyContent: 'center'
-  }
-
   return (
-    <Container fluid style={{
-      marginTop: '10vh',
-      marginBottom: '19vh',
-      marginLeft: '4vw',
-      marginRight: '4vw'
-    }}>
+    <Container>
       <Col>
-        <Row style={rowStyle}>
-          <span style={{
-            fontStyle: 'normal',
-            fontWeight: 600,
-            fontSize: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            textAlign: 'center'
-          }}>
-            Ce ne dorim sa obtinem din acest proiect?
-          </span>
-        </Row>
         <Row>
           <Container fluid>
             <Row>

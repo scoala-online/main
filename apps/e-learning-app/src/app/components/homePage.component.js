@@ -6,7 +6,7 @@ import CardCarousel from './cardCarousel.component'
 import InfoColumns from './infoColumns.component'
 
 export default function HomePage() {
-  
+
   const rowStyle = {
     display: 'flex',
     justifyContent: 'center'
@@ -14,7 +14,8 @@ export default function HomePage() {
 
   const cardItems = [{title: "Title 1", sub: "Subtitle 1"}, {title: "Title 2", sub: "Subtitle 2"}, {title: "Title 3", sub: "Subtitle 3"}]
 
-  const carouselPages = [{title: "Title1", sub: "Subtitle1", background: "#335577"}, {title: "Title2", sub: "Subtitle2", background: "#882277"}, {title: "Title3", sub: "Subtitle3", background: "#992211"}]
+  const mockImgUrl = "https://picsum.photos/300/200"
+  const carouselPages = [{quote: "Title1", name: "Subtitle1", pictureURL: mockImgUrl}, {quote: "Title2", name: "Subtitle2", pictureURL: mockImgUrl}, {quote: "Title3", name: "Subtitle3", pictureURL: mockImgUrl}]
 
   return (
     <Container fluid style={{
@@ -22,10 +23,10 @@ export default function HomePage() {
     }}>
       <Row>
         <Container fluid style={{
-          marginTop: '26vh',
+          marginTop: '20vh',
           marginBottom: '39vh',
-          marginLeft: '13vw',
-          marginRight: '13vw'
+          marginLeft: '29vw',
+          marginRight: '29vw'
         }}>
           <Row style={rowStyle}>
             <span style={{
@@ -69,9 +70,32 @@ export default function HomePage() {
         </Container>
       </Row>
       <Row>
-        <Col>
+        <Container style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: '10vh',
+          marginLeft: '30vw',
+          marginRight: '30vw'
+        }}>
+          <span style={{
+            fontStyle: 'normal',
+            fontWeight: 600,
+            fontSize: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            textAlign: 'center'
+          }}>
+            Ce ne dorim sa obtinem din acest proiect?
+          </span>
+        </Container>
+        <Container fluid style={{
+          marginTop: '10vh',
+          marginBottom: '20vh',
+          marginLeft: '20vw',
+          marginRight: '20vw'
+        }}>
           <InfoColumns cardItems={cardItems} />
-        </Col>
+        </Container>
       </Row>
       <Row>
         <Container fluid style={{
