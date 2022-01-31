@@ -12,14 +12,14 @@ export default function HomePage() {
     justifyContent: 'center'
   }
 
-  const cardItems = [{title: "Title 1", sub: "Subtitle 1"}, {title: "Title 2", sub: "Subtitle 2"}, {title: "Title 3", sub: "Subtitle 3"}]
+  const cardItems = [{title: "Invatamant gratuit", sub: "Intreaga materie scolara a fost filmata si oricine are acces nelimitat si gratuit la continut"}, {title: "Invatamant de calitate", sub: "Fiecare videoclip a fost verificat pentru a oferi informatii adevarate si cerem feedback regulat pentru a afla ce filmari trebuie refacute"}, {title: "Invatamant accesibil", sub: "Fiecare lectie este impartita in capitole si contine subtitrari, alaturi de suport de curs si transcript."}]
 
   const mockImgUrl = "https://picsum.photos/300/200"
   const carouselPages = [{quote: "Title1", name: "Subtitle1", pictureURL: mockImgUrl}, {quote: "Title2", name: "Subtitle2", pictureURL: mockImgUrl}, {quote: "Title3", name: "Subtitle3", pictureURL: mockImgUrl}]
 
   return (
     <Container fluid style={{
-      background: '#dddddd'
+      background: '#E5E5E5'
     }}>
       <Row>
         <Container fluid style={{
@@ -101,8 +101,8 @@ export default function HomePage() {
         <Container fluid style={{
           marginTop: '14vh',
           marginBottom: '17vh',
-          marginLeft: '7vw',
-          marginRight: '7vw'
+          marginLeft: '18vw',
+          marginRight: '18vw'
         }}>
           <Row style={rowStyle}>
             <CardCarousel pages={carouselPages} />

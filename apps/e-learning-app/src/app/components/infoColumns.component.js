@@ -10,7 +10,6 @@ export default function InfoColumns(props) {
 
   const cardStyle = {
     background: '#cccccc',
-    width: '18vw',
     height: '40vh'
   }
 
@@ -25,11 +24,19 @@ export default function InfoColumns(props) {
                   <Card className="text-center" style={cardStyle}>
                     <Card.Body>
                       <Card.Title style={{
-                        fontSize: '20px'
+                        // fontFamily: 'Open Sans',
+                        fontStyle: 'normal',
+                        fontWeight: 600,
+                        fontSize: '1.5rem'
                       }}>
                         {item.title}
                       </Card.Title>
-                      <Card.Text>
+                      <Card.Text style={{
+                        fontSize: '1.5rem',
+                        fontStyle: 'normal',
+                        fontWeight: 'normal',
+                        textAlign: 'center'
+                      }}>
                         {item.sub}
                       </Card.Text>
                     </Card.Body>
