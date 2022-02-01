@@ -101,8 +101,8 @@ export default function HomePage() {
         <Container fluid style={{
           marginTop: '14vh',
           marginBottom: '17vh',
-          marginLeft: '18vw',
-          marginRight: '18vw'
+          marginLeft: '17vw',
+          marginRight: '17vw'
         }}>
           <Row style={rowStyle}>
             <CardCarousel pages={carouselPages} />

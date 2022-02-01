@@ -13,14 +13,15 @@ export default function CardCarousel(props) {
   const pages = props.pages;
 
   // States
-  const [index, setIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(0);
   const [direction, setDirection] = useState(null);
   const [carouselItemCount, setCarouselItemCount] = useState(pages.length);
 
   // Styles
   const carouselCardStyle = {
     width: '52vw',
-    height: '51vh'
+    height: '51vh',
+    background: "#E0E0E0"
   }
 
   const circleButtonStyle = {
@@ -39,28 +40,29 @@ export default function CardCarousel(props) {
   // Method called to handle toggle (next/prev)
   function toggleCarousel(direction) {
     const [min, max] = [0, carouselItemCount - 1]
+    var index = pageIndex
 
     if (direction === 'next') {
-      setIndex(index + 1)
+      index = pageIndex + 1
       console.log("Index Next: " + index)
     }
     else if (direction === 'prev') {
-      setIndex(index - 1)
+      index = pageIndex - 1
       console.log("Index Prev: " + index)
     }
 
     if (index > max) {
       // at max, start from top
-      setIndex(0)
+      index = 0
     }
 
     if (index < min) {
       // at min, start from max
-      setIndex(max)
+      index = max
     }
 
     setDirection(direction)
-    setIndex(index)
+    setPageIndex(index)
   }
 
   // Event handlers
@@ -69,18 +71,18 @@ export default function CardCarousel(props) {
 
   // Parameters: quote, name, pictureURL
   return (
-    <Container>
-      <Row>
+    <Container fluid>
+      <Row className="justify-content-center align-items-center text-center">
         <Col>
           <Image roundedCircle src='../../assets/arrow_prev.svg' style={circleButtonStyle} onClick={handlePrevButtonClick} />
         </Col>
-        <Col>
-          <Carousel indicators={false} controls={false} activeIndex={index} direction={direction}>
+        <Col md="auto">
+          <Carousel indicators={false} controls={false} activeIndex={pageIndex} direction={direction}>
             {pages.map(page => (
               <Carousel.Item>
-                <Container fluid style={Object.assign(carouselCardStyle, { background: "#E0E0E0" })}>
-                  <Row className="align-items-center">
-                    <Col style={{}}>
+                <Container fluid style={carouselCardStyle}>
+                  <Row className="justify-content-center align-items-center text-center">
+                    <Col>
                       <Image src={page.pictureURL} style={userImageStyle} />
                     </Col>
                     <Col>
