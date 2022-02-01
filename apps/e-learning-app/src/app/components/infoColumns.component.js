@@ -9,12 +9,12 @@ export default function InfoColumns(props) {
   const cardItems = props.cardItems
 
   const cardStyle = {
-    background: '#cccccc',
+    background: '#E0E0E0',
     height: '40vh'
   }
 
   return (
-    <Container>
+    <Container fluid>
       <Col>
         <Row>
           <Container fluid>
@@ -22,12 +22,14 @@ export default function InfoColumns(props) {
               {cardItems.map(item => (
                 <Col>
                   <Card className="text-center" style={cardStyle}>
-                    <Card.Body>
+                    <Card.Body style={{ padding: '0px' }}>
                       <Card.Title style={{
                         // fontFamily: 'Open Sans',
                         fontStyle: 'normal',
                         fontWeight: 600,
-                        fontSize: '1.5rem'
+                        fontSize: '1.5rem',
+                        verticalAlign: 'middle',
+                        padding: '3.5vh 2.8vw 3.9vh 2.8vw' // top, right, bottom, left
                       }}>
                         {item.title}
                       </Card.Title>
@@ -35,7 +37,8 @@ export default function InfoColumns(props) {
                         fontSize: '1.5rem',
                         fontStyle: 'normal',
                         fontWeight: 'normal',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        padding: '0 1.4vw 3.5vh 1.4vw' // top, right, bottom, left
                       }}>
                         {item.sub}
                       </Card.Text>

@@ -18,21 +18,29 @@ export default function CardCarousel(props) {
   const [carouselItemCount, setCarouselItemCount] = useState(pages.length);
 
   // Styles
-  const carouselCardStyle = {
+  const cardStyle = {
     width: '52vw',
     height: '51vh',
     background: "#E0E0E0"
+  }
+
+  const userImageStyle = {
+    width: '16.7vw',
+    height: '29.7vh'
+  }
+
+  const textStyle = {
+    fontSize: '1.5rem',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textAlign: 'center',
+    verticalAlign: 'center'
   }
 
   const circleButtonStyle = {
     width: '80px',
     height: '80px',
     background: '#828282'
-  }
-
-  const userImageStyle = {
-    width: '16.7vw',
-    height: '29.7vh'
   }
 
   // Utility
@@ -44,11 +52,9 @@ export default function CardCarousel(props) {
 
     if (direction === 'next') {
       index = pageIndex + 1
-      console.log("Index Next: " + index)
     }
     else if (direction === 'prev') {
       index = pageIndex - 1
-      console.log("Index Prev: " + index)
     }
 
     if (index > max) {
@@ -77,17 +83,17 @@ export default function CardCarousel(props) {
           <Image roundedCircle src='../../assets/arrow_prev.svg' style={circleButtonStyle} onClick={handlePrevButtonClick} />
         </Col>
         <Col md="auto">
-          <Carousel indicators={false} controls={false} activeIndex={pageIndex} direction={direction}>
+          <Carousel indicators={false} controls={false} activeIndex={pageIndex} direction={direction} style={cardStyle}>
             {pages.map(page => (
               <Carousel.Item>
-                <Container fluid style={carouselCardStyle}>
+                <Container fluid style={cardStyle}>
                   <Row className="justify-content-center align-items-center text-center">
                     <Col>
                       <Image src={page.pictureURL} style={userImageStyle} />
                     </Col>
                     <Col>
-                      <div style={{ textAlign: 'center', verticalAlign: 'center' }}>
-                        {page.quote} - {page.name}
+                      <div style={textStyle}>
+                        "{page.quote}" - {page.name}
                       </div>
                     </Col>
                   </Row>

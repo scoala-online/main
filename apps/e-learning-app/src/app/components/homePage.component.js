@@ -14,8 +14,8 @@ export default function HomePage() {
 
   const cardItems = [{title: "Invatamant gratuit", sub: "Intreaga materie scolara a fost filmata si oricine are acces nelimitat si gratuit la continut"}, {title: "Invatamant de calitate", sub: "Fiecare videoclip a fost verificat pentru a oferi informatii adevarate si cerem feedback regulat pentru a afla ce filmari trebuie refacute"}, {title: "Invatamant accesibil", sub: "Fiecare lectie este impartita in capitole si contine subtitrari, alaturi de suport de curs si transcript."}]
 
-  const mockImgUrl = "https://picsum.photos/300/200"
-  const carouselPages = [{quote: "Title1", name: "Subtitle1", pictureURL: mockImgUrl}, {quote: "Title2", name: "Subtitle2", pictureURL: mockImgUrl}, {quote: "Title3", name: "Subtitle3", pictureURL: mockImgUrl}]
+  const mockImgUrl = "../../assets/ovidiu.jpg"
+  const carouselPages = [{quote: "Scoala Online m-a ajutat sa trec clasa", name: "Ovidiu", pictureURL: mockImgUrl}, {quote: "Title2", name: "Subtitle2", pictureURL: mockImgUrl}, {quote: "Title3", name: "Subtitle3", pictureURL: mockImgUrl}]
 
   return (
     <Container fluid style={{
