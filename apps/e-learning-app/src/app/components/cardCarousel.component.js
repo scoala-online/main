@@ -43,6 +43,10 @@ export default function CardCarousel(props) {
     background: '#828282'
   }
 
+  const innerColumnStyle = {
+    height: '51vh'
+  }
+
   // Utility
 
   // Method called to handle toggle (next/prev)
@@ -88,10 +92,10 @@ export default function CardCarousel(props) {
               <Carousel.Item>
                 <Container fluid style={cardStyle}>
                   <Row className="justify-content-center align-items-center text-center">
-                    <Col>
+                    <Col className="border d-flex align-items-center justify-content-center" style={innerColumnStyle}>
                       <Image src={page.pictureURL} style={userImageStyle} />
                     </Col>
-                    <Col>
+                    <Col className="border d-flex align-items-center justify-content-center" style={innerColumnStyle}>
                       <div style={textStyle}>
                         "{page.quote}" - {page.name}
                       </div>
