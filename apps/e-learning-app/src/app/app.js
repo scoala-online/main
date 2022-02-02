@@ -37,7 +37,8 @@ export function App() {
   });
 
   return (
-    <><Router>
+    <>
+    <Router>
       <Switch>
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
@@ -46,15 +47,8 @@ export function App() {
           </Route>
         </Layout>
       </Switch>
-    </Router><div>
-        <Router>
-          <Switch>
-          <Layout dimensions={dimensions}>
-            <Route exact path={'/module'} component={ModulePage} />
-            </Layout>
-          </Switch>
-        </Router>
-      </div></>
-  );
+    </Router>
+    </>
+  );  
 }
 export default App;
