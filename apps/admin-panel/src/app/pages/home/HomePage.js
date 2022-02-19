@@ -13,8 +13,15 @@ export default function HomePage(props) {
 
   return (
     <Container>
-      <Row style={{ display: 'flex', justifyContent: 'end' }}>
-        <Button onClick={logoutHandler}>Logout</Button>
+      <Row>
+        <Col
+          md={{ span: 2, offset: 10 }}
+          style={{ display: 'flex', justifyContent: 'end' }}
+        >
+          <Button onClick={logoutHandler} style={{ marginTop: '25px' }}>
+            Logout
+          </Button>
+        </Col>
       </Row>
       <Row>
         <Col>
