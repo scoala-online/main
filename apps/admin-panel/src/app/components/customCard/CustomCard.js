@@ -18,7 +18,7 @@ export default function CustomCard(props) {
   const customStyle = props.style;
 
   return (
-    <Card style={{ width: 'fit-content', ...customStyle }}>
+    <Card style={{ width: '100%', margin: '15px', ...customStyle }}>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>
