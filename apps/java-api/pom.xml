@@ -18,6 +18,14 @@
 	</properties>
 	<dependencies>
 
+    <!-- Metrics Prometheus -->
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+      <version>1.8.3</version>
+    </dependency>
+
+    <!-- HealthCheck Actuator -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
