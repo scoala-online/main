@@ -31,7 +31,8 @@ public class LectureMaterialController {
    * @return a Response Entity
    *         with HTTP Status OK and a list of the lecture material entries
    */
-  @GetMapping(value = {"", "/"})
+  @RequestMapping(value = {"","/"}, method = RequestMethod.GET)
+  //@GetMapping(value = {"", "/"})
   public ResponseEntity<List<LectureMaterial>> getAllLectureMaterials () {
     List<LectureMaterial> lectureMaterials = lectureMaterialService.getAll();
     return new ResponseEntity<>(lectureMaterials, HttpStatus.OK);

@@ -31,6 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final JWTService jwtService;
 
+  private static final String[] AUTH_LIST = {
+    "/v2/api-docs",
+    "/configuration/ui",
+    "/swagger-resources/**",
+    "/configuration/security",
+    "/swagger-ui.html",
+    "/webjars/**"
+  };
   /**
    * Sets a BCryptPasswordEncoder for encoding UserDetails password
    *
@@ -104,10 +112,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
 
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();
-    http.authorizeRequests().antMatchers(HttpMethod.POST, "/swagger-ui/**").hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/swagger-ui/**").hasAnyAuthority("ROLE_ADMIN");
-    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/swagger-ui/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();       
+
+    http.authorizeRequests()
+    .antMatchers(AUTH_LIST)
+    .authenticated()
+    .and()
+    .formLogin()
+    .and()
+    .httpBasic();
 
     http.authorizeRequests().antMatchers("/**").denyAll();
 
