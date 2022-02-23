@@ -8,9 +8,9 @@ import { allVideos } from '../MockData';
  * ModuleContent renders:
  * - the Sidebar component (from ./moduleSidebar/Sidebar.js)
  * - the ContentGrid component (from ./ContentGrid.js)
- * 
+ *
  * Props:
- * 
+ *
  * - title
  */
 
