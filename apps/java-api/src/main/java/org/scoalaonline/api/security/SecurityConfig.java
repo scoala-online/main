@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final JWTService jwtService;
 
   private static final String[] AUTH_LIST = {
+    "/swagger-ui/**",
     "/v2/api-docs",
     "/configuration/ui",
     "/swagger-resources/**",
@@ -112,11 +113,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
 
-    http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();       
+//    http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();       
 
     http.authorizeRequests()
-    .antMatchers(AUTH_LIST)
-    .authenticated()
+    .antMatchers(AUTH_LIST).hasAnyAuthority("ROLE_ADMIN")
     .and()
     .formLogin()
     .and()
@@ -129,10 +129,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilter(customAuthenticationFilter);
 
     http.addFilterBefore(new CustomAuthorizationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
-  }
-  @Override
-  public void configure(WebSecurity web) throws Exception {
-    web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
   }
 
   /**
