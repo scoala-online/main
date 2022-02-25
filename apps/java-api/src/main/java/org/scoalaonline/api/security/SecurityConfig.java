@@ -118,8 +118,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
     .antMatchers(AUTH_LIST).hasAnyAuthority("ROLE_ADMIN")
     .and()
-    .formLogin()
-    .and()
     .httpBasic();
 
     http.authorizeRequests().antMatchers("/**").denyAll();
