@@ -1,6 +1,58 @@
 {
   "version": 1,
   "projects": {
+    "admin-panel": {
+      "root": "apps/admin-panel",
+      "sourceRoot": "apps/admin-panel/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/admin-panel",
+            "main": "apps/admin-panel/src/main.js",
+            "tsConfig": "apps/admin-panel/tsconfig.app.json",
+            "assets": ["apps/admin-panel/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/admin-panel/src/environments/environment.js",
+                  "with": "apps/admin-panel/src/environments/environment.prod.js"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "admin-panel:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/admin-panel/**/*.js"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/admin-panel"],
+          "options": {
+            "jestConfig": "apps/admin-panel/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "e-learning-app": {
       "root": "apps/e-learning-app",
       "sourceRoot": "apps/e-learning-app/src",
@@ -65,7 +117,8 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/e-learning-app/**/*.{ts,tsx,js,jsx}"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         },
         "test": {
           "builder": "@nrwl/jest:jest",
@@ -75,7 +128,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "e-learning-app-e2e": {
       "root": "apps/e-learning-app-e2e",
@@ -98,9 +152,12 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/e-learning-app-e2e/**/*.js"]
-          }
+          },
+          "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["e-learning-app"]
     },
     "java-api": {
       "root": "apps/java-api",
@@ -155,54 +212,8 @@
             "root": "apps/java-api"
           }
         }
-      }
+      },
+      "tags": []
     }
-  },
-  "cli": {
-    "analytics": false,
-    "defaultCollection": "@nrwl/angular",
-    "packageManager": "npm"
-  },
-  "schematics": {
-    "@nrwl/angular": {
-      "application": {
-        "linter": "eslint"
-      },
-      "library": {
-        "linter": "eslint"
-      },
-      "storybook-configuration": {
-        "linter": "eslint"
-      }
-    },
-    "@nrwl/angular:application": {
-      "style": "css",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "css",
-      "linter": "eslint",
-      "unitTestRunner": "jest"
-    },
-    "@nrwl/angular:component": {
-      "style": "css"
-    },
-    "@nrwl/react": {
-      "application": {
-        "style": "css",
-        "linter": "eslint",
-        "babel": true
-      },
-      "component": {
-        "style": "css"
-      },
-      "library": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
-  },
-  "defaultProject": "e-learning-app"
+  }
 }
