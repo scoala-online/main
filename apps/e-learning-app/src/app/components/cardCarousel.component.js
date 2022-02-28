@@ -1,12 +1,12 @@
 import { useRef, useState, useEffect } from 'react';
 
-import Carousel from 'react-bootstrap/Carousel'
-import Button from 'react-bootstrap/Button'
-import Image from 'react-bootstrap/Image'
+import Carousel from 'react-bootstrap/Carousel';
+import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function CardCarousel(props) {
   // Props
@@ -21,81 +21,97 @@ export default function CardCarousel(props) {
   const cardStyle = {
     width: '52vw',
     height: '51vh',
-    background: "#E0E0E0"
-  }
+    background: '#E0E0E0',
+  };
 
   const userImageStyle = {
     width: '16.7vw',
-    height: '29.7vh'
-  }
+    height: '29.7vh',
+  };
 
   const textStyle = {
     fontSize: '1.5rem',
     fontStyle: 'normal',
     fontWeight: 'normal',
     textAlign: 'center',
-    verticalAlign: 'center'
-  }
+    verticalAlign: 'center',
+  };
 
   const circleButtonStyle = {
     width: '80px',
     height: '80px',
-    background: '#828282'
-  }
+    background: '#828282',
+  };
 
   const innerColumnStyle = {
-    height: '51vh'
-  }
+    height: '51vh',
+  };
 
   // Utility
 
   // Method called to handle toggle (next/prev)
   function toggleCarousel(direction) {
-    const [min, max] = [0, carouselItemCount - 1]
-    var index = pageIndex
+    const [min, max] = [0, carouselItemCount - 1];
+    var index = pageIndex;
 
     if (direction === 'next') {
-      index = pageIndex + 1
-    }
-    else if (direction === 'prev') {
-      index = pageIndex - 1
+      index = pageIndex + 1;
+    } else if (direction === 'prev') {
+      index = pageIndex - 1;
     }
 
     if (index > max) {
       // at max, start from top
-      index = 0
+      index = 0;
     }
 
     if (index < min) {
       // at min, start from max
-      index = max
+      index = max;
     }
 
-    setDirection(direction)
-    setPageIndex(index)
+    setDirection(direction);
+    setPageIndex(index);
   }
 
   // Event handlers
-  const handlePrevButtonClick = () => toggleCarousel("prev")
-  const handleNextButtonClick = () => toggleCarousel("next")
+  const handlePrevButtonClick = () => toggleCarousel('prev');
+  const handleNextButtonClick = () => toggleCarousel('next');
 
   // Parameters: quote, name, pictureURL
   return (
     <Container fluid>
       <Row className="justify-content-center align-items-center text-center">
         <Col>
-          <Image roundedCircle src='../../assets/arrow_prev.svg' style={circleButtonStyle} onClick={handlePrevButtonClick} />
+          <Image
+            roundedCircle
+            src="../../assets/arrow_prev.svg"
+            style={circleButtonStyle}
+            onClick={handlePrevButtonClick}
+          />
         </Col>
         <Col md="auto">
-          <Carousel indicators={false} controls={false} activeIndex={pageIndex} direction={direction} style={cardStyle}>
-            {pages.map(page => (
+          <Carousel
+            indicators={false}
+            controls={false}
+            activeIndex={pageIndex}
+            direction={direction}
+            style={cardStyle}
+          >
+            {pages.map((page) => (
               <Carousel.Item>
                 <Container fluid style={cardStyle}>
                   <Row className="justify-content-center align-items-center text-center">
-                    <Col className="border d-flex align-items-center justify-content-center" style={innerColumnStyle}>
+                    <Col
+                      className="border d-flex align-items-center justify-content-center"
+                      style={innerColumnStyle}
+                    >
                       <Image src={page.pictureURL} style={userImageStyle} />
                     </Col>
-                    <Col className="border d-flex align-items-center justify-content-center" style={innerColumnStyle}>
+                    <Col
+                      className="border d-flex align-items-center justify-content-center"
+                      style={innerColumnStyle}
+                    >
                       <div style={textStyle}>
                         "{page.quote}" - {page.name}
                       </div>
@@ -107,9 +123,14 @@ export default function CardCarousel(props) {
           </Carousel>
         </Col>
         <Col>
-          <Image roundedCircle src='../../assets/arrow_next.svg' style={circleButtonStyle} onClick={handleNextButtonClick} />
+          <Image
+            roundedCircle
+            src="../../assets/arrow_next.svg"
+            style={circleButtonStyle}
+            onClick={handleNextButtonClick}
+          />
         </Col>
       </Row>
     </Container>
-  )
+  );
 }
