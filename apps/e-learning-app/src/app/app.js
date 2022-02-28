@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Layout from './components/layout/Layout';
-import Test from './components/Test';
 import ModulePage from './pages/modulePage/ModulePage';
+import HomePage from './components/homePage.component';
 
 /**
  * App renders the Layout component.
@@ -39,7 +39,7 @@ export function App() {
     <Router>
       <Switch>
         <Layout dimensions={dimensions}>
-          <Route path="/" component={Test} />
+          <Route exact path={'/'} component={HomePage} />
           <Route exact path={'/module'} component={ModulePage} />
         </Layout>
       </Switch>
