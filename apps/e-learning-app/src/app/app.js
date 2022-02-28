@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Layout from './components/layout/Layout';
 import Test from './components/Test';
-import HttpDemo from './services/HttpServiceDemo';
-import ModulePage from './pages/ModulePage';
+import ModulePage from './pages/modulePage/ModulePage';
 
 /**
  * App renders the Layout component.
@@ -37,18 +36,14 @@ export function App() {
   });
 
   return (
-    <>
     <Router>
       <Switch>
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
-          <Route exact path={'/demo'}>
-            <HttpDemo />
-          </Route>
+          <Route exact path={'/module'} component={ModulePage} />
         </Layout>
       </Switch>
     </Router>
-    </>
-  );  
+  );
 }
 export default App;
