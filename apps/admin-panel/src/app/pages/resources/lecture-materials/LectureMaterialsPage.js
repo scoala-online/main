@@ -61,7 +61,7 @@ export default function LectureMaterialsPage() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Value</th>
+              <th>Document</th>
             </tr>
           </thead>
           <tbody>

@@ -61,7 +61,7 @@ export default function RolesPage() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Value</th>
+              <th>Name</th>
             </tr>
           </thead>
           <tbody>

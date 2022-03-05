@@ -61,7 +61,7 @@ export default function LecturesPage() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Value</th>
+              <th>Title</th>
             </tr>
           </thead>
           <tbody>
