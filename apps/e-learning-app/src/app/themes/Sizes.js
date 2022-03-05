@@ -27,3 +27,5 @@ export const searchInputFieldHeight = 3.15;
 export const minSearchInputFieldHeight = 18;
 export const searchInputFieldTop = 1.85;
 export const minSearchInputFieldTop = 11;
+
+export const modulePageBackButton = 68;

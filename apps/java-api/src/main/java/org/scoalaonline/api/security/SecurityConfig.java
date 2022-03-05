@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,6 +31,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
   private final JWTService jwtService;
 
+  private static final String[] AUTH_LIST = {
+    "/swagger-ui/**",
+    "/v2/api-docs",
+    "/configuration/ui",
+    "/swagger-resources/**",
+    "/configuration/security",
+    "/swagger-ui.html",
+    "/webjars/**"
+  };
   /**
    * Sets a BCryptPasswordEncoder for encoding UserDetails password
    *
@@ -102,6 +112,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests().antMatchers(HttpMethod.POST, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
     http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/videos/**").hasAnyAuthority("ROLE_ADMIN");
+
+    http.authorizeRequests().antMatchers(HttpMethod.GET, "/actuator/**").permitAll();
+    http.authorizeRequests().antMatchers(HttpMethod.POST, "/actuator/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.PATCH, "/actuator/**").hasAnyAuthority("ROLE_ADMIN");
+    http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/actuator/**").hasAnyAuthority("ROLE_ADMIN");
+
+//    http.authorizeRequests().antMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll();       
+
+    http.authorizeRequests()
+    .antMatchers(AUTH_LIST).hasAnyAuthority("ROLE_ADMIN")
+    .and()
+    .httpBasic();
 
     http.authorizeRequests().antMatchers("/**").denyAll();
 
