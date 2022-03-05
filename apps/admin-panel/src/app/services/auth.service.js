@@ -6,7 +6,7 @@ axios.interceptors.request.use(
   function (config) {
     const user = getUser();
     if (user && user.access_token) {
-      axios.defaults.headers.common['Authorization'] = user.access_token;
+      config.headers.Authorization = `Bearer ${user.access_token}`;
     }
     return config;
   },

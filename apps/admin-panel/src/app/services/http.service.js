@@ -2,10 +2,6 @@ import axios from 'axios';
 
 import httpUtil from '../utils/http.util';
 
-// Configuration
-axios.defaults.baseURL = process.env.NX_API_URL;
-axios.defaults.responseType = 'json';
-
 // Handlers
 const responseHandler = (response, onResponse) => {
   if (onResponse) {
