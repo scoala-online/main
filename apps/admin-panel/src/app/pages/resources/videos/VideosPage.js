@@ -32,6 +32,8 @@ export default function VideosPage() {
       return videos.map((video) => (
         <tr>
           <td>{video.id}</td>
+          <td>{video.videoTitle}</td>
+          <td>{video.videoLength}</td>
         </tr>
       ));
     }
@@ -60,7 +62,8 @@ export default function VideosPage() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Value</th>
+              <th>Title</th>
+              <th>Length</th>
             </tr>
           </thead>
           <tbody>

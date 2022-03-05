@@ -32,6 +32,9 @@ export default function UsersPage() {
       return users.map((user) => (
         <tr>
           <td>{user.id}</td>
+          <td>{user.username}</td>
+          <td>{user.name}</td>
+          <td>{user.validated ? 'True' : 'False'}</td>
         </tr>
       ));
     }
@@ -60,7 +63,9 @@ export default function UsersPage() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Value</th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Validated</th>
             </tr>
           </thead>
           <tbody>
