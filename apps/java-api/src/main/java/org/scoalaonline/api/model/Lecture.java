@@ -1,5 +1,6 @@
 package org.scoalaonline.api.model;
 
+import org.scoalaonline.api.serializer.LectureMaterialSerializer;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -10,6 +11,8 @@ import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Represents the Lecture node from the graph database.
@@ -26,6 +29,7 @@ public class Lecture {
   private String title;
   
   @Relationship(type = "HAS_MATERIAL", direction = Relationship.Direction.OUTGOING)
+  @JsonSerialize(using = LectureMaterialSerializer.class)
   List<LectureMaterial> lectureMaterials = new ArrayList<>();
 
   //region Constructors
