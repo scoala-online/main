@@ -58,7 +58,9 @@ public class LectureMaterialSerializer extends StdSerializer<List<LectureMateria
             return Objects.hash(id, document);
         }
     }
-
+    public LectureMaterialSerializer(){
+        this(null);
+    }
     public LectureMaterialSerializer(Class<List<LectureMaterial>> t) {
         super(t);
     }

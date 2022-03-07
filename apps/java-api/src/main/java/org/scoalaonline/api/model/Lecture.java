@@ -30,7 +30,7 @@ public class Lecture {
   
   @Relationship(type = "HAS_MATERIAL", direction = Relationship.Direction.OUTGOING)
   @JsonSerialize(using = LectureMaterialSerializer.class)
-  List<LectureMaterial> lectureMaterials = new ArrayList<>();
+  List<LectureMaterial> lectureMaterials ;
 
   //region Constructors
   public Lecture(){
