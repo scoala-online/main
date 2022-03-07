@@ -4,8 +4,11 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,7 +24,9 @@ public class Lecture {
 
   @Property("title")
   private String title;
-  //TODO: add @Relationships
+  
+  @Relationship(type = "HAS_MATERIAL", direction = Relationship.Direction.OUTGOING)
+  List<LectureMaterial> lectureMaterials = new ArrayList<>();
 
   //region Constructors
   public Lecture(){
@@ -46,6 +51,10 @@ public class Lecture {
   public String getTitle() {
     return title;
   }
+
+  public List<LectureMaterial> getLectureMaterials() {
+    return new ArrayList<>(lectureMaterials);
+  }
   //endregion Getters
 
   //region Setters
@@ -55,6 +64,10 @@ public class Lecture {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public void setLectureMaterials(List<LectureMaterial> lectureMaterials) {
+    this.lectureMaterials = new ArrayList<>(lectureMaterials);
   }
   //endregion Setters
 
@@ -69,7 +82,7 @@ public class Lecture {
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getTitle());
+    return Objects.hash(getId(), getTitle(), getLectureMaterials());
   }
   //endregion
 }
