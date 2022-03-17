@@ -28,9 +28,9 @@ export const minSearchInputFieldHeight = 18;
 export const searchInputFieldTop = 1.85;
 export const minSearchInputFieldTop = 11;
 
-export const footerFirstFragmentHeight = 36.29;
-export const footerFirstFragmentMinHeight = 36.29;
-export const footerSecondFragmentHeight = 36.29;
-export const footerSecondFragmentMinHeight = 36.29;
+export const footerFirstFragmentHeight = 20;
+export const footerFirstFragmentMinHeight = 20;
+export const footerSecondFragmentHeight = 20;
+export const footerSecondFragmentMinHeight = 20;
 
 export const modulePageBackButton = 68;

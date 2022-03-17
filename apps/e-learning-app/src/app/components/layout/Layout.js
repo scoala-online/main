@@ -1,6 +1,7 @@
 import { Container } from 'react-bootstrap';
 import FooterFirstFragment from '../footerFirstFragment/FooterFirstFragment';
 import FooterSecondFragment from '../footerSecondFragment/FooterSecondFragment';
+import Footer from '../footer/Footer';
 
 import NavMenu from '../navMenu/NavMenu';
 import styles from './LayoutStyle';
@@ -21,8 +22,9 @@ export default function Layout(props) {
   return (
     <>
       <NavMenu dimensions={dimensions} />
-      <FooterFirstFragment dimensions={dimensions} />
-      <FooterSecondFragment dimensions={dimensions} />
+      {/* <FooterFirstFragment dimensions={dimensions} />
+      <FooterSecondFragment dimensions={dimensions} /> */}
+      <Footer dimensions={dimensions} />
       <Container fluid style={styles.contentStyle(dimensions.height)}>
         {props.children}
       </Container>
