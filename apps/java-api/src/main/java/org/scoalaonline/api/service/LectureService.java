@@ -56,7 +56,7 @@ public class LectureService implements ServiceInterface<Lecture> {
       lecture.setTitle(entry.getTitle());
     else
       throw new LectureInvalidTitleException("Method add: Title field can't be invalid.");
-
+    lecture.setLectureMaterials(entry.getLectureMaterials());
     return lectureRepository.save(lecture);
   }
 
@@ -80,7 +80,11 @@ public class LectureService implements ServiceInterface<Lecture> {
     } else {
       throw new LectureInvalidTitleException("Method update: Title field can't be invalid.");
     }
-
+    if (entry.getLectureMaterials() != null) {
+      lectureToUpdate.setLectureMaterials(entry.getLectureMaterials());
+    } else {
+      throw new LectureInvalidTitleException("Method update: LectureMaterial list can't be invalid");
+    }
     return lectureRepository.save(lectureToUpdate);
   }
 
