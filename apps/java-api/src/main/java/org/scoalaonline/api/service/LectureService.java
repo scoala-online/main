@@ -75,16 +75,13 @@ public class LectureService implements ServiceInterface<Lecture> {
     Lecture lectureToUpdate = lectureRepository.findById(id).orElseThrow(
       () -> new LectureNotFoundException("Method update: Lecture not found.")
     );
-    if (entry.getTitle() != null && !entry.getTitle().equals("")) {
+    if (entry.getTitle() != null && !entry.getTitle().equals(""))
       lectureToUpdate.setTitle(entry.getTitle());
-    } else {
-      throw new LectureInvalidTitleException("Method update: Title field can't be invalid.");
-    }
-    if (entry.getLectureMaterials() != null) {
+    //TODO: UN FOR TRECE PRIN LISTA, FACE GET PE ID, ADAUGA REZULTATUL GETULUI INTR-O LISTA, ADAUG LISTA CU SETLECTUREMATERIALS
+    //TODO: ADD INSTEAD OF CREATE NEW
+    // x.getLM(), add(), set()
+    if (entry.getLectureMaterials() != null)
       lectureToUpdate.setLectureMaterials(entry.getLectureMaterials());
-    } else {
-      throw new LectureInvalidTitleException("Method update: LectureMaterial list can't be invalid");
-    }
     return lectureRepository.save(lectureToUpdate);
   }
 
