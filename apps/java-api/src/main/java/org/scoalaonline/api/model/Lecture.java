@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * It contains a title property.
  */
 @Node("Lecture")
+// @Builder
 public class Lecture {
 
   @Id
@@ -30,7 +31,7 @@ public class Lecture {
   
   @Relationship(type = "HAS_MATERIAL", direction = Relationship.Direction.OUTGOING)
   @JsonSerialize(using = LectureMaterialSerializer.class)
-  List<LectureMaterial> lectureMaterials ;
+  List<LectureMaterial> lectureMaterials;
 
   //region Constructors
   public Lecture(){
