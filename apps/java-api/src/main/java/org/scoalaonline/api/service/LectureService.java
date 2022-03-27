@@ -3,8 +3,10 @@ package org.scoalaonline.api.service;
 
 import org.scoalaonline.api.exception.lecture.LectureInvalidTitleException;
 import org.scoalaonline.api.exception.lecture.LectureNotFoundException;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.Lecture;
 import org.scoalaonline.api.model.LectureMaterial;
+import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.scoalaonline.api.repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class LectureService implements ServiceInterface<Lecture> {
   @Autowired
   LectureRepository lectureRepository;
 
+  @Autowired
+  LectureMaterialRepository lectureMaterialRepository;
   /**
    * Retrieves a list of all Lecture entries found in the DB.
    * @return the list of Lecture entries.
@@ -80,12 +84,15 @@ public class LectureService implements ServiceInterface<Lecture> {
     );
     if (entry.getTitle() != null && !entry.getTitle().equals(""))
       lectureToUpdate.setTitle(entry.getTitle());
-    //TODO: UN FOR TRECE PRIN LISTA, FACE GET PE ID, ADAUGA REZULTATUL GETULUI INTR-O LISTA, ADAUG LISTA CU SETLECTUREMATERIALS
-    //TODO: ADD INSTEAD OF CREATE NEW
-    // x.getLM(), add(), set()
 
-    if (entry.getLectureMaterials() != null)
-      lectureToUpdate.setLectureMaterials(entry.getLectureMaterials());
+    List<LectureMaterial> lectureMaterialsToSet = new ArrayList<LectureMaterial>();
+    for(LectureMaterial lectureMaterial : entry.getLectureMaterials()) {
+      LectureMaterial lectureToAdd = lectureMaterialRepository.findById(lectureMaterial.getId()).orElse(null);
+      if(lectureToAdd != null)
+        lectureMaterialsToSet.add(lectureToAdd);
+    }
+    if (!lectureMaterialsToSet.isEmpty())
+      lectureToUpdate.setLectureMaterials(lectureMaterialsToSet);
     return lectureRepository.save(lectureToUpdate);
   }
 

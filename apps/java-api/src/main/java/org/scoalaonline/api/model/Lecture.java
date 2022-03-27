@@ -52,6 +52,9 @@ public class Lecture {
   }
 
   public void setLectureMaterials(List<LectureMaterial> lectureMaterials) {
-    this.lectureMaterials = new ArrayList<>(lectureMaterials);
+    if(this.lectureMaterials.isEmpty())
+      this.lectureMaterials = new ArrayList<>(lectureMaterials);
+    else
+      this.lectureMaterials.addAll(lectureMaterials);
   }
 }
