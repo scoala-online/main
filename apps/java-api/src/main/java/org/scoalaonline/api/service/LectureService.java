@@ -3,11 +3,15 @@ package org.scoalaonline.api.service;
 
 import org.scoalaonline.api.exception.lecture.LectureInvalidTitleException;
 import org.scoalaonline.api.exception.lecture.LectureNotFoundException;
+import org.scoalaonline.api.exception.lectureMaterial.LectureMaterialNotFoundException;
 import org.scoalaonline.api.model.Lecture;
+import org.scoalaonline.api.model.LectureMaterial;
+import org.scoalaonline.api.repository.LectureMaterialRepository;
 import org.scoalaonline.api.repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +23,8 @@ public class LectureService implements ServiceInterface<Lecture> {
   @Autowired
   LectureRepository lectureRepository;
 
+  @Autowired
+  LectureMaterialRepository lectureMaterialRepository;
   /**
    * Retrieves a list of all Lecture entries found in the DB.
    * @return the list of Lecture entries.
@@ -56,6 +62,16 @@ public class LectureService implements ServiceInterface<Lecture> {
       lecture.setTitle(entry.getTitle());
     else
       throw new LectureInvalidTitleException("Method add: Title field can't be invalid.");
+    lecture.setLectureMaterials(entry.getLectureMaterials());
+
+    List<LectureMaterial> lectureMaterialsToSet = new ArrayList<LectureMaterial>();
+    for(LectureMaterial lectureMaterial : entry.getLectureMaterials()) {
+      LectureMaterial lectureToAdd = lectureMaterialRepository.findById(lectureMaterial.getId()).orElse(null);
+      if(lectureToAdd != null)
+        lectureMaterialsToSet.add(lectureToAdd);
+    }
+    if (!lectureMaterialsToSet.isEmpty())
+      lecture.setLectureMaterials(lectureMaterialsToSet);
 
     return lectureRepository.save(lecture);
   }
@@ -75,12 +91,17 @@ public class LectureService implements ServiceInterface<Lecture> {
     Lecture lectureToUpdate = lectureRepository.findById(id).orElseThrow(
       () -> new LectureNotFoundException("Method update: Lecture not found.")
     );
-    if (entry.getTitle() != null && !entry.getTitle().equals("")) {
+    if (entry.getTitle() != null && !entry.getTitle().equals(""))
       lectureToUpdate.setTitle(entry.getTitle());
-    } else {
-      throw new LectureInvalidTitleException("Method update: Title field can't be invalid.");
-    }
 
+    List<LectureMaterial> lectureMaterialsToSet = new ArrayList<LectureMaterial>();
+    for(LectureMaterial lectureMaterial : entry.getLectureMaterials()) {
+      LectureMaterial lectureToAdd = lectureMaterialRepository.findById(lectureMaterial.getId()).orElse(null);
+      if(lectureToAdd != null)
+        lectureMaterialsToSet.add(lectureToAdd);
+    }
+    if (!lectureMaterialsToSet.isEmpty())
+      lectureToUpdate.setLectureMaterials(lectureMaterialsToSet);
     return lectureRepository.save(lectureToUpdate);
   }
 

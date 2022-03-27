@@ -18,6 +18,13 @@
 	</properties>
 	<dependencies>
 
+    <!-- Serialization -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.13.2</version>
+    </dependency>
+
     <!-- Metrics Prometheus -->
     <dependency>
       <groupId>io.micrometer</groupId>
