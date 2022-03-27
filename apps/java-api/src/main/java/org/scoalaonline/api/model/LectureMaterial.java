@@ -22,7 +22,7 @@ public class LectureMaterial {
   private String document;
 
   //@Relationships
-
+  
   //region Constructors
   public LectureMaterial(){}
 

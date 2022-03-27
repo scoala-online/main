@@ -4,10 +4,12 @@ package org.scoalaonline.api.service;
 import org.scoalaonline.api.exception.lecture.LectureInvalidTitleException;
 import org.scoalaonline.api.exception.lecture.LectureNotFoundException;
 import org.scoalaonline.api.model.Lecture;
+import org.scoalaonline.api.model.LectureMaterial;
 import org.scoalaonline.api.repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +59,7 @@ public class LectureService implements ServiceInterface<Lecture> {
     else
       throw new LectureInvalidTitleException("Method add: Title field can't be invalid.");
     lecture.setLectureMaterials(entry.getLectureMaterials());
+
     return lectureRepository.save(lecture);
   }
 
@@ -80,6 +83,7 @@ public class LectureService implements ServiceInterface<Lecture> {
     //TODO: UN FOR TRECE PRIN LISTA, FACE GET PE ID, ADAUGA REZULTATUL GETULUI INTR-O LISTA, ADAUG LISTA CU SETLECTUREMATERIALS
     //TODO: ADD INSTEAD OF CREATE NEW
     // x.getLM(), add(), set()
+
     if (entry.getLectureMaterials() != null)
       lectureToUpdate.setLectureMaterials(entry.getLectureMaterials());
     return lectureRepository.save(lectureToUpdate);
