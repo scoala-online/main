@@ -51,10 +51,8 @@ public class Lecture {
     return new ArrayList<>(lectureMaterials);
   }
 
+  //List won't update
   public void setLectureMaterials(List<LectureMaterial> lectureMaterials) {
-    if(this.lectureMaterials.isEmpty())
-      this.lectureMaterials = new ArrayList<>(lectureMaterials);
-    else
-      this.lectureMaterials.addAll(lectureMaterials);
+    this.lectureMaterials = new ArrayList<>(lectureMaterials);
   }
 }

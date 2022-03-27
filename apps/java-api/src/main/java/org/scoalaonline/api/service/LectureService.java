@@ -64,6 +64,15 @@ public class LectureService implements ServiceInterface<Lecture> {
       throw new LectureInvalidTitleException("Method add: Title field can't be invalid.");
     lecture.setLectureMaterials(entry.getLectureMaterials());
 
+    List<LectureMaterial> lectureMaterialsToSet = new ArrayList<LectureMaterial>();
+    for(LectureMaterial lectureMaterial : entry.getLectureMaterials()) {
+      LectureMaterial lectureToAdd = lectureMaterialRepository.findById(lectureMaterial.getId()).orElse(null);
+      if(lectureToAdd != null)
+        lectureMaterialsToSet.add(lectureToAdd);
+    }
+    if (!lectureMaterialsToSet.isEmpty())
+      lecture.setLectureMaterials(lectureMaterialsToSet);
+
     return lectureRepository.save(lecture);
   }
 
