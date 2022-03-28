@@ -1,13 +1,13 @@
 import {
     footerSecondFragmentHeight,
-    footerSecondFragmentMinHeight,
+    minFooterSecondFragmentHeight,
 } from '../../themes/Sizes';
 
 const FooterSecondFragmentStyles = {
     FooterSecondFragment: {
         width: '100vw',
         height: `${footerSecondFragmentHeight}vh`,
-        minHeight: `${footerSecondFragmentMinHeight}px`,
+        minHeight: `${minFooterSecondFragmentHeight}px`,
         backgroundColor: '#828282',
     },
 }
