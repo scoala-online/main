@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Test from './components/Test';
 import ModulePage from './pages/modulePage/ModulePage';
+import IndexPage from './pages/indexPage/IndexPage';
 
 /**
  * App renders the Layout component.
@@ -41,6 +42,7 @@ export function App() {
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
           <Route exact path={'/module'} component={ModulePage} />
+          <Route exact path={'/index'} component={IndexPage} />
         </Layout>
       </Switch>
     </Router>
