@@ -3,7 +3,7 @@ import style from './CustomTitleStyle';
 
 /**
  * Renders a page title with an optional divider underneath.
- * @param {*} props 
+ * @param {*} props
  * >
  * - `String` title
  * - `boolean` hasDivider - toggles the divider on or off.

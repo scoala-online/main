@@ -12,7 +12,6 @@ import VideosPage from './pages/resources/videos/VideosPage';
 import RolesPage from './pages/resources/roles/RolesPage';
 import UsersPage from './pages/resources/users/UsersPage';
 
-
 export function App() {
   return (
     <Router>
