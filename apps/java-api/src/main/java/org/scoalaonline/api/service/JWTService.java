@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class JWTService {
   private Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-  private Date accessTimer =  new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
-  private Date refreshTimer =  new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
+  private int accessTimer = 15 * 60 * 1000;
+  private int refreshTimer = 24 * 60 * 60 * 1000;
 
   /**
    * Generates an access token based on the username, requestURL and the list of roles, using the algorithm
@@ -32,7 +32,7 @@ public class JWTService {
   public String getAccessToken(String username, String requestURL, List<String> roles) {
     return JWT.create()
       .withSubject(username)
-      .withExpiresAt(accessTimer)
+      .withExpiresAt(new Date(System.currentTimeMillis() + accessTimer))
       .withIssuer(requestURL)
       .withClaim("roles", roles)
       .sign(algorithm);
@@ -47,7 +47,7 @@ public class JWTService {
   public String getRefreshToken(String username, String requestURL) {
     return JWT.create()
       .withSubject(username)
-      .withExpiresAt(accessTimer)
+      .withExpiresAt(new Date(System.currentTimeMillis() + refreshTimer))
       .withIssuer(requestURL)
       .sign(algorithm);
   }
