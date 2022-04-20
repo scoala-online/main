@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -291,7 +292,7 @@ public class UserController {
    * @return a Response Entity with a Status.
    */
   @PostMapping( value = "/request/reset_password" )
-  public ResponseEntity<HttpStatus> requestResetPassword(@RequestBody Username username) {
+  public ResponseEntity<HttpStatus> requestResetPassword(@RequestBody @Valid Username username) {
     try {
       userService.requestResetPassword(username);
     } catch ( UserMissingUsernameException e) {
