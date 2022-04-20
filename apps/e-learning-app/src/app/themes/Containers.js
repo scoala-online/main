@@ -57,3 +57,7 @@ export const SidebarContainer = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
 `;
+
+export const spacer = (size, measure) => ({
+  width: `${size}${measure}`,
+});

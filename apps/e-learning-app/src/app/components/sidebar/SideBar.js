@@ -63,7 +63,7 @@ export default function SideBar(props) {
             type={props.type}
             last={Number(index) + 1 === Number(items.length)}
             windowHeight={props.dimensions.height}
-            onClick={() => props.onClickFunction(index)}
+            onClick={() => props.onClickFunction(index, item)}
           >
             <span
               style={{ ...fontStyle.body_semibold, fontSize: props.fontSize }}

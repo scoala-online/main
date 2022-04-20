@@ -42,7 +42,7 @@ export function App() {
         <Layout dimensions={dimensions}>
           <Route path="/" component={Test} />
           <Route exact path={'/module'} component={ModulePage} />
-          <Route exact path={'/index'} component={IndexPage} />
+          <Route exact path={'/index/:grade/:subject'} component={IndexPage} />
         </Layout>
       </Switch>
     </Router>

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Navbar } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import NavBarFirstFragment from '../navBarFirstFragment/NavBarFirstFragment';
 import NavBarSecondFragment from '../navBarSecondFragment/NavBarSecondFragment';
 
@@ -27,6 +28,9 @@ import styles from './NavMenuStyles';
  * - searchModalActive: boolean ( the search modal's visibility )
  */
 export default function NavMenu(props) {
+  // Constants
+  const history = useHistory();
+
   // Props
   const dimensions = props.dimensions;
 
@@ -35,6 +39,7 @@ export default function NavMenu(props) {
   const [subjectActive, setSubjectActive] = useState(false);
   const [subjectPos, setSubjectPos] = useState(0);
   const [searchModalActive, setSearchModalActive] = useState(false);
+  const [currentGrade, setCurrentGrade] = useState("");
 
   // Refs
   const dropdownButtonRef = useRef();
@@ -45,11 +50,12 @@ export default function NavMenu(props) {
    * Toggles the subject sidebar.
    * @param {Number} index - Position of the first element of the sidebar.
    */
-  function toggleSubjectSidebar(index) {
+  function toggleSubjectSidebar(index, item) {
     if (index === subjectPos) {
       setSubjectActive(!subjectActive);
     } else {
       setSubjectPos(index);
+      setCurrentGrade(item);
     }
   }
 
@@ -68,8 +74,8 @@ export default function NavMenu(props) {
   }
 
   // TODO: implement function when the page is ready.
-  function goToPage(index) {
-    return;
+  function goToPage(index, item) {
+    history.push(`/index/${currentGrade.value}/${item.value}`);
   }
 
   /**

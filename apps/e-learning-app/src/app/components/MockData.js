@@ -124,3 +124,46 @@ export const allVideos = [
     },
   },
 ];
+
+export const Lectures = [
+  {
+    id: 1,
+    title: "George Bacovia: 'Rar'",
+  },
+  {
+    id: 2,
+    title: "George Bacovia: 'De iarna'",
+  },
+  {
+    id: 3,
+    title: "Tudor Arghezi: 'Testament'",
+  },
+  {
+    id: 4,
+    title: "Tudor Arghezi: 'Fatalul'",
+  },
+  {
+    id: 5,
+    title: "Ion Pillat: 'Aci sosi pe vremuri'",
+  },
+  {
+    id: 6,
+    title: "Nu mai : 'Am chef sa gasesc opere'",
+  },
+  {
+    id: 7,
+    title: "O sa scriu: 'ce mi vine mie prin cap'",
+  },
+  {
+    id: 8,
+    title: 'Aici este o opera',
+  },
+  {
+    id: 9,
+    title: 'Aici este o opera 2',
+  },
+  {
+    id: 10,
+    title: 'Aici este o opera 3',
+  },
+];
