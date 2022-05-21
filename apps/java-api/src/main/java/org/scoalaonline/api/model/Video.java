@@ -4,6 +4,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import lombok.AllArgsConstructor;
@@ -58,4 +59,12 @@ public class Video {
   @NotBlank(message = "Thumbnail is required.")
   @Property("thumbnail")
   private String thumbnail;
+
+  @NotBlank(message = "Lecture is required.")
+  @Relationship(type = "HAS_VIDEO", direction = Relationship.Direction.INCOMING)
+  private Lecture lecture;
+
+  @NotBlank(message = "Teacher is required.")
+  @Relationship(type = "HAS_TEACHER", direction = Relationship.Direction.OUTGOING)
+  private User teacher;
 }

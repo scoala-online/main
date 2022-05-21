@@ -7,6 +7,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import lombok.AllArgsConstructor;
@@ -33,4 +34,10 @@ public class Chapter {
   @Size(max = 255, message = "Chapter title cannot be longer than 255 characters.")
   @Property("title")
   private String title;
+
+  @Relationship(type = "HAS_CHAPTER", direction = Relationship.Direction.INCOMING)
+  private Subject subject;
+
+  @Relationship(type = "HAS_SUBCHAPTER", direction = Relationship.Direction.INCOMING)
+  private Chapter parent;
 }

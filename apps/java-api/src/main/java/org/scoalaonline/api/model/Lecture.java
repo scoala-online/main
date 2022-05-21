@@ -4,6 +4,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import lombok.AllArgsConstructor;
@@ -33,4 +34,8 @@ public class Lecture {
   @Size(max = 250, message = "Lecture name cannot be longer than 250 characters.")
   @Property("title")
   private String title;
+
+  @NotBlank(message = "Chapter is required.")
+  @Relationship(type = "HAS_LECTURE", direction = Relationship.Direction.INCOMING)
+  private Chapter chapter;
 }

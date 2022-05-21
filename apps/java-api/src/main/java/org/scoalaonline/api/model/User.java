@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.scoalaonline.api.validator.ValidatorPatterns;
 import org.scoalaonline.api.validator.user.ValidateResetPasswordCodeExpiryDate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -35,7 +36,7 @@ public class User {
   @NotBlank(message = "Username is required.")
   @Size(max = 255, message = "Username cannot be longer than 255 characters.")
   @Pattern(
-    regexp = "^(?=.{1,64}@)[A-Za-z0-9_!#$%&'*+-=?^_`{|}~\\/]+(\\.[A-Za-z0-9_=?^_`{|}~\\/-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})*$", 
+    regexp = ValidatorPatterns.EMAIL_PATTERN, 
     message = "The username does not match the required pattern."
   )
   @Property("username")
@@ -43,7 +44,7 @@ public class User {
 
   @NotBlank(message = "Password is required.")
   @Size(min = 8, max = 128, message = "The password has to be between 8 and 128 characters.")
-  @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}", message = "The password doesn't match the required pattern.")
+  @Pattern(regexp = ValidatorPatterns.PASSWORD_PATTERN, message = "The password doesn't match the required pattern.")
   @Property("password")
   private String password;
   

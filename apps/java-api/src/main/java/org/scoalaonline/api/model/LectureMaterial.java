@@ -7,6 +7,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import lombok.AllArgsConstructor;
@@ -36,4 +37,8 @@ public class LectureMaterial {
   @Size(max = 255, message = "Lecture Material title cannot be longer than 255 characters.")
   @Property("title")
   private String title;
+
+  @NotBlank(message = "Video is required.")
+  @Relationship(type = "HAS_MATERIAL", direction = Relationship.Direction.INCOMING)
+  private Video video;
 }

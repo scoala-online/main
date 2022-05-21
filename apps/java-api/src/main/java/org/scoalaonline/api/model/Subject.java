@@ -7,6 +7,7 @@ import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
+import org.springframework.data.neo4j.core.schema.Relationship;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 import lombok.AllArgsConstructor;
@@ -32,4 +33,8 @@ public class Subject {
   @Size(max = 20, message = "Subject cannot be longer than 30 characters.")
   @Property("value")
   private String value;
+
+  @NotBlank(message = "Grade is required.")
+  @Relationship(type = "HAS_GRADE", direction = Relationship.Direction.OUTGOING)
+  private Grade grade;
 }
