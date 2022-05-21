@@ -1,6 +1,7 @@
 package org.scoalaonline.api.controller;
 
 import lombok.RequiredArgsConstructor;
+
 import org.scoalaonline.api.exception.role.RoleInvalidNameException;
 import org.scoalaonline.api.exception.role.RoleNotFoundException;
 import org.scoalaonline.api.model.Role;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
+import javax.validation.Valid;
 
 /**
  GET:	"/roles"	retrieves all the entries
@@ -24,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/roles")
 public class RoleController {
+  
   private final RoleService roleService;
 
   /**
@@ -62,7 +66,7 @@ public class RoleController {
    * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = {"", "/"})
-  public ResponseEntity<Role> addRole (@RequestBody Role role) {
+  public ResponseEntity<Role> addRole (@RequestBody @Valid Role role) {
     Role savedRole;
     try {
       savedRole = roleService.add(role);
@@ -81,7 +85,7 @@ public class RoleController {
    * @return the Response Entity with a Status Code and a body.
    */
   @PatchMapping( value = "/{id}" )
-  public ResponseEntity<Role> updateRole( @PathVariable( "id" ) String id, @RequestBody Role role ) {
+  public ResponseEntity<Role> updateRole( @PathVariable( "id" ) String id, @RequestBody @Valid Role role ) {
     Role updatedRole;
     try
     {

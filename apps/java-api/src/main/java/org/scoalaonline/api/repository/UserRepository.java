@@ -1,6 +1,5 @@
 package org.scoalaonline.api.repository;
 
-import org.scoalaonline.api.model.Role;
 import org.scoalaonline.api.model.User;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;

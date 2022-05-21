@@ -2,6 +2,7 @@ package org.scoalaonline.api.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.scoalaonline.api.exception.role.RoleInvalidNameException;
 import org.scoalaonline.api.exception.role.RoleNotFoundException;
 import org.scoalaonline.api.model.Role;

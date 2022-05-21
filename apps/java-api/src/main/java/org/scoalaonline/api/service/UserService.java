@@ -287,12 +287,12 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
     UserAlreadyValidatedException,
     UserNotFoundException,
     UserMissingUsernameException {
-    if(username.getUsername() == null || username.getUsername().equals("")) {
+    if(username.getValue() == null || username.getValue().equals("")) {
       log.error("Username is missing.");
       throw new UserMissingUsernameException("Method resendValidationCode: Username is missing.");
     }
-    log.info("Resending validation code for user with username {} ...", username.getUsername());
-    User user = userRepository.findByUsername(username.getUsername()).orElseThrow(
+    log.info("Resending validation code for user with username {} ...", username.getValue());
+    User user = userRepository.findByUsername(username.getValue()).orElseThrow(
       () -> {
         log.error("User not found.");
         return new UserNotFoundException("Method resendValidationCode: User not found.");
@@ -328,7 +328,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
     log.info("User was validated.");
     user.setValidatedAt(LocalDateTime.now());
-    user.setValidationCode(null);
+    user.setValidationCode("");
     user.setValidated(true);
     userRepository.save(user);
   }
@@ -345,12 +345,12 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
    */
   public void requestResetPassword(Username username) throws UnsupportedEncodingException,
     MessagingException, UserNotFoundException, UserMissingUsernameException {
-    if(username.getUsername() == null || username.getUsername().equals("")) {
+    if(username.getValue() == null || username.getValue().equals("")) {
       log.error("Username is missing.");
       throw new UserMissingUsernameException("Method resendValidationCode: Username is missing.");
     }
     log.info("Sending mail for password reset...");
-    User user = userRepository.findByUsername(username.getUsername()).orElseThrow(
+    User user = userRepository.findByUsername(username.getValue()).orElseThrow(
       () -> {
         log.error("User not found.");
         return new UserNotFoundException("Method requestPasswordReset: User not found.");
@@ -416,8 +416,8 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
       throw new UserResetPasswordCodeExpiredException("Method resetPassword: The code for password reset has expired.");
     }
 
-    if(password.getPassword() != null && !password.getPassword().equals("") && password.getPassword().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}")) {
-      user.setPassword(passwordEncoder.encode(password.getPassword()));
+    if(password.getValue() != null && !password.getValue().equals("") && password.getValue().matches("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,}")) {
+      user.setPassword(passwordEncoder.encode(password.getValue()));
     } else {
       log.error("Invalid password.");
       throw new UserInvalidPasswordException("Method resetPassword: Invalid password.");
@@ -425,7 +425,7 @@ public class UserService implements ServiceInterface<User>, UserDetailsService {
 
     log.info("Password reset.");
     user.setLastModifiedAt(LocalDateTime.now());
-    user.setResetPasswordCode(null);
+    user.setResetPasswordCode("");
     userRepository.save(user);
   }
 

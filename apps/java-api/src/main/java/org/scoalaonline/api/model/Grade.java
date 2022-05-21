@@ -6,69 +6,33 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * Represents the 'Grade' node from the graph database.
  * It contains a value property.
  */
 @Node("Grade")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Grade {
 
   @Id
   @GeneratedValue(UUIDStringGenerator.class)
   private String id;
 
+  @NotBlank(message = "Grade name is required.")
+  @Size(max = 20, message = "Grade name cannot be longer than 20 characters.")
   @Property("value")
-  private int value;
-
-  //@Relationships
-
-  //region Constructor
-  public Grade(){
-  }
- 
-  public Grade(String id) {
-    this.id = id;
-  }
-
-  public Grade(String id, int value) {
-    this.id = id;
-    this.value = value;
-  }
-  //endregion
-
-  //region Getters
-  public String getId() {
-    return id;
-  }
-
-  public int getValue() {
-    return value;
-  }
-  //endregion
-
-  //region Setters
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public void setValue(int value) {
-    this.value = value;
-  }
-  //endregion
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Grade)) return false;
-    Grade grade = (Grade) o;
-    return getValue() == grade.getValue() && Objects.equals(getId(), grade.getId());
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getId(), getValue());
-  }
+  private String value;
 }

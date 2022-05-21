@@ -217,7 +217,7 @@ public class UserController {
    * @return the Response Entity with a Status Code and a body.
    */
   @PostMapping(value = "/register")
-  public ResponseEntity<User> register (@RequestBody RegisterForm user) {
+  public ResponseEntity<User> register (@RequestBody @Valid RegisterForm user) {
     User savedUser;
     try {
       savedUser = userService.register(user);
@@ -266,7 +266,7 @@ public class UserController {
    * @return a Response Entity with a Status.
    */
   @PostMapping( value = "/request/validation" )
-  public ResponseEntity<HttpStatus> requestValidation(@RequestBody Username username) {
+  public ResponseEntity<HttpStatus> requestValidation(@RequestBody @Valid Username username) {
     try {
       userService.resendValidationCode(username);
     } catch ( UserMissingUsernameException e) {
@@ -338,7 +338,7 @@ public class UserController {
    * @return a Response Entity with a Status.
    */
   @PatchMapping(value = ("/reset_password/{code}"))
-  public ResponseEntity<HttpStatus> resetPassword (@PathVariable("code") String code, @RequestBody Password password) {
+  public ResponseEntity<HttpStatus> resetPassword (@PathVariable("code") String code, @RequestBody @Valid Password password) {
     try {
       userService.resetPassword(code, password);
     } catch ( UserInvalidResetPasswordCodeException e ) {

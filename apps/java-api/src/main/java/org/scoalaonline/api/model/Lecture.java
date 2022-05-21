@@ -6,70 +6,31 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * Represents the Lecture node from the graph database.
  * It contains a title property.
  */
 @Node("Lecture")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Lecture {
 
   @Id
   @GeneratedValue(UUIDStringGenerator.class)
   private String id;
 
+  @NotBlank(message = "Lecture name is required.")
+  @Size(max = 250, message = "Lecture name cannot be longer than 250 characters.")
   @Property("title")
   private String title;
-  //TODO: add @Relationships
-
-  //region Constructors
-  public Lecture(){
-
-  }
-
-  public Lecture(String id) {
-    this.id = id;
-  }
-
-  public Lecture(String id, String title) {
-    this.id = id;
-    this.title = title;
-  }
-  //endregion
-
-  //region Getters
-  public String getId() {
-    return id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-  //endregion Getters
-
-  //region Setters
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-  //endregion Setters
-
-  //region Equals & Hashcode
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Lecture lecture = (Lecture) o;
-    return Objects.equals(getId(), lecture.id) && Objects.equals(getTitle(), lecture.title);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(getId(), getTitle());
-  }
-  //endregion
 }
